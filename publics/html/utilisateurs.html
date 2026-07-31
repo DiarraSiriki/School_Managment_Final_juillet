@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management - Utilisateurs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/utilisateurs.css">
+</head>
+
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h3>School Management</h3>
+                <p>Panel Administrateur</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="/statistiques"><i class="fa-solid fa-chart-pie"></i> Statistiques</a></li>
+                <li><a href="/dashboard-etudiant"><i class="fa-solid fa-graduation-cap"></i> Étudiants</a></li>
+                <li><a href="/dashboard-prof"><i class="fa-solid fa-chalkboard-user"></i> Enseignants</a></li>
+                <li><a href="/matieres"><i class="fa-solid fa-book-open"></i> Matières</a></li>
+                <li><a href="/notes"><i class="fa-solid fa-pen-to-square"></i> Notes</a></li>
+                <li><a href="/absences"><i class="fa-solid fa-calendar-times"></i> Absences</a></li>
+                <li class="active"><a href="/utilisateurs"><i class="fa-solid fa-users-gear"></i> Utilisateurs</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <p class="user-name">admin</p>
+                    <p class="user-role">Administrateur</p>
+                </div>
+                <button class="logout-btn">Se déconnecter</button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div>
+                    <h1>Utilisateurs</h1>
+                    <p class="subtitle">Créer et gérer les comptes admin, professeur et étudiant</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="toggleFormBtn"><i class="fa-solid fa-plus"></i> Ajouter un
+                        utilisateur</button>
+                </div>
+            </header>
+
+            <section class="form-panel" id="formPanel">
+                <h3>Nouvel utilisateur</h3>
+                <form id="userForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="nomUser">Nom complet</label>
+                            <input type="text" id="nomUser" placeholder="Ex: Jean Kouassi" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="emailUser">Email</label>
+                            <input type="email" id="emailUser" placeholder="exemple@school.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="passwordUser">Mot de passe</label>
+                            <input type="password" id="passwordUser" placeholder="••••••••" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="roleUser">Rôle</label>
+                            <select id="roleUser" required>
+                                <option value="">Sélectionner un rôle</option>
+                                <option value="admin">Administrateur</option>
+                                <option value="teacher">Professeur</option>
+                                <option value="student">Étudiant</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="form-hint" style="font-size:13px;color:#8fa0b5;margin-top:8px;">
+                        ⚠️ Pour un professeur ou un étudiant, préférez les pages <strong>Enseignants</strong> /
+                        <strong>Étudiants</strong> : elles créent aussi la fiche métier associée (matière, matricule…).
+                        Cette page crée uniquement le compte de connexion.
+                    </p>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i>
+                            Enregistrer</button>
+                        <button type="button" class="btn btn-outline" id="cancelFormBtn">Annuler</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="filters-bar">
+                <input type="text" id="searchInput" placeholder="Rechercher un utilisateur...">
+                <select id="roleFilter">
+                    <option value="">Tous les rôles</option>
+                    <option value="admin">Administrateur</option>
+                    <option value="teacher">Professeur</option>
+                    <option value="student">Étudiant</option>
+                </select>
+            </section>
+
+            <section class="table-card">
+                <div class="table-wrapper">
+                    <table id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>Nom</th>
+                                <th>Email</th>
+                                <th>Rôle</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/utilisateurs.js"></script>
+</body>
+
+</html>

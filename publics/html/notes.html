@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management - Notes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/notes.css">
+</head>
+
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h3>School Management</h3>
+                <p>Panel Administrateur</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="/statistiques"><i class="fa-solid fa-chart-pie"></i> Statistiques</a></li>
+                <li><a href="/dashboard-etudiant"><i class="fa-solid fa-graduation-cap"></i> Étudiants</a></li>
+                <li><a href="/dashboard-prof"><i class="fa-solid fa-chalkboard-user"></i> Enseignants</a></li>
+                <li><a href="/matieres"><i class="fa-solid fa-book-open"></i> Matières</a></li>
+                <li class="active"><a href="/notes"><i class="fa-solid fa-pen-to-square"></i> Notes</a></li>
+                <li><a href="/absences"><i class="fa-solid fa-calendar-times"></i> Absences</a></li>
+                <li><a href="/utilisateurs"><i class="fa-solid fa-users-gear"></i> Utilisateurs</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <p class="user-name">admin</p>
+                    <p class="user-role">Administrateur</p>
+                </div>
+                <button class="logout-btn">Se déconnecter</button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div>
+                    <h1>Notes</h1>
+                    <p class="subtitle">Consulter et gérer les notes de tous les étudiants</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="toggleFormBtn"><i class="fa-solid fa-plus"></i> Ajouter une
+                        note</button>
+                </div>
+            </header>
+
+            <section class="form-panel" id="formPanel">
+                <h3>Nouvelle note</h3>
+                <form id="noteForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="etudiantNote">Étudiant</label>
+                            <select id="etudiantNote">
+                                <option></option>
+                                <option></option>
+                                <option></option>
+                                <option></option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="matiereNote">Matière</label>
+                            <select id="matiereNote">
+                                <option>Mathématiques</option>
+                                <option>Français</option>
+                                <option>Anglais</option>
+                                <option>Physique-Chimie</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="valeurNote">Note (/20)</label>
+                            <input type="number" id="valeurNote" min="0" max="20" step="0.5" placeholder="Ex: 14.5"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="dateNote">Date</label>
+                            <input type="date" id="dateNote" required>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i>
+                            Enregistrer</button>
+                        <button type="button" class="btn btn-outline" id="cancelFormBtn">Annuler</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="filters-bar">
+                <input type="text" id="searchInput" placeholder="Rechercher un étudiant...">
+                <select id="matiereFilter">
+                    <option value="">Toutes les matières</option>
+                    <option>Mathématiques</option>
+                    <option>Français</option>
+                    <option>Anglais</option>
+                    <option>Physique-Chimie</option>
+                </select>
+            </section>
+
+            <section class="table-card">
+                <div class="table-wrapper">
+                    <table id="notesTable">
+                        <thead>
+                            <tr>
+                                <th>Étudiant</th>
+                                <th>Matière</th>
+                                <th>Note</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="avatar">AK</div><span>Aïcha Koné</span>
+                                    </div>
+                                </td>
+                                <td>Mathématiques</td>
+                                <td><span class="note-value note-good">16/20</span></td>
+                                <td>10/07/2026</td>
+                                <td>
+                                    <div class="row-actions">
+                                        <button class="icon-btn" title="Modifier"><i
+                                                class="fa-solid fa-pen"></i></button>
+                                        <button class="icon-btn delete" title="Supprimer"><i
+                                                class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="avatar">MD</div><span>Moussa Diarra</span>
+                                    </div>
+                                </td>
+                                <td>Physique-Chimie</td>
+                                <td><span class="note-value note-medium">12/20</span></td>
+                                <td>08/07/2026</td>
+                                <td>
+                                    <div class="row-actions">
+                                        <button class="icon-btn" title="Modifier"><i
+                                                class="fa-solid fa-pen"></i></button>
+                                        <button class="icon-btn delete" title="Supprimer"><i
+                                                class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="avatar">FB</div><span>Fatou Bamba</span>
+                                    </div>
+                                </td>
+                                <td>Français</td>
+                                <td><span class="note-value note-bad">08/20</span></td>
+                                <td>05/07/2026</td>
+                                <td>
+                                    <div class="row-actions">
+                                        <button class="icon-btn" title="Modifier"><i
+                                                class="fa-solid fa-pen"></i></button>
+                                        <button class="icon-btn delete" title="Supprimer"><i
+                                                class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="user-cell">
+                                        <div class="avatar">IT</div><span>Ibrahim Touré</span>
+                                    </div>
+                                </td>
+                                <td>Anglais</td>
+                                <td><span class="note-value note-good">15/20</span></td>
+                                <td>02/07/2026</td>
+                                <td>
+                                    <div class="row-actions">
+                                        <button class="icon-btn" title="Modifier"><i
+                                                class="fa-solid fa-pen"></i></button>
+                                        <button class="icon-btn delete" title="Supprimer"><i
+                                                class="fa-solid fa-trash"></i></button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="../js/api.js"></script>
+    <script src="../js/notes.js"></script>
+</body>
+
+</html>

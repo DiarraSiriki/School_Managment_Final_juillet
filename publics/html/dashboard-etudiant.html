@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management - Tableau de bord Étudiant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../css/dashboard-etudiant.css">
+</head>
+
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h3>School Management</h3>
+                <p>Espace Étudiant</p>
+            </div>
+            <ul class="sidebar-menu">
+                <li class="active"><a href="/dashboard-etudiant"><i class="fa-solid fa-chart-pie"></i> Tableau de
+                        bord</a></li>
+                <li><a href="/notes"><i class="fa-solid fa-pen-to-square"></i> Mes notes</a></li>
+                <li><a href="/absences"><i class="fa-solid fa-calendar-times"></i> Mes absences</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <p class="user-name"></p>
+                    <p class="user-role">Étudiant</p>
+                </div>
+                <button class="logout-btn">Se déconnecter</button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div>
+                    <h1>Tableau de bord</h1>
+                    <p class="subtitle">Bienvenue , voici votre résumé</p>
+                </div>
+            </header>
+
+            <section class="cards-section">
+                <div class="card">
+                    <div class="card-top">
+                        <p class="card-title">Moyenne générale</p>
+                        <div class="card-icon"><i class="fa-solid fa-star"></i></div>
+                    </div>
+                    <h2 class="card-number">14.2</h2>
+                    <p class="card-note">Sur 20, ce trimestre</p>
+                </div>
+                <div class="card">
+                    <div class="card-top">
+                        <p class="card-title">Matières suivies</p>
+                        <div class="card-icon"><i class="fa-solid fa-book-open"></i></div>
+                    </div>
+                    <h2 class="card-number">4</h2>
+                    <p class="card-note">Ce trimestre</p>
+                </div>
+                <div class="card">
+                    <div class="card-top">
+                        <p class="card-title">Absences</p>
+                        <div class="card-icon"><i class="fa-solid fa-calendar-times"></i></div>
+                    </div>
+                    <h2 class="card-number">2</h2>
+                    <p class="card-note">1 justifiée, 1 non justifiée</p>
+                </div>
+                <div class="card">
+                    <div class="card-top">
+                        <p class="card-title">Dernière note</p>
+                        <div class="card-icon"><i class="fa-solid fa-pen-to-square"></i></div>
+                    </div>
+                    <h2 class="card-number">16/20</h2>
+                    <p class="card-note">Mathématiques · 10/07/2026</p>
+                </div>
+            </section>
+
+            <section class="table-card">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Matière</th>
+                                <th>Note</th>
+                                <th>Coefficient</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Mathématiques</td>
+                                <td><span class="note-value note-good">16/20</span></td>
+                                <td>4</td>
+                                <td>10/07/2026</td>
+                            </tr>
+                            <tr>
+                                <td>Français</td>
+                                <td><span class="note-value note-medium">13/20</span></td>
+                                <td>3</td>
+                                <td>06/07/2026</td>
+                            </tr>
+                            <tr>
+                                <td>Anglais</td>
+                                <td><span class="note-value note-good">15/20</span></td>
+                                <td>2</td>
+                                <td>02/07/2026</td>
+                            </tr>
+                            <tr>
+                                <td>Physique-Chimie</td>
+                                <td><span class="note-value note-bad">09/20</span></td>
+                                <td>3</td>
+                                <td>28/06/2026</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+    <script src="../js/api.js"></script>
+    <script src="../js/dashboard-etudiant.js"></script>
+</body>
+
+</html>
