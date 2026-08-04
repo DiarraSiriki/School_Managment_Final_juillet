@@ -16,7 +16,7 @@ const router = express.Router();
 // Protège toutes les routes avec verifyToken
 router.use(verifyToken);
 
-// Routes de statistiques (accessibles par admin et teacher)
+
 router.get('/', checkRole(['admin', 'teacher']), getStats);
 router.get('/average', checkRole(['admin', 'teacher']), getMoyenneGenerale);
 router.get('/rankings', checkRole(['admin', 'teacher']), getClassement);

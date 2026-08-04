@@ -14,14 +14,14 @@ import { verifyToken, checkRole } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-// Protège toutes les routes avec verifyToken
+
 router.use(verifyToken);
 
-// Routes de lecture (accessibles par admin et teacher)
+
 router.get('/', checkRole(['admin', 'teacher']), getHistoriqueAbsences);
 router.get('/student/:student_id', checkRole(['admin', 'teacher', 'student']), getHistoriqueEtudiant);
 
-// Routes d'écriture (accessibles par admin et teacher)
+
 router.post('/', checkRole(['admin', 'teacher']), ajouterAbsence);
 router.put('/:id/status', checkRole(['admin', 'teacher']), modifierStatutAbsence);
 router.patch('/:id/justify', checkRole(['admin', 'teacher']), justifierAbsence);

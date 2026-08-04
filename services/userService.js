@@ -1,6 +1,5 @@
 import User from '../models/modelUsers.js';
 import logger from '../utils/logger.js';
-import bcrypt from 'bcryptjs';
 
 export { addUser, authenticate, removeUser, listUsers };
 
@@ -20,11 +19,10 @@ function addUser(name, role, email, mot_passe) {
             throw new Error("UNIQUE constraint failed: users.email");
       }
 
-      // Hasher le mot de passe avec bcrypt
-      const saltRounds = 10;
-      const hashedPassword = bcrypt.hashSync(passwordToSave, saltRounds);
+      // Hachage temporairement désactivé : stockage en clair
+      const passwordToStore = passwordToSave;
 
-      const result = User.create(name, role, emailToSave, hashedPassword);
+      const result = User.create(name, role, emailToSave, passwordToStore);
       logger.info(`Utilisateur ajouté: ID=${result.lastInsertRowid}, Nom=${name}, Rôle=${role}`);
       return result.lastInsertRowid;
 }
@@ -45,19 +43,7 @@ function authenticate(email, mot_passe) {
             return null;
       }
 
-      let isValid = false;
-
-      if (typeof storedPassword === 'string' && storedPassword.startsWith('$2')) {
-            isValid = bcrypt.compareSync(passwordToVerify, storedPassword);
-      } else {
-            isValid = passwordToVerify === storedPassword;
-
-            if (isValid) {
-                  const saltRounds = 10;
-                  const hashedPassword = bcrypt.hashSync(passwordToVerify, saltRounds);
-                  User.update(user.id, user.name, user.role, user.email, hashedPassword);
-            }
-      }
+      const isValid = passwordToVerify === storedPassword;
 
       return isValid ? user : null;
 }

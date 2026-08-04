@@ -8,9 +8,7 @@ import cors from 'cors';
 import { dirname, join } from 'path'; 
 import { fileURLToPath } from 'url';  // Pour convertir les URLs en chemins de fichiers
 
-
-
-
+import classRoutes from './routes/classeRoute.js';
 import studentRoutes from './routes/studentRoutes.js';      
 import teacherRoutes from './routes/teacherRoutes.js';     
 import matieresRoutes from './routes/matieresRoutes.js';  
@@ -33,7 +31,7 @@ app.use(cors());
 
 app.use(express.json());
 
-// Middleware pour parser les données de formulaires URL-encoded
+
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -101,8 +99,9 @@ app.use('/api/auth', authRoutes);
 
 app.use('/api/users', usersRoutes);
 
+app.use('/api/classes', classRoutes);
 
-app.use('/api/students', studentRoutes);
+app.use('/api/students', studentRoutes); 
 
 app.use('/api/teachers', teacherRoutes);
 
@@ -123,7 +122,7 @@ app.get('/api/health', (req, res) => {
 });
 
 
-// Gestion des erreurs 404 (route non trouvée)
+
 
 
 app.use((req, res, next) => {
