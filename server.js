@@ -1,11 +1,3 @@
-
-//  Configure le serveur Express
-//  Définit les routes (les chemins d'accès)
-//  Gère les fichiers statiques (HTML, CSS, JS)
-//  Lance le serveur sur le port 3000
-
-
-// Chargement des variables d'environnement depuis le fichier .env
 // .env contient des informations sensibles comme le JWT_SECRET
 import dotenv from 'dotenv';
 dotenv.config();
@@ -17,27 +9,24 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';  // Pour convertir les URLs en chemins de fichiers
 
 
-// Importation des routes (les "chemins" de l'API)
-// Chaque fichier de routes gère une partie de l'application
-
-import studentRoutes from './routes/studentRoutes.js';      // Gestion des élèves
-import teacherRoutes from './routes/teacherRoutes.js';      // Gestion des professeurs
-import matieresRoutes from './routes/matieresRoutes.js';    // Gestion des matières
-import gradesRoutes from './routes/gradesRoutes.js';        // Gestion des notes
-import absenceRoutes from './routes/absencesRoutes.js';    // Gestion des absences
-import statsRoutes from './routes/statsRoutes.js';        // Gestion des statistiques
-import usersRoutes from './routes/usersRoutes.js';        // Gestion des utilisateurs
-import authRoutes from './routes/authRoutes.js';          // Gestion de l'authentification
 
 
-// Configuration de base d'Express
+import studentRoutes from './routes/studentRoutes.js';      
+import teacherRoutes from './routes/teacherRoutes.js';     
+import matieresRoutes from './routes/matieresRoutes.js';  
+import gradesRoutes from './routes/gradesRoutes.js';       
+import absenceRoutes from './routes/absencesRoutes.js';    
+import statsRoutes from './routes/statsRoutes.js';       
+import usersRoutes from './routes/usersRoutes.js';     
+import authRoutes from './routes/authRoutes.js';         
 
-const __filename = fileURLToPath(import.meta.url);  // Récupère le chemin du fichier actuel
-const __dirname = dirname(__filename);                // Récupère le dossier du fichier actuel
-const app = express();                               // Crée l'application Express
-const PORT = process.env.PORT || 3000;               // Port du serveur (3000 par défaut)
 
-// Middleware CORS : autorise les requêtes depuis le navigateur
+
+const __filename = fileURLToPath(import.meta.url); 
+const __dirname = dirname(__filename);                
+const app = express();                           
+const PORT = process.env.PORT || 3000;              
+
 // Sans ça, le navigateur bloquerait les requêtes vers le serveur
 app.use(cors());
 
@@ -48,21 +37,18 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-// Middleware pour servir les fichiers statiques (HTML, CSS, JS, images)
 // Exemple : http://localhost:3000/css/style.css
 app.use(express.static(join(__dirname, 'publics')));
 
 
-// Routes pour les pages HTML (le frontend)
-// Ces routes renvoient les pages HTML quand l'utilisateur va sur une URL
+
 
 // Route racine : quand on va sur http://localhost:3000, on affiche la page de connexion
 app.get('/', (req, res) => {
     res.sendFile(join(__dirname, 'publics', 'index.html'));
 });
 
-// Mapping des anciennes URLs HTML vers les nouvelles URLs propres
-// Permet de rediriger les anciens liens vers les nouveaux
+
 const htmlRouteMap = {
     'login.html': '/',
     'dashboard-admin.html': '/dashboard-admin',
@@ -83,8 +69,7 @@ app.get('/HTML/:page', (req, res) => {
     res.redirect(redirectUrl);
 });
 
-// Routes pour chaque page de l'application
-// Chaque route renvoie le fichier HTML correspondant
+
 app.get('/dashboard-admin', (req, res) => {
     res.sendFile(join(__dirname, 'publics', 'html', 'dashboard-admin.html'));
 });
@@ -112,28 +97,21 @@ app.get('/utilisateurs', (req, res) => {
 
 
 
-// Route pour l'authentification (connexion, déconnexion)
 app.use('/api/auth', authRoutes);
 
-// Route pour la gestion des utilisateurs
 app.use('/api/users', usersRoutes);
 
-// Route pour la gestion des élèves
+
 app.use('/api/students', studentRoutes);
 
-// Route pour la gestion des professeurs
 app.use('/api/teachers', teacherRoutes);
 
-// Route pour la gestion des matières
 app.use('/api/subjects', matieresRoutes);
 
-// Route pour la gestion des notes
 app.use('/api/grades', gradesRoutes);
 
-// Route pour la gestion des absences
 app.use('/api/absences', absenceRoutes);
 
-// Route pour les statistiques
 app.use('/api/stats', statsRoutes);
 
 
@@ -167,8 +145,6 @@ app.use((err, req, res, next) => {
 });
 
 
-// Démarrage du serveur
-// Le serveur écoute sur le port PORT (3000 par défaut)
 
 app.listen(PORT, () => {
     console.log(`Serveur School Management lancé !`);

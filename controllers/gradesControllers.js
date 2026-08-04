@@ -7,7 +7,7 @@ import {
     getStudentGrades,
     calculateAverage
 } from '../services/gradeService.js';
-
+import { getStudentByUserId } from '../services/studentService.js';
 
  // Récupère la liste de toutes les notes
  
@@ -44,7 +44,7 @@ const getNotes = (req, res) => {
  
  const getNotesParEtudiant = (req, res) => {
     const { student_id } = req.params;
-
+  
     try {
         const grades = getStudentGrades(student_id);
         return res.json(grades);

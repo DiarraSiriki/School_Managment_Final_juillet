@@ -9,6 +9,7 @@ import {
     getStudentHistory
 } from '../services/absenceService.js';
 
+import { getStudentByUserId } from '../services/studentService.js';
   // Enregistre une nouvelle absence
 
  const ajouterAbsence = (req, res) => {
@@ -47,7 +48,12 @@ import {
  
 const getHistoriqueEtudiant = (req, res) => {
     const { student_id } = req.params;
-
+          if (req.user.role === 'student') {
+        const me = getStudentByUserId(req.user.id);
+        if (!me || String(me.id) !== String(student_id)) {
+            return res.status(403).json({ error: 'Vous ne pouvez voir que vos propres absences.' });
+        }
+    }
     try {
         const absences = getStudentHistory(student_id);
         return res.json(absences);
