@@ -25,7 +25,7 @@ db.exec(`
     name      TEXT    NOT NULL,
     role      TEXT    NOT NULL, -- 'admin', 'teacher', 'student'
     email     TEXT    NOT NULL UNIQUE, 
-    mot_passe TEXT    NOT NULL UNIQUE
+    mot_passe TEXT    NOT NULL
   )
 `);
 
