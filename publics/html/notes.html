@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SchoolManagment - Notes</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/notes.css">
+</head>
+<body>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">É</div>
+        <div class="brand-text">
+          <span class="brand-name">EcoleAdmin</span>
+          <span class="brand-year">2025–2026</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <span class="nav-title">NAVIGATION</span>
+        <ul class="nav-list">
+          <li class="nav-item"><i class="fa-solid fa-users"></i><span>Utilisateurs</span></li>
+          <li class="nav-item"><i class="fa-solid fa-user-graduate"></i><span>Étudiants</span></li>
+          <li class="nav-item"><i class="fa-solid fa-chalkboard-user"></i><span>Professeurs</span></li>
+          <li class="nav-item"><i class="fa-solid fa-book-open"></i><span>Matières</span></li>
+          <li class="nav-item active"><i class="fa-solid fa-file-signature"></i><span>Notes</span></li>
+          <li class="nav-item"><i class="fa-solid fa-calendar-days"></i><span>Absences</span></li>
+          <li class="nav-item"><i class="fa-solid fa-chart-simple"></i><span>Statistiques</span></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-avatar">A</div>
+        <div class="admin-info">
+          <span class="admin-name">Administrateur</span>
+          <span class="admin-email">admin@ecole.dz</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-title">
+          <i class="fa-solid fa-file-signature icon-title"></i>
+          <h1>Notes</h1>
+        </div>
+        <div class="topbar-right">
+          <span class="topbar-date">Lun 03 Août 2026</span>
+          <span class="status-dot"></span>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <main class="content">
+
+        <div class="content-header">
+          <div>
+            <h2>Notes</h2>
+            <p class="subtitle">10 notes enregistrées</p>
+          </div>
+          <button class="btn-primary">+ Saisir une note</button>
+        </div>
+
+        <!-- FILTRES DE TRIMESTRE -->
+        <div class="filters">
+          <button class="filter-btn active">Tous</button>
+          <button class="filter-btn">Trimestre 1</button>
+          <button class="filter-btn">Trimestre 2</button>
+          <button class="filter-btn">Trimestre 3</button>
+        </div>
+
+        <!-- TABLEAU DES NOTES -->
+        <div class="table-wrapper">
+          <table class="notes-table">
+            <thead>
+              <tr>
+                <th>ÉTUDIANT</th>
+                <th>CLASSE</th>
+                <th>MATIÈRE</th>
+                <th>NOTE</th>
+                <th>TRIMESTRE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Benali Yasmine</strong></td>
+                <td>3ème A</td>
+                <td>Mathématiques</td>
+                <td><span class="note note-high">18/20</span></td>
+                <td><span class="badge-trimestre">T1</span></td>
+              </tr>
+              <tr>
+                <td><strong>Chérif Amine</strong></td>
+                <td>2ème B</td>
+                <td>Français</td>
+                <td><span class="note note-high">14/20</span></td>
+                <td><span class="badge-trimestre">T1</span></td>
+              </tr>
+              <tr>
+                <td><strong>Meziani Lina</strong></td>
+                <td>4ème A</td>
+                <td>Sciences Naturelles</td>
+                <td><span class="note note-medium">11/20</span></td>
+                <td><span class="badge-trimestre">T1</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

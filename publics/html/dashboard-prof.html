@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SchoolManagment - Professeurs</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="/css/dashboard-prof.css">
+</head>
+<body>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">É</div>
+        <div class="brand-text">
+          <span class="brand-name">EcoleAdmin</span>
+          <span class="brand-year">2025-2026</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <span class="nav-title">Navigation</span>
+        <ul class="nav-list">
+          <li class="nav-item">
+            <i class="fa-solid fa-users"></i>
+            <span>Utilisateurs</span>
+          </li>
+          <li class="nav-item">
+            <i class="fa-solid fa-user-graduate"></i>
+            <span>Étudiants</span>
+          </li>
+          <li class="nav-item active">
+            <i class="fa-solid fa-chalkboard-user"></i>
+            <span>Professeurs</span>
+          </li>
+          <li class="nav-item">
+            <i class="fa-solid fa-book"></i>
+            <span>Matières</span>
+          </li>
+          <li class="nav-item">
+            <i class="fa-solid fa-file-lines"></i>
+            <span>Notes</span>
+          </li>
+          <li class="nav-item">
+            <i class="fa-solid fa-calendar-days"></i>
+            <span>Absences</span>
+          </li>
+          <li class="nav-item">
+            <i class="fa-solid fa-chart-simple"></i>
+            <span>Statistiques</span>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-avatar">A</div>
+        <div class="admin-info">
+          <span class="admin-name">Administrateur</span>
+          <span class="admin-email">admin@ecole.dz</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-title">
+          <span class="topbar-emoji">🧑‍🏫</span>
+          <h1>Professeurs</h1>
+        </div>
+        <div class="topbar-right">
+          <span class="topbar-date">Lun 03 Août 2026</span>
+          <span class="status-dot"></span>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <main class="content">
+
+        <div class="content-header">
+          <div>
+            <h2>Professeurs</h2>
+            <p class="subtitle">7 enseignants</p>
+          </div>
+          <button class="btn-primary">
+            <i class="fa-solid fa-plus"></i>
+            Nouveau professeur
+          </button>
+        </div>
+
+        <!-- LISTE EN TABLEAU -->
+        <div class="teachers-table-wrapper">
+          <table class="teachers-table">
+            <thead>
+              <tr>
+                <th>Professeur</th>
+                <th>Discipline</th>
+                <th>Classes</th>
+                <th>Heures / sem.</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="teacher-info">
+                    <div class="avatar">F</div>
+                    <span class="teacher-name">Dr. Mansouri Farid</span>
+                  </div>
+                </td>
+                <td><span class="badge-subject">Mathématiques</span></td>
+                <td><strong>3A, 3B, 4A</strong></td>
+                <td>18h</td>
+                <td><a href="mailto:f.mansouri@ecole.dz" class="teacher-email">f.mansouri@ecole.dz</a></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="teacher-info">
+                    <div class="avatar">F</div>
+                    <span class="teacher-name">Mme. Zouaoui Fatima</span>
+                  </div>
+                </td>
+                <td><span class="badge-subject">Français</span></td>
+                <td><strong>2A, 2B, 1A</strong></td>
+                <td>16h</td>
+                <td><a href="mailto:f.zouaoui@ecole.dz" class="teacher-email">f.zouaoui@ecole.dz</a></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="teacher-info">
+                    <div class="avatar">D</div>
+                    <span class="teacher-name">M. Djelloul Djamel</span>
+                  </div>
+                </td>
+                <td><span class="badge-subject">Physique</span></td>
+                <td><strong>4A, 4B</strong></td>
+                <td>14h</td>
+                <td><a href="mailto:d.djelloul@ecole.dz" class="teacher-email">d.djelloul@ecole.dz</a></td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="teacher-info">
+                    <div class="avatar">H</div>
+                    <span class="teacher-name">Mme. Haddad Hakima</span>
+                  </div>
+                </td>
+                <td><span class="badge-subject">Histoire-Géographie</span></td>
+                <td><strong>1A, 1B, 1C</strong></td>
+                <td>17h</td>
+                <td><a href="mailto:h.haddad@ecole.dz" class="teacher-email">h.haddad@ecole.dz</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

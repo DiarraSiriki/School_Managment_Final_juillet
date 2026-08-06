@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolManagment - Utilisateurs</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- CSS séparé -->
+    <link rel="stylesheet" href="/css/dashboard-admin.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+    <div class="logo">
+        <div class="logo-icon">É</div>
+        <div class="logo-text">
+            <h2>EcoleAdmin</h2>
+            <span>2025-2026</span>
+        </div>
+    </div>
+
+    <div class="nav-label">Navigation</div>
+
+    <a class="nav-item active">
+        <i class="fa-solid fa-users"></i> Utilisateurs
+    </a>
+    <a class="nav-item">
+        <i class="fa-solid fa-graduation-cap"></i> Étudiants
+    </a>
+    <a class="nav-item">
+        <i class="fa-solid fa-chalkboard-user"></i> Professeurs
+    </a>
+    <a class="nav-item">
+        <i class="fa-solid fa-book"></i> Matières
+    </a>
+    <a class="nav-item">
+        <i class="fa-solid fa-file-lines"></i> Notes
+    </a>
+    <a class="nav-item">
+        <i class="fa-solid fa-calendar-xmark"></i> Absences
+    </a>
+    <a class="nav-item">
+        <i class="fa-solid fa-chart-column"></i> Statistiques
+    </a>
+
+    <div class="user-footer">
+        <div class="user-avatar">A</div>
+        <div class="user-info">
+            <h4>Administrateur</h4>
+            <span>admin@ecole.dz</span>
+        </div>
+    </div>
+</aside>
+
+<!-- Main -->
+<main class="main">
+    <header class="header">
+        <div class="header-left">
+            <i class="fa-solid fa-users"></i> Utilisateurs
+        </div>
+        <div class="header-right">
+            Lun 03 Août 2026
+            <span class="dot"></span>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="title-row">
+            <div>
+                <h1>Utilisateurs</h1>
+                <p>12 comptes · 10 actifs</p>
+            </div>
+            <button class="btn-primary">
+                <i class="fa-solid fa-plus"></i> Nouvel utilisateur
+            </button>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-icon admin">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <div>
+                    <div class="stat-number">1</div>
+                    <div class="stat-label">Administrateurs</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon prof">
+                    <i class="fa-solid fa-chalkboard-user"></i>
+                </div>
+                <div>
+                    <div class="stat-number">7</div>
+                    <div class="stat-label">Professeurs</div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon etud">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div>
+                    <div class="stat-number">12</div>
+                    <div class="stat-label">Étudiants</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Rechercher par nom ou email...">
+            </div>
+            <div class="filters">
+                <button class="filter-btn active">Tous</button>
+                <button class="filter-btn">Administrateur</button>
+                <button class="filter-btn">Professeur</button>
+                <button class="filter-btn">Étudiant</button>
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Utilisateur</th>
+                        <th>Email</th>
+                        <th>Rôle</th>
+                        <th>Dernière connexion</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="user-cell">
+                                <div class="avatar purple">AD</div>
+                                <div>
+                                    <div class="user-name">Admin Principal</div>
+                                    <div class="user-id">USR-001</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>admin@ecole.dz</td>
+                        <td><span class="role-badge role-admin">Administrateur</span></td>
+                        <td>
+                            <div class="date">03/08/2026</div>
+                            <div class="time">09:12</div>
+                        </td>
+                        <td>
+                            <div class="status">
+                                <span class="status-dot"></span> Actif
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="user-cell">
+                                <div class="avatar blue">MK</div>
+                                <div>
+                                    <div class="user-name">Mohamed Kaci</div>
+                                    <div class="user-id">USR-004</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>m.kaci@ecole.dz</td>
+                        <td><span class="role-badge role-prof">Professeur</span></td>
+                        <td>
+                            <div class="date">02/08/2026</div>
+                            <div class="time">16:45</div>
+                        </td>
+                        <td>
+                            <div class="status">
+                                <span class="status-dot"></span> Actif
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="user-cell">
+                                <div class="avatar blue">SB</div>
+                                <div>
+                                    <div class="user-name">Sara Benali</div>
+                                    <div class="user-id">USR-007</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>s.benali@ecole.dz</td>
+                        <td><span class="role-badge role-prof">Professeur</span></td>
+                        <td>
+                            <div class="date">01/08/2026</div>
+                            <div class="time">11:20</div>
+                        </td>
+                        <td>
+                            <div class="status">
+                                <span class="status-dot"></span> Actif
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="user-cell">
+                                <div class="avatar green">YA</div>
+                                <div>
+                                    <div class="user-name">Yasmine Amrani</div>
+                                    <div class="user-id">USR-015</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>y.amrani@etudiant.dz</td>
+                        <td><span class="role-badge role-etud">Étudiant</span></td>
+                        <td>
+                            <div class="date">03/08/2026</div>
+                            <div class="time">08:30</div>
+                        </td>
+                        <td>
+                            <div class="status">
+                                <span class="status-dot"></span> Actif
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="user-cell">
+                                <div class="avatar green">KM</div>
+                                <div>
+                                    <div class="user-name">Karim Meziani</div>
+                                    <div class="user-id">USR-018</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>k.meziani@etudiant.dz</td>
+                        <td><span class="role-badge role-etud">Étudiant</span></td>
+                        <td>
+                            <div class="date">31/07/2026</div>
+                            <div class="time">14:05</div>
+                        </td>
+                        <td>
+                            <div class="status">
+                                <span class="status-dot status-offline"></span> Inactif
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="user-cell">
+                                <div class="avatar orange">NH</div>
+                                <div>
+                                    <div class="user-name">Nour Hamidi</div>
+                                    <div class="user-id">USR-022</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>n.hamidi@etudiant.dz</td>
+                        <td><span class="role-badge role-etud">Étudiant</span></td>
+                        <td>
+                            <div class="date">03/08/2026</div>
+                            <div class="time">07:55</div>
+                        </td>
+                        <td>
+                            <div class="status">
+                                <span class="status-dot"></span> Actif
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

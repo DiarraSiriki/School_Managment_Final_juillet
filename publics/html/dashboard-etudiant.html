@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SchoolManagment - Étudiants</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- CSS séparé -->
+    <link rel="stylesheet" href="/css/dashboard-etudiant.css">
+</head>
+<body>
+
+<!-- Sidebar -->
+<aside class="sidebar">
+    <div class="logo">
+        <div class="logo-icon">É</div>
+        <div class="logo-text">
+            <h2>EcoleAdmin</h2>
+            <span>2025-2026</span>
+        </div>
+    </div>
+
+    <div class="nav-label">Navigation</div>
+
+    <a class="nav-item">
+        <i class="fa-solid fa-users"></i> Utilisateurs
+    </a>
+    <a class="nav-item active">
+        <i class="fa-solid fa-graduation-cap"></i> Étudiants
+    </a>
+    <a class="nav-item">
+        <i class="fa-solid fa-chalkboard-user"></i> Professeurs
+    </a>
+    <a class="nav-item">
+        <i class="fa-solid fa-book"></i> Matières
+    </a>
+    <a class="nav-item">
+        <i class="fa-solid fa-file-lines"></i> Notes
+    </a>
+    <a class="nav-item">
+        <i class="fa-solid fa-calendar-xmark"></i> Absences
+    </a>
+    <a class="nav-item">
+        <i class="fa-solid fa-chart-column"></i> Statistiques
+    </a>
+
+    <div class="user-footer">
+        <div class="user-avatar">A</div>
+        <div class="user-info">
+            <h4>Administrateur</h4>
+            <span>admin@ecole.dz</span>
+        </div>
+    </div>
+</aside>
+
+<!-- Main -->
+<main class="main">
+    <header class="header">
+        <div class="header-left">
+            <i class="fa-solid fa-graduation-cap"></i> Étudiants
+        </div>
+        <div class="header-right">
+            Lun 03 Août 2026
+            <span class="dot"></span>
+        </div>
+    </header>
+
+    <div class="content">
+        <div class="title-row">
+            <div>
+                <h1>Étudiants</h1>
+                <p>12 étudiants inscrits</p>
+            </div>
+            <button class="btn-primary">
+                <i class="fa-solid fa-plus"></i> Nouvel étudiant
+            </button>
+        </div>
+
+        <!-- Toolbar -->
+        <div class="toolbar">
+            <div class="search-box full">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Rechercher un étudiant ou une classe...">
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Classe</th>
+                        <th>Âge</th>
+                        <th>Moyenne</th>
+                        <th>Absences</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="id-cell">ETU-001</div>
+                        </td>
+                        <td>
+                            <div class="user-name">Benali Yasmine</div>
+                        </td>
+                        <td>3ème A</td>
+                        <td>14</td>
+                        <td><span class="moyenne bonne">16.4</span></td>
+                        <td><span class="absence faible">2h</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="id-cell">ETU-002</div>
+                        </td>
+                        <td>
+                            <div class="user-name">Chérif Amine</div>
+                        </td>
+                        <td>2ème B</td>
+                        <td>13</td>
+                        <td><span class="moyenne moyenne">13.8</span></td>
+                        <td><span class="absence moyenne">5h</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="id-cell">ETU-003</div>
+                        </td>
+                        <td>
+                            <div class="user-name">Meziani Lina</div>
+                        </td>
+                        <td>4ème A</td>
+                        <td>15</td>
+                        <td><span class="moyenne faible">11.2</span></td>
+                        <td><span class="absence elevee">8h</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="id-cell">ETU-004</div>
+                        </td>
+                        <td>
+                            <div class="user-name">Hamidi Nour</div>
+                        </td>
+                        <td>3ème B</td>
+                        <td>14</td>
+                        <td><span class="moyenne bonne">15.7</span></td>
+                        <td><span class="absence faible">1h</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="id-cell">ETU-005</div>
+                        </td>
+                        <td>
+                            <div class="user-name">Kaci Mohamed</div>
+                        </td>
+                        <td>1ère A</td>
+                        <td>16</td>
+                        <td><span class="moyenne moyenne">12.5</span></td>
+                        <td><span class="absence moyenne">4h</span></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="id-cell">ETU-006</div>
+                        </td>
+                        <td>
+                            <div class="user-name">Amrani Sara</div>
+                        </td>
+                        <td>2ème A</td>
+                        <td>13</td>
+                        <td><span class="moyenne bonne">17.1</span></td>
+                        <td><span class="absence faible">0h</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
