@@ -6,7 +6,7 @@ dotenv.config();
 import express from 'express';        
 import cors from 'cors';              
 import { dirname, join } from 'path'; 
-import { fileURLToPath } from 'url';  // Pour convertir les URLs en chemins de fichiers
+import { fileURLToPath } from 'url';  
 
 import classRoutes from './routes/classeRoute.js';
 import studentRoutes from './routes/studentRoutes.js';      
@@ -89,8 +89,8 @@ app.get('/notes', (req, res) => {
 app.get('/statistiques', (req, res) => {
     res.sendFile(join(__dirname, 'publics', 'html', 'statistiques.html'));
 });
-app.get('/utilisateurs', (req, res) => {
-    res.sendFile(join(__dirname, 'publics', 'html', 'utilisateurs.html'));
+app.get('/admin', (req, res) => {
+    res.sendFile(join(__dirname, 'publics', 'html', 'dashboard-admin.html'));
 });
 
 
@@ -130,7 +130,7 @@ app.use((req, res, next) => {
 });
 
 
-// Gestion des erreurs 500 (erreur serveur)
+
 
 
 app.use((err, req, res, next) => {
