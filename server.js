@@ -35,13 +35,11 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-// Exemple : http://localhost:3000/css/style.css
+
 app.use(express.static(join(__dirname, 'publics')));
 
 
-
-
-// Route racine : quand on va sur http://localhost:3000, on affiche la page de connexion
+// Route de connexion
 app.get('/', (req, res) => {
     res.sendFile(join(__dirname, 'publics', 'index.html'));
 });
@@ -69,28 +67,28 @@ app.get('/HTML/:page', (req, res) => {
 
 
 app.get('/dashboard-admin', (req, res) => {
-    res.sendFile(join(__dirname, 'publics', 'html', 'dashboard-admin.html'));
+    res.sendFile(join(__dirname, 'public', 'html', 'dashboard-admin.html'));
 });
 app.get('/dashboard-etudiant', (req, res) => {
-    res.sendFile(join(__dirname, 'publics', 'html', 'dashboard-etudiant.html'));
+    res.sendFile(join(__dirname, 'public', 'html', 'dashboard-etudiant.html'));
 });
 app.get('/dashboard-prof', (req, res) => {
-    res.sendFile(join(__dirname, 'publics', 'html', 'dashboard-prof.html'));
+    res.sendFile(join(__dirname, 'public', 'html', 'dashboard-prof.html'));
 });
 app.get('/absences', (req, res) => {
-    res.sendFile(join(__dirname, 'publics', 'html', 'absences.html'));
+    res.sendFile(join(__dirname, 'public', 'html', 'absences.html'));
 });
 app.get('/matieres', (req, res) => {
-    res.sendFile(join(__dirname, 'publics', 'html', 'matieres.html'));
+    res.sendFile(join(__dirname, 'public', 'html', 'matieres.html'));
 });
 app.get('/notes', (req, res) => {
-    res.sendFile(join(__dirname, 'publics', 'html', 'notes.html'));
+    res.sendFile(join(__dirname, 'public', 'html', 'notes.html'));
 });
 app.get('/statistiques', (req, res) => {
-    res.sendFile(join(__dirname, 'publics', 'html', 'statistiques.html'));
+    res.sendFile(join(__dirname, 'public', 'html', 'statistiques.html'));
 });
 app.get('/admin', (req, res) => {
-    res.sendFile(join(__dirname, 'publics', 'html', 'dashboard-admin.html'));
+    res.sendFile(join(__dirname, 'public', 'html', 'dashboard-admin.html'));
 });
 
 
