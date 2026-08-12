@@ -72,11 +72,17 @@ const chercherEtudiant = (req, res) => {
 const ajouterEtudiant = (req, res) => {
   try {
     const { matricule, nom, prenom, age, classe_id, email, mot_passe } = req.body;
-    const studentId = addStudent(matricule, nom, prenom, age, classe_id, email, mot_passe);
+
+    // Le service gère l'unicité ou la génération automatique si matricule est null/undefined
+    const studentData = addStudent(matricule, nom, prenom, age, classe_id, email, mot_passe);
+    
     res.status(201).json({
       success: true,
       message: 'Étudiant créé avec succès',
-      data: { id: studentId }
+      data: { 
+        id: studentData.id,
+        matricule: studentData.matricule 
+      }
     });
   } catch (error) {
     logger.error(`[Student Controller] Erreur création: ${error.message}`);
@@ -116,10 +122,10 @@ const supprimerEtudiant = (req, res) => {
 export {
   getEtudiants,
   getEtudiantParId,
-    getEtudiantParMatricule,
-    getMonProfilEtudiant,
-    chercherEtudiant,
-    ajouterEtudiant,
-    modifierEtudiant,
-    supprimerEtudiant
+  getEtudiantParMatricule,
+  getMonProfilEtudiant,
+  chercherEtudiant,
+  ajouterEtudiant,
+  modifierEtudiant,
+  supprimerEtudiant
 };

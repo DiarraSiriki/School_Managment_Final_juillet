@@ -36,12 +36,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
-app.use(express.static(join(__dirname, 'publics')));
+app.use(express.static(join(__dirname, 'public')));
 
 
 // Route de connexion
 app.get('/', (req, res) => {
-    res.sendFile(join(__dirname, 'publics', 'index.html'));
+    res.sendFile(join(__dirname, 'public', 'index.html'));
 });
 
 

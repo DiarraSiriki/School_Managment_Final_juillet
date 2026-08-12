@@ -1,39 +1,46 @@
-﻿import Student from '../models/modelStudent.js';   // Modèle pour interagir avec la table students
-import logger from '../utils/logger.js';            // Utilitaire pour écrire des logs
-import { addUser } from './userService.js';         // Service pour créer un compte utilisateur
-import { isClassFull, getClasseById } from './classeService.js'; // Gestion de la capacité des classes
-
-
+﻿import Student from '../models/modelStudent.js';   
+import logger from '../utils/logger.js';            
+import { addUser } from './userService.js';         
+import { isClassFull, getClasseById } from './classeService.js'; 
 
 function addStudent(matricule, nom, prenom, age, classe_id, email, mot_passe) {
-    const existingStudent = findStudentByMatricule(matricule);
-    
-    if (existingStudent) {
-        logger.warn(`Échec de l'ajout : Le matricule ${matricule} est déjà utilisé.`);
-        throw new Error(`Le matricule '${matricule}' appartient déjà à un étudiant.`);
+    // 1. Si un matricule manuel est fourni, on vérifie son unicité
+    if (matricule) {
+        const existingStudent = findStudentByMatricule(matricule);
+        if (existingStudent) {
+            logger.warn(`Échec de l'ajout : Le matricule ${matricule} est déjà utilisé.`);
+            throw new Error(`Le matricule '${matricule}' appartient déjà à un étudiant.`);
+        }
     }
 
+    // 2. Vérification de l'existence de la classe
     const classe = getClasseById(classe_id);
     if (!classe) {
         logger.warn(`Échec de l'ajout : La classe ID=${classe_id} n'existe pas.`);
         throw new Error(`La classe sélectionnée n'existe pas.`);
     }
 
+    // 3. Vérification de la capacité de la classe
     if (isClassFull(classe_id)) {
         logger.warn(`Échec de l'ajout : La classe "${classe.nom}" a atteint sa capacité maximale (${classe.capacite}).`);
         throw new Error(`Impossible d'ajouter l'étudiant : la classe "${classe.nom}" est pleine.`);
     }
 
-    // Utilisation de mot_passe transmis à addUser
+    // 4. Création du compte utilisateur associé
     const userId = addUser(`${prenom}_${nom}`, 'student', email, mot_passe);
 
+    // 5. Création de l'étudiant (Student.create génère le matricule si matricule est null/undefined)
     const result = Student.create(matricule, nom, prenom, age, classe_id, userId);
     
     const studentId = result.lastInsertRowid; 
+    const finalMatricule = result.matricule || matricule;
 
-    logger.info(`Étudiant ajouté avec succès : ID=${studentId}, Matricule=${matricule}, ClasseID=${classe_id}, UserID=${userId}`);
+    logger.info(`Étudiant ajouté avec succès : ID=${studentId}, Matricule=${finalMatricule}, ClasseID=${classe_id}, UserID=${userId}`);
     
-    return studentId;
+    return {
+        id: studentId,
+        matricule: finalMatricule
+    };
 }
 
 function updateStudent(id, matricule, nom, prenom, age, classe_id, user_id = null) {
@@ -42,6 +49,7 @@ function updateStudent(id, matricule, nom, prenom, age, classe_id, user_id = nul
         throw new Error(`Étudiant avec l'ID ${id} introuvable.`);
     }
 
+    const targetMatricule = matricule || existingStudent.matricule;
     const targetClasseId = classe_id !== undefined ? classe_id : existingStudent.classe_id;
 
     if (targetClasseId && targetClasseId !== existingStudent.classe_id) {
@@ -56,7 +64,7 @@ function updateStudent(id, matricule, nom, prenom, age, classe_id, user_id = nul
         }
     }
 
-    const result = Student.update(id, matricule, nom, prenom, age, targetClasseId, user_id);
+    const result = Student.update(id, targetMatricule, nom, prenom, age, targetClasseId, user_id);
     
     if (result.changes > 0) {
         logger.info(`Étudiant modifié: ID=${id}`);
@@ -96,12 +104,12 @@ function getStudentByUserId(user_id) {
 }
 
 export { 
-  addStudent,              
-  updateStudent,          
-  removeStudent,          
-  searchStudent,          
-  listStudents,           
-  findStudentByMatricule,  
-  getStudentById,          
-  getStudentByUserId       
+    addStudent,              
+    updateStudent,          
+    removeStudent,          
+    searchStudent,          
+    listStudents,           
+    findStudentByMatricule,  
+    getStudentById,          
+    getStudentByUserId       
 };

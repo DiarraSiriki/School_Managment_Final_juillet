@@ -2,16 +2,45 @@ import database from '../db/database.js';
 import logger from '../utils/logger.js';
 
 class Student {
+ 
+  static generateMatricule() {
+    let matricule = '';
+    let isUnique = false;
+    const year = new Date().getFullYear();
+
+    while (!isUnique) {
+      const randomCode = Math.random().toString(36).substring(2, 6).toUpperCase();
+      matricule = `ETU-${year}-${randomCode}`;
+
+      // Vérifie l'unicité en base de données
+      const existing = Student.getByMatricule(matricule);
+      if (!existing) {
+        isUnique = true;
+      }
+    }
+
+    return matricule;
+  }
+
   static create(matricule, nom, prenom, age, classe, user_id = null) {
     try {
+      // Auto-génération du matricule s'il n'est pas transmis
+      const finalMatricule = matricule || Student.generateMatricule();
+
       const query = database.prepare(`
         INSERT INTO students (matricule, nom, prenom, age, classe, user_id) 
         VALUES (?, ?, ?, ?, ?, ?)
       `);
-      const result = query.run(matricule, nom, prenom, age, classe, user_id);
-      logger.info(`[Student Model] Insertion réussie: student_id=${result.lastInsertRowid}, matricule=${matricule}, user_id=${user_id}`);
+      const result = query.run(finalMatricule, nom, prenom, age, classe, user_id);
+      
+      logger.info(`[Student Model] Insertion réussie: student_id=${result.lastInsertRowid}, matricule=${finalMatricule}, user_id=${user_id}`);
       database.exec('PRAGMA optimize');
-      return result;
+      
+      return {
+        lastInsertRowid: result.lastInsertRowid,
+        changes: result.changes,
+        matricule: finalMatricule
+      };
     } catch (err) {
       logger.error(`Erreur lors de l'insertion d'un étudiant: ${err.message}`);
       logger.error(`Détails: ${JSON.stringify(err)}`);

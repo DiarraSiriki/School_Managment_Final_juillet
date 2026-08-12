@@ -3,67 +3,71 @@ import logger from '../utils/logger.js';
 
 export { addUser, authenticate, removeUser, listUsers };
 
-function addUser(name, role, email, mot_passe) {
-      let passwordToSave = mot_passe;
-      let emailToSave = email.toLowerCase().trim(); // Nettoyage systématique de l'email
+function addUser(name, role, email, mot_passe, matricule = null) {
+  let passwordToSave = mot_passe;
+  let emailToSave = email.toLowerCase().trim(); // Nettoyage systématique de l'email
 
-      if (!passwordToSave) {
-            logger.error(`Tentative d'ajout de l'utilisateur ${name} sans mot de passe.`);
-            throw new Error("Le mot de passe ne peut pas être vide (NOT NULL constraint).");
-      }
+  if (!passwordToSave) {
+    logger.error(`Tentative d'ajout de l'utilisateur ${name} sans mot de passe.`);
+    throw new Error("Le mot de passe ne peut pas être vide (NOT NULL constraint).");
+  }
 
-      const existingUser = User.getByEmail(emailToSave);
+  const existingUser = User.getByEmail(emailToSave);
 
-      if (existingUser) {
-            logger.error(`Tentative d'ajout de l'utilisateur ${name} avortée : l'email ${emailToSave} est déjà utilisé.`);
-            throw new Error("UNIQUE constraint failed: users.email");
-      }
+  if (existingUser) {
+    logger.error(`Tentative d'ajout de l'utilisateur ${name} avortée : l'email ${emailToSave} est déjà utilisé.`);
+    throw new Error("UNIQUE constraint failed: users.email");
+  }
 
-      // Hachage temporairement désactivé : stockage en clair
-      const passwordToStore = passwordToSave;
+  // Hachage temporairement désactivé : stockage en clair
+  const passwordToStore = passwordToSave;
 
-      const result = User.create(name, role, emailToSave, passwordToStore);
-      logger.info(`Utilisateur ajouté: ID=${result.lastInsertRowid}, Nom=${name}, Rôle=${role}`);
-      return result.lastInsertRowid;
+  // Création via le modèle (génère ou applique le matricule)
+  const result = User.create(name, role, emailToSave, passwordToStore, matricule);
+  
+  logger.info(`Utilisateur ajouté: ID=${result.id}, Nom=${name}, Rôle=${role}, Matricule=${result.matricule}`);
+  
+  // Retourne l'ID généré pour conserver la compatibilité
+  return result.id;
 }
 
 function authenticate(email, mot_passe) {
-      let emailToVerify = (email || '').toLowerCase().trim();
-      let passwordToVerify = mot_passe;
+  let emailToVerify = (email || '').toLowerCase().trim();
+  let passwordToVerify = mot_passe;
 
-      const user = User.getByEmail(emailToVerify);
+  const user = User.getByEmail(emailToVerify);
 
-      if (!user || !passwordToVerify) {
-            return null;
-      }
+  if (!user || !passwordToVerify) {
+    return null;
+  }
 
-      const storedPassword = user.mot_passe;
+  const storedPassword = user.mot_passe;
 
-      if (!storedPassword) {
-            return null;
-      }
+  if (!storedPassword) {
+    return null;
+  }
 
-      const isValid = passwordToVerify === storedPassword;
+  const isValid = passwordToVerify === storedPassword;
 
-      return isValid ? user : null;
+  return isValid ? user : null;
 }
 
 function removeUser(id) {
-      let idToDelete = id;
+  let idToDelete = id;
 
-      const result = User.delete(idToDelete);
+  const result = User.delete(idToDelete);
 
-      if (result.changes > 0) {
-            logger.info(`Utilisateur supprimé: ID=${idToDelete}`);
-            return true;
-      } else {
-            return false;
-      }
+  if (result.changes > 0) {
+    logger.info(`Utilisateur supprimé: ID=${idToDelete}`);
+    return true;
+  } else {
+    return false;
+  }
 }
 
 function listUsers() {
-      const users = User.getAll();
+  const users = User.getAll();
 
-      logger.info(`Liste des utilisateurs consultée (${users.length} utilisateurs)`);
-      return users;
+  logger.info(`Liste des utilisateurs consultée (${users.length} utilisateurs)`);
+  return users;
 }
