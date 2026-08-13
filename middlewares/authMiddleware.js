@@ -4,9 +4,6 @@ import jwt from 'jsonwebtoken';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_securisee';
 
 
-
- 
-
 const verifyToken = (req, res, next) => {
    
     const authHeader = req.headers.authorization;
@@ -42,7 +39,6 @@ const verifyToken = (req, res, next) => {
 };
 
 
-
 const checkRole = (allowedRoles) => {
     // checkRole retourne une fonction middleware (c'est un pattern de fonction qui retourne une fonction)
     return (req, res, next) => {
@@ -62,7 +58,7 @@ const checkRole = (allowedRoles) => {
             });
         }
 
-        // Étape 3 : Si le rôle est autorisé, on continue
+       
         next();
     };
 };

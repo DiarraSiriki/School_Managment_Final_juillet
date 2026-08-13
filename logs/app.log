@@ -318,3 +318,7 @@
 [2026-08-05 00:26:21] [ERROR] [Classes Controller] Erreur création: Les champs nom, niveau et capacité sont obligatoires.
 [2026-08-05 00:26:58] [ERROR] [Student Controller] Erreur création: Classe avec l'ID 1 introuvable.
 [2026-08-05 00:27:48] [ERROR] [Classes Controller] Erreur création: Les champs nom, niveau et capacité sont obligatoires.
+[2026-08-12 23:59:41] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-12 23:59:41] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-13 11:37:44] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-13 11:37:44] [INFO] Connexion réussie: admin@gmail.com (role: admin)

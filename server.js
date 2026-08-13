@@ -3,27 +3,27 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 // Importation des bibliothèques principales
-import express from 'express';        
-import cors from 'cors';              
-import { dirname, join } from 'path'; 
-import { fileURLToPath } from 'url';  
+import express from 'express';
+import cors from 'cors';
+import { dirname, join } from 'path';
+import { fileURLToPath } from 'url';
 
 import classRoutes from './routes/classeRoute.js';
-import studentRoutes from './routes/studentRoutes.js';      
-import teacherRoutes from './routes/teacherRoutes.js';     
-import matieresRoutes from './routes/matieresRoutes.js';  
-import gradesRoutes from './routes/gradesRoutes.js';       
-import absenceRoutes from './routes/absencesRoutes.js';    
-import statsRoutes from './routes/statsRoutes.js';       
-import usersRoutes from './routes/usersRoutes.js';     
-import authRoutes from './routes/authRoutes.js';         
+import studentRoutes from './routes/studentRoutes.js';
+import teacherRoutes from './routes/teacherRoutes.js';
+import matieresRoutes from './routes/matieresRoutes.js';
+import gradesRoutes from './routes/gradesRoutes.js';
+import absenceRoutes from './routes/absencesRoutes.js';
+import statsRoutes from './routes/statsRoutes.js';
+import usersRoutes from './routes/usersRoutes.js';
+import authRoutes from './routes/authRoutes.js';
 
 
 
-const __filename = fileURLToPath(import.meta.url); 
-const __dirname = dirname(__filename);                
-const app = express();                           
-const PORT = process.env.PORT || 3000;              
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 // Sans ça, le navigateur bloquerait les requêtes vers le serveur
 app.use(cors());
@@ -69,10 +69,22 @@ app.get('/HTML/:page', (req, res) => {
 app.get('/dashboard-admin', (req, res) => {
     res.sendFile(join(__dirname, 'public', 'html', 'dashboard-admin.html'));
 });
+app.get('/dashboard-admin.html', (req, res) => {
+    res.sendFile(join(__dirname, 'public', 'html', 'dashboard-admin.html'));
+});
 app.get('/dashboard-etudiant', (req, res) => {
     res.sendFile(join(__dirname, 'public', 'html', 'dashboard-etudiant.html'));
 });
+app.get('/dashboard-etudiant.html', (req, res) => {
+    res.sendFile(join(__dirname, 'public', 'html', 'dashboard-etudiant.html'));
+});
+app.get('/dashboard-student.html', (req, res) => {
+    res.sendFile(join(__dirname, 'public', 'html', 'dashboard-etudiant.html'));
+});
 app.get('/dashboard-prof', (req, res) => {
+    res.sendFile(join(__dirname, 'public', 'html', 'dashboard-prof.html'));
+});
+app.get('/dashboard-prof.html', (req, res) => {
     res.sendFile(join(__dirname, 'public', 'html', 'dashboard-prof.html'));
 });
 app.get('/absences', (req, res) => {
@@ -99,7 +111,7 @@ app.use('/api/users', usersRoutes);
 
 app.use('/api/classes', classRoutes);
 
-app.use('/api/students', studentRoutes); 
+app.use('/api/students', studentRoutes);
 
 app.use('/api/teachers', teacherRoutes);
 
@@ -135,8 +147,8 @@ app.use((err, req, res, next) => {
     console.error("[ERREUR SERVEUR]", err.stack);
     res.status(500).json({
         error: "Une erreur interne s'est produite sur le serveur.",
-        
-        
+
+
         details: process.env.NODE_ENV === 'development' ? err.message : undefined
     });
 });

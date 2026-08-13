@@ -1,17 +1,17 @@
 const AuthGuard = {
-  // 1. Récupère l'objet utilisateur entier depuis le localStorage
+
   getUser() {
     const userJson = localStorage.getItem('user');
     return userJson ? JSON.parse(userJson) : null;
   },
 
-  // 2. Récupère uniquement le rôle ('Admin', 'Prof', 'Etudiant')
+  //  Récupère uniquement le rôle ('Admin', 'Prof', 'Etudiant')
   getRole() {
     const user = this.getUser();
     return user ? user.role : null;
   }, 
 
-  // 3. Matrice des permissions
+  //  Matrice des permissions
   permissions: {
     Admin: [
       'gerer_utilisateurs',
@@ -34,18 +34,18 @@ const AuthGuard = {
     ]
   },
 
-  // 4. Vérifie si le rôle actuel possède une permission spécifique
+  //  Vérifie si le rôle actuel possède une permission spécifique
   can(permission) {
     const role = this.getRole();
     if (!role || !this.permissions[role]) return false;
     return this.permissions[role].includes(permission);
-  }, // <-- Virgule obligatoire ici
+  }, 
 
-  // 5. Masquage dynamique dans le DOM
+ 
   applyUI() {
     const role = this.getRole();
 
-    // Redirection si personne n'est connecté
+   
     if (!role) {
       window.location.href = '/login.html';
       return;
@@ -64,7 +64,7 @@ const AuthGuard = {
 }; 
 
 
-// Déclenche l'adaptation de l'interface dès que le HTML est chargé
+
 
 document.addEventListener('DOMContentLoaded', () => {
   AuthGuard.applyUI();
