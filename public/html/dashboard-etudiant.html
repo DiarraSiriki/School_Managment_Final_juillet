@@ -13,153 +13,7 @@
 
 <body>
 
-   <div class="layout">
-     <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-logo">É</div>
-        <div class="brand-text">
-          <span class="brand-name">EcoleAdmin</span>
-          <span class="brand-year">2025–2026</span>
-        </div>
-      </div>
-
-      <nav class="nav">
-        <span class="nav-title">NAVIGATION</span>
-        <ul class="nav-list">
-          <li><a class="nav-item" href="dashboard-admin.html"><i
-                class="fa-solid fa-users"></i><span>Utilisateurs</span></a></li>
-          <li><a class="nav-item active" href="dashboard-etudiant.html"><i
-                class="fa-solid fa-user-graduate"></i><span>Étudiants</span></a></li>
-          <li><a class="nav-item" href="dashboard-prof.html"><i
-                class="fa-solid fa-chalkboard-user"></i><span>Professeurs</span></a></li>
-          <li><a class="nav-item" href="matieres.html"><i class="fa-solid fa-book-open"></i><span>Matières</span></a>
-          </li>
-          <li><a class="nav-item" href="notes.html"><i class="fa-solid fa-file-signature"></i><span>Notes</span></a>
-          </li>
-          <li><a class="nav-item" href="absences.html"><i
-                class="fa-solid fa-calendar-days"></i><span>Absences</span></a></li>
-          <li><a class="nav-item" href="statistiques.html"><i
-                class="fa-solid fa-chart-simple"></i><span>Statistiques</span></a></li>
-        </ul>
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="admin-avatar">A</div>
-        <div class="admin-info">
-          <span class="admin-name">Administrateur</span>
-          <span class="admin-email">admin@ecole.dz</span>
-        </div>
-      </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <div class="main">
-
-      <!-- TOPBAR -->
-      <header class="topbar">
-        <div class="topbar-title">
-          <i class="fa-solid fa-user-graduate icon-title"></i>
-          <h1>Étudiants</h1>
-        </div>
-        <div class="topbar-right">
-          <span class="topbar-date">Lun 03 Août 2026</span>
-          <span class="status-dot"></span>
-        </div>
-      </header>
-
-      <!-- CONTENT -->
-      <main class="content">
-
-        <div class="content-header">
-          <div>
-            <h2>Étudiants</h2>
-            <p class="subtitle">12 étudiants inscrits</p>
-          </div>
-          <button class="btn-primary">+ Nouvel étudiant</button>
-        </div>
-
-        <!-- TOOLBAR -->
-        <div class="toolbar">
-          <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" placeholder="Rechercher un étudiant ou une classe...">
-          </div>
-        </div>
-
-        <!-- TABLEAU DES ÉTUDIANTS -->
-        <div class="table-wrapper">
-          <table class="etudiants-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>NOM</th>
-                <th>CLASSE</th>
-                <th>ÂGE</th>
-                <th>MOYENNE</th>
-                <th>ABSENCES</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>ETU-001</strong></td>
-                <td>Benali Yasmine</td>
-                <td>3ème A</td>
-                <td>14</td>
-                <td><span class="note note-high">16.4</span></td>
-                <td><span class="absence faible">2h</span></td>
-              </tr>
-              <tr>
-                <td><strong>ETU-002</strong></td>
-                <td>Chérif Amine</td>
-                <td>2ème B</td>
-                <td>13</td>
-                <td><span class="note note-medium">13.8</span></td>
-                <td><span class="absence moyenne">5h</span></td>
-              </tr>
-              <tr>
-                <td><strong>ETU-003</strong></td>
-                <td>Meziani Lina</td>
-                <td>4ème A</td>
-                <td>15</td>
-                <td><span class="note note-low">11.2</span></td>
-                <td><span class="absence elevee">8h</span></td>
-              </tr>
-              <tr>
-                <td><strong>ETU-004</strong></td>
-                <td>Hamidi Nour</td>
-                <td>3ème B</td>
-                <td>14</td>
-                <td><span class="note note-high">15.7</span></td>
-                <td><span class="absence faible">1h</span></td>
-              </tr>
-              <tr>
-                <td><strong>ETU-005</strong></td>
-                <td>Kaci Mohamed</td>
-                <td>1ère A</td>
-                <td>16</td>
-                <td><span class="note note-medium">12.5</span></td>
-                <td><span class="absence moyenne">4h</span></td>
-              </tr>
-              <tr>
-                <td><strong>ETU-006</strong></td>
-                <td>Amrani Sara</td>
-                <td>2ème A</td>
-                <td>13</td>
-                <td><span class="note note-high">17.1</span></td>
-                <td><span class="absence faible">0h</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-      </main>
-
-    </div>
-
-  </div>
-
-  <style>
+   <style>
       * {
   margin: 0;
   padding: 0;
@@ -489,122 +343,6 @@ tbody tr:hover {
   background: #f9fafb;
 }
 
-/* NOTES */
-.note {
-  font-weight: 600;
-  font-size: 14px;
-}
-
-.note-high {
-  color: #059669;
-}
-
-.note-medium {
-  color: #d97706;
-}
-
-.note-low {
-  color: #ea580c;
-}
-
-/* ABSENCES */
-.absence {
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.absence.faible {
-  color: #059669;
-}
-
-.absence.moyenne {
-  color: #d97706;
-}
-
-.absence.elevee {
-  color: #ea580c;
-}
-
-/* Search */
-.toolbar {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 20px;
-  align-items: center;
-}
-
-.search-box {
-  flex: 1;
-  max-width: 320px;
-  position: relative;
-}
-
-.search-box.full {
-  max-width: 100%;
-}
-
-.search-box i {
-  position: absolute;
-  left: 14px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #9ca3af;
-  font-size: 14px;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 10px 14px 10px 38px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  font-size: 14px;
-  outline: none;
-  background: #fff;
-}
-
-.search-box input:focus {
-  border-color: #3b5bdb;
-}
-
-/* Table */
-.table-card {
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-thead th {
-  text-align: left;
-  padding: 14px 20px;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: #6b7280;
-  border-bottom: 1px solid #e5e7eb;
-  font-weight: 600;
-}
-
-tbody td {
-  padding: 16px 20px;
-  border-bottom: 1px solid #f3f4f6;
-  font-size: 14px;
-  vertical-align: middle;
-}
-
-tbody tr:last-child td {
-  border-bottom: none;
-}
-
-tbody tr:hover {
-  background: #f9fafb;
-}
-
 .user-name {
   font-weight: 600;
   font-size: 14px;
@@ -616,43 +354,214 @@ tbody tr:hover {
   font-weight: 500;
 }
 
-/* Moyennes */
-.moyenne {
-  font-weight: 600;
-  font-size: 14px;
+/* ACTIONS */
+.actions-cell {
+  display: flex;
+  gap: 8px;
 }
 
-.moyenne.bonne {
-  color: #059669;
-}
-
-.moyenne.moyenne {
-  color: #d97706;
-}
-
-.moyenne.faible {
-  color: #ea580c;
-}
-
-/* Absences */
-.absence {
+.btn-action {
+  border: none;
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-size: 13px;
   font-weight: 500;
-  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.absence.faible {
-  color: #059669;
+.btn-edit {
+  background: #eef2ff;
+  color: #2563eb;
 }
 
-.absence.moyenne {
-  color: #d97706;
+.btn-edit:hover {
+  background: #dbe4ff;
 }
 
-.absence.elevee {
-  color: #ea580c;
+.btn-delete {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.btn-delete:hover {
+  background: #fee2e2;
 }
 
   </style>
+
+   <div class="layout">
+     <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">É</div>
+        <div class="brand-text">
+          <span class="brand-name">EcoleAdmin</span>
+          <span class="brand-year">2025–2026</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <span class="nav-title">NAVIGATION</span>
+        <ul class="nav-list">
+          <li><a class="nav-item" href="/dashboard-admin"><i
+                class="fa-solid fa-users"></i><span>Utilisateurs</span></a></li>
+          <li><a class="nav-item active" href="/dashboard-etudiant"><i
+                class="fa-solid fa-user-graduate"></i><span>Étudiants</span></a></li>
+          <li><a class="nav-item" href="/dashboard-prof"><i
+                class="fa-solid fa-chalkboard-user"></i><span>Professeurs</span></a></li>
+          <li><a class="nav-item" href="/matieres"><i class="fa-solid fa-book-open"></i><span>Matières</span></a>
+          </li>
+          <li><a class="nav-item" href="/notes"><i class="fa-solid fa-file-signature"></i><span>Notes</span></a>
+          </li>
+          <li><a class="nav-item" href="/absences"><i
+                class="fa-solid fa-calendar-days"></i><span>Absences</span></a></li>
+          <li><a class="nav-item" href="/statistiques"><i
+                class="fa-solid fa-chart-simple"></i><span>Statistiques</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-avatar">A</div>
+        <div class="admin-info">
+          <span class="admin-name">Administrateur</span>
+          <span class="admin-email">admin@ecole.dz</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-title">
+          <i class="fa-solid fa-user-graduate icon-title"></i>
+          <h1>Étudiants</h1>
+        </div>
+        <div class="topbar-right">
+          <span class="topbar-date">Lun 03 Août 2026</span>
+          <span class="status-dot"></span>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <main class="content">
+
+        <div class="content-header">
+          <div>
+            <h2>Étudiants</h2>
+            <p class="subtitle">12 étudiants inscrits</p>
+          </div>
+          <button class="btn-primary">+ Nouvel étudiant</button>
+        </div>
+
+        <!-- TOOLBAR -->
+        <div class="toolbar">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Rechercher un étudiant ou une classe...">
+          </div>
+        </div>
+
+        <!-- TABLEAU DES ÉTUDIANTS -->
+        <div class="table-wrapper">
+          <table class="etudiants-table">
+            <thead>
+              <tr>
+                <th>Matricule</th>
+                <th>NOM</th>
+                <th>CLASSE</th>
+                <th>ÂGE</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>ETU-001</strong></td>
+                <td>Benali Yasmine</td>
+                <td>3ème A</td>
+                <td>14</td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn-action btn-edit"><i class="fa-solid fa-pen"></i>Modifier</button>
+                    <button class="btn-action btn-delete"><i class="fa-solid fa-trash"></i>Supprimer</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>ETU-002</strong></td>
+                <td>Chérif Amine</td>
+                <td>2ème B</td>
+                <td>13</td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn-action btn-edit"><i class="fa-solid fa-pen"></i>Modifier</button>
+                    <button class="btn-action btn-delete"><i class="fa-solid fa-trash"></i>Supprimer</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>ETU-003</strong></td>
+                <td>Meziani Lina</td>
+                <td>4ème A</td>
+                <td>15</td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn-action btn-edit"><i class="fa-solid fa-pen"></i>Modifier</button>
+                    <button class="btn-action btn-delete"><i class="fa-solid fa-trash"></i>Supprimer</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>ETU-004</strong></td>
+                <td>Hamidi Nour</td>
+                <td>3ème B</td>
+                <td>14</td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn-action btn-edit"><i class="fa-solid fa-pen"></i>Modifier</button>
+                    <button class="btn-action btn-delete"><i class="fa-solid fa-trash"></i>Supprimer</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>ETU-005</strong></td>
+                <td>Kaci Mohamed</td>
+                <td>1ère A</td>
+                <td>16</td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn-action btn-edit"><i class="fa-solid fa-pen"></i>Modifier</button>
+                    <button class="btn-action btn-delete"><i class="fa-solid fa-trash"></i>Supprimer</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>ETU-006</strong></td>
+                <td>Amrani Sara</td>
+                <td>2ème A</td>
+                <td>13</td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn-action btn-edit"><i class="fa-solid fa-pen"></i>Modifier</button>
+                    <button class="btn-action btn-delete"><i class="fa-solid fa-trash"></i>Supprimer</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+ 
 
   <script src="/js/authGuard.js"></script>
   <script src="/js/api.js"></script>

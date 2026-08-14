@@ -1,7 +1,3 @@
-// ============================================================
-// db/database.js
-// ============================================================
-
 import Database from 'better-sqlite3';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -17,8 +13,7 @@ db.pragma('foreign_keys = ON');
 
 console.log(`Base de données connectée : ${dbPath}`);
 
-
-// 1. Table USERS (avec UNIQUE sur mot_passe conservé)
+// 1. Table USERS (Uniquement les identifiants système : pas de matricule ici)
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id        INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -41,7 +36,7 @@ db.exec(`
   )
 `);
 
-// 3. Table STUDENTS
+// 3. Table STUDENTS 
 db.exec(`
   CREATE TABLE IF NOT EXISTS students (
     id        INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -11,141 +11,7 @@
 
 <body>
 
-  <div class="layout">
-     <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-logo">É</div>
-        <div class="brand-text">
-          <span class="brand-name">EcoleAdmin</span>
-          <span class="brand-year">2025–2026</span>
-        </div>
-      </div>
-
-      <nav class="nav">
-        <span class="nav-title">NAVIGATION</span>
-        <ul class="nav-list">
-          <li><a class="nav-item" href="dashboard-admin.html"><i
-                class="fa-solid fa-users"></i><span>Utilisateurs</span></a></li>
-          <li><a class="nav-item" href="dashboard-etudiant.html"><i
-                class="fa-solid fa-user-graduate"></i><span>Étudiants</span></a></li>
-          <li><a class="nav-item active" href="dashboard-prof.html"><i
-                class="fa-solid fa-chalkboard-user"></i><span>Professeurs</span></a></li>
-          <li><a class="nav-item" href="matieres.html"><i class="fa-solid fa-book-open"></i><span>Matières</span></a>
-          </li>
-          <li><a class="nav-item" href="notes.html"><i class="fa-solid fa-file-signature"></i><span>Notes</span></a>
-          </li>
-          <li><a class="nav-item" href="absences.html"><i
-                class="fa-solid fa-calendar-days"></i><span>Absences</span></a></li>
-          <li><a class="nav-item" href="statistiques.html"><i
-                class="fa-solid fa-chart-simple"></i><span>Statistiques</span></a></li>
-        </ul>
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="admin-avatar">A</div>
-        <div class="admin-info">
-          <span class="admin-name">Administrateur</span>
-          <span class="admin-email">admin@ecole.dz</span>
-        </div>
-      </div>
-    </aside>
-    <!-- MAIN -->
-    <div class="main">
-
-      <!-- TOPBAR -->
-      <header class="topbar">
-        <div class="topbar-title">
-          <i class="fa-solid fa-chalkboard-user icon-title"></i>
-          <h1>Professeurs</h1>
-        </div>
-        <div class="topbar-right">
-          <span class="topbar-date">Lun 03 Août 2026</span>
-          <span class="status-dot"></span>
-        </div>
-      </header>
-
-      <!-- CONTENT -->
-      <main class="content">
-
-        <div class="content-header">
-          <div>
-            <h2>Professeurs</h2>
-            <p class="subtitle">7 enseignants</p>
-          </div>
-          <button class="btn-primary">+ Nouveau professeur</button>
-        </div>
-
-        <!-- LISTE EN TABLEAU -->
-        <div class="teachers-table-wrapper">
-          <table class="teachers-table">
-            <thead>
-              <tr>
-                <th>Professeur</th>
-                <th>Discipline</th>
-                <th>Classes</th>
-                <th>Email</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <div class="teacher-info">
-                    <div class="avatar">F</div>
-                    <span class="teacher-name">Dr. Mansouri Farid</span>
-                  </div>
-                </td>
-                <td><span class="badge-subject">Mathématiques</span></td>
-                <td><strong>3A, 3B, 4A</strong></td>
-                <td><a href="mailto:f.mansouri@ecole.dz" class="teacher-email">f.mansouri@ecole.dz</a></td>
-              </tr>
-
-              <tr>
-                <td>
-                  <div class="teacher-info">
-                    <div class="avatar">F</div>
-                    <span class="teacher-name">Mme. Zouaoui Fatima</span>
-                  </div>
-                </td>
-                <td><span class="badge-subject">Français</span></td>
-                <td><strong>2A, 2B, 1A</strong></td>
-                <td><a href="mailto:f.zouaoui@ecole.dz" class="teacher-email">f.zouaoui@ecole.dz</a></td>
-              </tr>
-
-              <tr>
-                <td>
-                  <div class="teacher-info">
-                    <div class="avatar">D</div>
-                    <span class="teacher-name">M. Djelloul Djamel</span>
-                  </div>
-                </td>
-                <td><span class="badge-subject">Physique</span></td>
-                <td><strong>4A, 4B</strong></td>
-                <td><a href="mailto:d.djelloul@ecole.dz" class="teacher-email">d.djelloul@ecole.dz</a></td>
-              </tr>
-
-              <tr>
-                <td>
-                  <div class="teacher-info">
-                    <div class="avatar">H</div>
-                    <span class="teacher-name">Mme. Haddad Hakima</span>
-                  </div>
-                </td>
-                <td><span class="badge-subject">Histoire-Géographie</span></td>
-                <td><strong>1A, 1B, 1C</strong></td>
-                <td><a href="mailto:h.haddad@ecole.dz" class="teacher-email">h.haddad@ecole.dz</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-      </main>
-
-    </div>
-
-  </div>
-
-  <style>
+   <style>
      * {
   margin: 0;
   padding: 0;
@@ -473,16 +339,198 @@ tbody tr:hover {
   font-weight: 600;
 }
 
-.teacher-email {
-  color: #8a8fa3;
-  text-decoration: none;
+/* ACTIONS */
+.actions-cell {
+  display: flex;
+  gap: 8px;
 }
 
-.teacher-email:hover {
-  color: #3d8bfd;
-  text-decoration: underline;
+.btn-action {
+  border: none;
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-edit {
+  background: #eef2ff;
+  color: #2563eb;
+}
+
+.btn-edit:hover {
+  background: #dbe4ff;
+}
+
+.btn-delete {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.btn-delete:hover {
+  background: #fee2e2;
 }
   </style>
+
+  <div class="layout">
+     <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">É</div>
+        <div class="brand-text">
+          <span class="brand-name">EcoleAdmin</span>
+          <span class="brand-year">2025–2026</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <span class="nav-title">NAVIGATION</span>
+        <ul class="nav-list">
+          <li><a class="nav-item" href="/dashboard-admin"><i
+                class="fa-solid fa-users"></i><span>Utilisateurs</span></a></li>
+          <li><a class="nav-item" href="/dashboard-etudiant"><i
+                class="fa-solid fa-user-graduate"></i><span>Étudiants</span></a></li>
+          <li><a class="nav-item active" href="/dashboard-prof"><i
+                class="fa-solid fa-chalkboard-user"></i><span>Professeurs</span></a></li>
+          <li><a class="nav-item" href="/matieres"><i class="fa-solid fa-book-open"></i><span>Matières</span></a>
+          </li>
+          <li><a class="nav-item" href="/notes"><i class="fa-solid fa-file-signature"></i><span>Notes</span></a>
+          </li>
+          <li><a class="nav-item" href="/absences"><i
+                class="fa-solid fa-calendar-days"></i><span>Absences</span></a></li>
+          <li><a class="nav-item" href="/statistiques"><i
+                class="fa-solid fa-chart-simple"></i><span>Statistiques</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-avatar">A</div>
+        <div class="admin-info">
+          <span class="admin-name">Administrateur</span>
+          <span class="admin-email">admin@ecole.dz</span>
+        </div>
+      </div>
+    </aside>
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-title">
+          <i class="fa-solid fa-chalkboard-user icon-title"></i>
+          <h1>Professeurs</h1>
+        </div>
+        <div class="topbar-right">
+          <span class="topbar-date">Lun 03 Août 2026</span>
+          <span class="status-dot"></span>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <main class="content">
+
+        <div class="content-header">
+          <div>
+            <h2>Professeurs</h2>
+            <p class="subtitle">7 enseignants</p>
+          </div>
+          <button class="btn-primary">+ Nouveau professeur</button>
+        </div>
+
+        <!-- LISTE EN TABLEAU -->
+        <div class="teachers-table-wrapper">
+          <table class="teachers-table">
+            <thead>
+              <tr>
+                <th>Professeur</th>
+                <th>Discipline</th>
+                <th>Classes</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="teacher-info">
+                    <div class="avatar">F</div>
+                    <span class="teacher-name">Dr. Mansouri Farid</span>
+                  </div>
+                </td>
+                <td><span class="badge-subject">Mathématiques</span></td>
+                <td><strong>3A, 3B, 4A</strong></td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn-action btn-edit"><i class="fa-solid fa-pen"></i>Modifier</button>
+                    <button class="btn-action btn-delete"><i class="fa-solid fa-trash"></i>Supprimer</button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="teacher-info">
+                    <div class="avatar">F</div>
+                    <span class="teacher-name">Mme. Zouaoui Fatima</span>
+                  </div>
+                </td>
+                <td><span class="badge-subject">Français</span></td>
+                <td><strong>2A, 2B, 1A</strong></td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn-action btn-edit"><i class="fa-solid fa-pen"></i>Modifier</button>
+                    <button class="btn-action btn-delete"><i class="fa-solid fa-trash"></i>Supprimer</button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="teacher-info">
+                    <div class="avatar">D</div>
+                    <span class="teacher-name">M. Djelloul Djamel</span>
+                  </div>
+                </td>
+                <td><span class="badge-subject">Physique</span></td>
+                <td><strong>4A, 4B</strong></td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn-action btn-edit"><i class="fa-solid fa-pen"></i>Modifier</button>
+                    <button class="btn-action btn-delete"><i class="fa-solid fa-trash"></i>Supprimer</button>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td>
+                  <div class="teacher-info">
+                    <div class="avatar">H</div>
+                    <span class="teacher-name">Mme. Haddad Hakima</span>
+                  </div>
+                </td>
+                <td><span class="badge-subject">Histoire-Géographie</span></td>
+                <td><strong>1A, 1B, 1C</strong></td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn-action btn-edit"><i class="fa-solid fa-pen"></i>Modifier</button>
+                    <button class="btn-action btn-delete"><i class="fa-solid fa-trash"></i>Supprimer</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+   
 
   <script src="/js/authGuard.js"></script>
   <script src="/js/api.js"></script>

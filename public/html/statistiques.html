@@ -12,118 +12,7 @@
 
 <body>
 
-  <div class="layout">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-logo">É</div>
-        <div class="brand-text">
-          <span class="brand-name">EcoleAdmin</span>
-          <span class="brand-year">2025–2026</span>
-        </div>
-      </div>
-
-      <nav class="nav">
-        <span class="nav-title">NAVIGATION</span>
-        <ul class="nav-list">
-          <li><a class="nav-item" href="dashboard-admin.html"><i
-                class="fa-solid fa-users"></i><span>Utilisateurs</span></a></li>
-          <li><a class="nav-item" href="dashboard-etudiant.html"><i
-                class="fa-solid fa-user-graduate"></i><span>Étudiants</span></a></li>
-          <li><a class="nav-item" href="dashboard-prof.html"><i
-                class="fa-solid fa-chalkboard-user"></i><span>Professeurs</span></a></li>
-          <li><a class="nav-item" href="matieres.html"><i class="fa-solid fa-book-open"></i><span>Matières</span></a>
-          </li>
-          <li><a class="nav-item" href="notes.html"><i class="fa-solid fa-file-signature"></i><span>Notes</span></a></li>
-          <li><a class="nav-item" href="absences.html"><i
-                class="fa-solid fa-calendar-days"></i><span>Absences</span></a></li>
-          <li><a class="nav-item active" href="statistiques.html"><i
-                class="fa-solid fa-chart-simple"></i><span>Statistiques</span></a></li>
-        </ul>
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="admin-avatar">A</div>
-        <div class="admin-info">
-          <span class="admin-name">Administrateur</span>
-          <span class="admin-email">admin@ecole.dz</span>
-        </div>
-      </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <div class="main">
-
-      <!-- TOPBAR -->
-      <header class="topbar">
-        <div class="topbar-title">
-          <i class="fa-solid fa-chart-simple icon-title"></i>
-          <h1>Statistiques</h1>
-        </div>
-        <div class="topbar-right">
-          <span class="topbar-date">Lun 03 Août 2026</span>
-          <span class="status-dot"></span>
-        </div>
-      </header>
-
-      <!-- CONTENT -->
-      <main class="content">
-
-        <div class="content-header">
-          <h2>Statistiques</h2>
-          <p class="subtitle">Analyse globale · Année 2025–2026</p>
-        </div>
-
-        <!-- CARTES DE SYNTHÈSE -->
-        <div class="stats-grid">
-          <div class="stat-card">
-            <span class="card-title">MOYENNE MAXIMALE</span>
-            <div class="stat-value text-dark">18.2/20</div>
-            <span class="card-subtitle">Khelifi Rania</span>
-          </div>
-
-          <div class="stat-card card-red">
-            <span class="card-title">ABSENCES TOTALES</span>
-            <div class="stat-value text-red">8</div>
-            <span class="card-subtitle">5 non justifiées</span>
-          </div>
-        </div>
-
-        <!-- TABLEAU PROGRESSION MENSUELLE -->
-        <div class="table-card">
-          <div class="table-card-header">
-            PROGRESSION MENSUELLE
-          </div>
-          <table class="stats-table">
-            <thead>
-              <tr>
-                <th>MOIS</th>
-                <th>MOYENNE</th>
-                <th>ABS. JUSTIF.</th>
-                <th>ABS. NON JUSTIF.</th>
-                <th>TOTAL ABSENCES</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Sep</strong></td>
-                <td><strong class="text-blue">12.4</strong></td>
-                <td><strong class="text-green">4</strong></td>
-                <td><strong class="text-red">2</strong></td>
-                <td><strong>6</strong></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-      </main>
-
-    </div>
-
-  </div>
-
-  <style>
+   <style>
 
     * {
   margin: 0;
@@ -450,6 +339,133 @@ body {
 
   </style>
   
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">É</div>
+        <div class="brand-text">
+          <span class="brand-name">EcoleAdmin</span>
+          <span class="brand-year">2025–2026</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <span class="nav-title">NAVIGATION</span>
+        <ul class="nav-list">
+          <li><a class="nav-item" href="/dashboard-admin"><i
+                class="fa-solid fa-users"></i><span>Utilisateurs</span></a></li>
+          <li><a class="nav-item" href="/dashboard-etudiant"><i
+                class="fa-solid fa-user-graduate"></i><span>Étudiants</span></a></li>
+          <li><a class="nav-item" href="/dashboard-prof"><i
+                class="fa-solid fa-chalkboard-user"></i><span>Professeurs</span></a></li>
+          <li><a class="nav-item" href="/matieres"><i class="fa-solid fa-book-open"></i><span>Matières</span></a>
+          </li>
+          <li><a class="nav-item" href="/notes"><i class="fa-solid fa-file-signature"></i><span>Notes</span></a></li>
+          <li><a class="nav-item" href="/absences"><i
+                class="fa-solid fa-calendar-days"></i><span>Absences</span></a></li>
+          <li><a class="nav-item active" href="/statistiques"><i
+                class="fa-solid fa-chart-simple"></i><span>Statistiques</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-avatar">A</div>
+        <div class="admin-info">
+          <span class="admin-name">Administrateur</span>
+          <span class="admin-email">admin@ecole.dz</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-title">
+          <i class="fa-solid fa-chart-simple icon-title"></i>
+          <h1>Statistiques</h1>
+        </div>
+        <div class="topbar-right">
+          <span class="topbar-date">Lun 03 Août 2026</span>
+          <span class="status-dot"></span>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <main class="content">
+
+        <div class="content-header">
+          <h2>Statistiques</h2>
+          <p class="subtitle">Analyse globale · Année 2025–2026</p>
+        </div>
+
+        <!-- CARTES DE SYNTHÈSE -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="card-title">MOYENNE MAXIMALE</span>
+            <div class="stat-value text-dark">18.2/20</div>
+            <span class="card-subtitle">Khelifi Rania</span>
+          </div>
+
+          <div class="stat-card card-red">
+            <span class="card-title">ABSENCES TOTALES</span>
+            <div class="stat-value text-red">8</div>
+            <span class="card-subtitle">5 non justifiées</span>
+          </div>
+        </div>
+
+        <!-- TABLEAU PROGRESSION PAR ÉTUDIANT -->
+        <div class="table-card">
+          <div class="table-card-header">
+            PROGRESSION PAR ÉTUDIANT
+          </div>
+          <table class="stats-table">
+            <thead>
+              <tr>
+                <th>NOM</th>
+                <th>MOYENNE</th>
+                <th>ABS. JUSTIF.</th>
+                <th>ABS. NON JUSTIF.</th>
+                <th>TOTAL ABSENCES</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Khelifi Rania</strong></td>
+                <td><strong class="text-blue">18.2</strong></td>
+                <td><strong class="text-green">0</strong></td>
+                <td><strong class="text-red">0</strong></td>
+                <td><strong>0</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Rahmani Sonia</strong></td>
+                <td><strong class="text-blue">12.4</strong></td>
+                <td><strong class="text-green">1</strong></td>
+                <td><strong class="text-red">2</strong></td>
+                <td><strong>3</strong></td>
+              </tr>
+              <tr>
+                <td><strong>Larbi Sofiane</strong></td>
+                <td><strong class="text-blue">14.6</strong></td>
+                <td><strong class="text-green">3</strong></td>
+                <td><strong class="text-red">2</strong></td>
+                <td><strong>5</strong></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+ 
   <script src="/js/api.js"></script>
   <script src="/js/statistiques.js"></script>
 </body>

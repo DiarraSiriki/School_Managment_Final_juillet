@@ -322,3 +322,10 @@
 [2026-08-12 23:59:41] [INFO] Connexion réussie: admin@gmail.com (role: admin)
 [2026-08-13 11:37:44] [INFO] Tentative de connexion: admin@gmail.com
 [2026-08-13 11:37:44] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-13 15:04:21] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-13 15:04:21] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-13 15:45:55] [ERROR] Tentative d'ajout de l'utilisateur Admin Diarra avortée : l'email admin@gmail.com est déjà utilisé.
+[2026-08-13 22:09:44] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-13 22:09:44] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-13 23:52:44] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-13 23:52:44] [INFO] Connexion réussie: admin@gmail.com (role: admin)

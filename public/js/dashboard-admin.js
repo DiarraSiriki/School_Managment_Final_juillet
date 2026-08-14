@@ -1,57 +1,124 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // ==========================================
-  // 1. GESTION DES RECHERCHES ET FILTRES (TABLEAU)
-  // ==========================================
-  const searchInput = document.querySelector('.search-box input');
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const tableBody = document.querySelector('tbody');
-
+  let tousLesUtilisateurs = [];
   let currentSearch = '';
-  let currentFilter = 'Tous';
+  let currentFilter = '';
 
-  function filterTable() {
-    const tableRows = tableBody.querySelectorAll('tr');
+  const tableBody = document.getElementById('tbodyUsers');
+  const searchInput = document.getElementById('searchUsersInput');
+  const filterBtns = document.querySelectorAll('.filter-btn');
 
-    tableRows.forEach(row => {
-      const userNameEl = row.querySelector('.user-name');
-      const emailEl = row.children[1];
-      const roleBadgeEl = row.querySelector('.role-badge');
+  const ROLE_LABELS = { admin: 'Administrateur', teacher: 'Professeur', student: 'Étudiant' };
+  const ROLE_BADGE_CLASS = { admin: 'role-admin', teacher: 'role-prof', student: 'role-etud' };
+  const AVATAR_COLORS = { admin: 'purple', teacher: 'blue', student: 'green' };
 
-      if (!userNameEl || !emailEl || !roleBadgeEl) return;
-
-      const name = userNameEl.textContent.toLowerCase();
-      const email = emailEl.textContent.toLowerCase();
-      const role = roleBadgeEl.textContent.trim().toLowerCase();
-
-      const matchesSearch = name.includes(currentSearch) || email.includes(currentSearch);
-      const matchesFilter = (currentFilter === 'Tous') || (role === currentFilter.toLowerCase());
-
-      row.style.display = (matchesSearch && matchesFilter) ? '' : 'none';
-    });
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str ?? '';
+    return div.innerHTML;
   }
 
-  // Événement Recherche
+  function getInitiales(nom) {
+    const parts = (nom || '?').trim().split(' ');
+    return parts.length > 1
+      ? `${parts[0][0]}${parts[1][0]}`.toUpperCase()
+      : `${parts[0][0]}${parts[0][1] || ''}`.toUpperCase();
+  }
+
+  // ==========================================
+  // 1. CHARGEMENT DES UTILISATEURS DEPUIS L'API
+  // ==========================================
+  async function chargerUtilisateurs() {
+    try {
+      const users = await API.admin.getUsers();
+      tousLesUtilisateurs = users;
+      mettreAJourStats(users);
+      afficherUtilisateurs();
+    } catch (error) {
+      console.error('Erreur chargement utilisateurs:', error);
+      tableBody.innerHTML = `<tr><td colspan="4">Erreur de chargement : ${escapeHtml(error.message)}</td></tr>`;
+    }
+  }
+
+  function mettreAJourStats(users) {
+    document.getElementById('statAdmins').textContent = users.filter(u => u.role === 'admin').length;
+    document.getElementById('statTeachers').textContent = users.filter(u => u.role === 'teacher').length;
+    document.getElementById('statStudents').textContent = users.filter(u => u.role === 'student').length;
+    document.querySelector('.subtitle').textContent = `${users.length} compte(s)`;
+  }
+
+  // ==========================================
+  // 2. AFFICHAGE / FILTRAGE DU TABLEAU
+  // ==========================================
+  function afficherUtilisateurs() {
+    const recherche = currentSearch.toLowerCase();
+
+    const filtres = tousLesUtilisateurs.filter(u => {
+      const matchRole = !currentFilter || u.role === currentFilter;
+      const matchRecherche = !recherche ||
+        (u.name || '').toLowerCase().includes(recherche) ||
+        (u.email || '').toLowerCase().includes(recherche);
+      return matchRole && matchRecherche;
+    });
+
+    if (filtres.length === 0) {
+      tableBody.innerHTML = `<tr><td colspan="4">Aucun utilisateur trouvé.</td></tr>`;
+      return;
+    }
+
+    tableBody.innerHTML = filtres.map(u => `
+      <tr>
+        <td>
+          <div class="user-cell">
+            <div class="avatar ${AVATAR_COLORS[u.role] || 'blue'}">${getInitiales(u.name)}</div>
+            <div>
+              <div class="user-name">${escapeHtml(u.name)}</div>
+              <div class="user-id">${escapeHtml(u.matricule || ('USR-' + u.id))}</div>
+            </div>
+          </div>
+        </td>
+        <td>${escapeHtml(u.email)}</td>
+        <td><span class="role-badge ${ROLE_BADGE_CLASS[u.role] || ''}">${ROLE_LABELS[u.role] || u.role}</span></td>
+        <td>
+          <button class="btn-secondary" style="padding:6px 10px;" title="Supprimer" onclick="supprimerUtilisateur(${u.id})">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
   if (searchInput) {
     searchInput.addEventListener('input', (e) => {
-      currentSearch = e.target.value.toLowerCase().trim();
-      filterTable();
+      currentSearch = e.target.value.trim();
+      afficherUtilisateurs();
     });
   }
 
-  // Événement Filtres Rôles
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      currentFilter = btn.textContent.trim();
-      filterTable();
+      currentFilter = btn.getAttribute('data-role') || '';
+      afficherUtilisateurs();
     });
   });
 
+  // ==========================================
+  // 3. SUPPRESSION D'UN UTILISATEUR
+  // ==========================================
+  window.supprimerUtilisateur = async function (id) {
+    if (!confirm('Supprimer définitivement cet utilisateur ?')) return;
+    try {
+      await API.admin.deleteUser(id);
+      chargerUtilisateurs();
+    } catch (error) {
+      alert(`Échec de la suppression : ${error.message}`);
+    }
+  };
 
   // ==========================================
-  // 2. INJECTION HTML DE LA MODALE D'AJOUT
+  // 4. INJECTION HTML DE LA MODALE D'AJOUT
   // ==========================================
   const modalHTML = `
     <div class="modal-overlay" id="userModal">
@@ -71,11 +138,15 @@ document.addEventListener('DOMContentLoaded', () => {
               <input type="email" id="userEmail" placeholder="t.dubois@ecole.dz" required>
             </div>
             <div class="form-group">
+              <label for="userPassword">Mot de passe</label>
+              <input type="password" id="userPassword" placeholder="••••••••" required>
+            </div>
+            <div class="form-group">
               <label for="userRole">Rôle</label>
               <select id="userRole" required>
-                <option value="Étudiant">Étudiant</option>
-                <option value="Professeur">Professeur</option>
-                <option value="Administrateur">Administrateur</option>
+                <option value="student">Étudiant</option>
+                <option value="teacher">Professeur</option>
+                <option value="admin">Administrateur</option>
               </select>
             </div>
           </div>
@@ -90,16 +161,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.body.insertAdjacentHTML('beforeend', modalHTML);
 
-
   // ==========================================
-  // 3. LOGIQUE OUVERTURE / FERMETURE MODALE
+  // 5. OUVERTURE / FERMETURE MODALE
   // ==========================================
-  const openModalBtn = document.querySelector('.content-header .btn-primary');
+  const openModalBtn = document.getElementById('btnAddUser');
   const modalOverlay = document.getElementById('userModal');
   const closeModalBtn = document.getElementById('closeModalBtn');
   const cancelModalBtn = document.getElementById('cancelModalBtn');
+  const addUserForm = document.getElementById('addUserForm');
 
   function openModal() {
+    addUserForm.reset();
     modalOverlay.classList.add('active');
   }
 
@@ -115,72 +187,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === modalOverlay) closeModal();
   });
 
-
   // ==========================================
-  // 4. SOUMISSION ET DYNAMISME DU TABLEAU
+  // 6. SOUMISSION DU FORMULAIRE D'AJOUT
   // ==========================================
-  const addUserForm = document.getElementById('addUserForm');
-
-  // Génération d'initiales et de couleur pour l'avatar
-  function getAvatarData(fullName) {
-    const parts = fullName.trim().split(' ');
-    const initials = parts.length > 1 
-      ? `${parts[0][0]}${parts[1][0]}`.toUpperCase() 
-      : `${parts[0][0]}${parts[0][1] || ''}`.toUpperCase();
-    
-    const colors = ['purple', 'blue', 'green', 'orange'];
-    const randomColor = colors[Math.floor(Math.random() * colors.length)];
-
-    return { initials, colorClass: randomColor };
-  }
-
-  // Ajout dynamique d'une ligne dans le DOM
-  function addUserToTable(user) {
-    const { initials, colorClass } = getAvatarData(user.name);
-
-    let roleClass = 'role-etud';
-    if (user.role === 'Administrateur') roleClass = 'role-admin';
-    if (user.role === 'Professeur') roleClass = 'role-prof';
-
-    const now = new Date();
-    const dateFormatted = now.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    const timeFormatted = now.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-
-    const tr = document.createElement('tr');
-    tr.innerHTML = `
-      <td>
-        <div class="user-cell">
-          <div class="avatar ${colorClass}">${initials}</div>
-          <div>
-            <div class="user-name">${user.name}</div>
-            <div class="user-id">${user.id || 'USR-NEW'}</div>
-          </div>
-        </div>
-      </td>
-      <td>${user.email}</td>
-      <td><span class="role-badge ${roleClass}">${user.role}</span></td>
-      <td>
-        <div class="date">${dateFormatted}</div>
-        <div class="time">${timeFormatted}</div>
-      </td>
-      <td>
-        <div class="status">
-          <span class="status-dot"></span> Actif
-        </div>
-      </td>
-    `;
-
-    tableBody.prepend(tr); // Ajoute la ligne au début du tableau
-    filterTable(); // Re-filtre si une recherche était active
-  }
-
-  // Événement Soumission Formulaire (API Express.js)
   addUserForm.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const userData = {
       name: document.getElementById('userName').value.trim(),
       email: document.getElementById('userEmail').value.trim(),
+      mot_passe: document.getElementById('userPassword').value,
       role: document.getElementById('userRole').value
     };
 
@@ -190,27 +206,9 @@ document.addEventListener('DOMContentLoaded', () => {
     submitBtn.disabled = true;
 
     try {
-      // Modifiez l'URL selon votre route backend Express.js
-      const response = await fetch('/api/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token') || ''}`
-        },
-        body: JSON.stringify(userData)
-      });
-
-      const result = await response.json();
-
-      if (!response.ok) {
-        throw new Error(result.message || 'Erreur lors de la création de l\'utilisateur.');
-      }
-
-      // Ajout direct dans le DOM + Reset Formulaire
-      addUserToTable(result.user || userData);
-      addUserForm.reset();
+      await API.admin.createUser(userData);
       closeModal();
-
+      chargerUtilisateurs(); // recharge la liste complète depuis le serveur
     } catch (error) {
       console.error('Erreur API:', error);
       alert(`Échec : ${error.message}`);
@@ -219,5 +217,10 @@ document.addEventListener('DOMContentLoaded', () => {
       submitBtn.disabled = false;
     }
   });
+
+  // ==========================================
+  // 7. CHARGEMENT INITIAL
+  // ==========================================
+  chargerUtilisateurs();
 
 });

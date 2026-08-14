@@ -11,147 +11,9 @@
 
 <body>
 
-  <div class="layout">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-logo">É</div>
-        <div class="brand-text">
-          <span class="brand-name">EcoleAdmin</span>
-          <span class="brand-year">2025–2026</span>
-        </div>
-      </div>
-
-      <nav class="nav">
-        <span class="nav-title">NAVIGATION</span>
-        <ul class="nav-list">
-          <li><a class="nav-item" href="dashboard-admin.html"><i
-                class="fa-solid fa-users"></i><span>Utilisateurs</span></a></li>
-          <li><a class="nav-item" href="dashboard-etudiant.html"><i
-                class="fa-solid fa-user-graduate"></i><span>Étudiants</span></a></li>
-          <li><a class="nav-item" href="dashboard-prof.html"><i
-                class="fa-solid fa-chalkboard-user"></i><span>Professeurs</span></a></li>
-          <li><a class="nav-item" href="matieres.html"><i class="fa-solid fa-book-open"></i><span>Matières</span></a>
-          </li>
-          <li><a class="nav-item" href="notes.html"><i class="fa-solid fa-file-signature"></i><span>Notes</span></a></li>
-          <li><a class="nav-item active" href="absences.html"><i
-                class="fa-solid fa-calendar-days"></i><span>Absences</span></a></li>
-          <li><a class="nav-item" href="statistiques.html"><i
-                class="fa-solid fa-chart-simple"></i><span>Statistiques</span></a></li>
-        </ul>
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="admin-avatar">A</div>
-        <div class="admin-info">
-          <span class="admin-name">Administrateur</span>
-          <span class="admin-email">admin@ecole.dz</span>
-        </div>
-      </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <div class="main">
-
-      <!-- TOPBAR -->
-      <header class="topbar">
-        <div class="topbar-title">
-          <i class="fa-solid fa-calendar-days icon-title"></i>
-          <h1>Absences</h1>
-        </div>
-        <div class="topbar-right">
-          <span class="topbar-date">Lun 03 Août 2026</span>
-          <span class="status-dot"></span>
-        </div>
-      </header>
-
-      <!-- CONTENT -->
-      <main class="content">
-
-        <div class="content-header">
-          <div>
-            <h2>Absences</h2>
-            <p class="subtitle">8 absences enregistrées · 5 non justifiées</p>
-          </div>
-          <button class="btn-primary">+ Signaler une absence</button>
-        </div>
-
-        <!-- CARTES DE RÉSUMÉ -->
-        <div class="summary-grid">
-          <div class="summary-card">
-            <div class="icon-box warning-box">
-              <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
-            <div class="card-info">
-              <span class="card-val">5</span>
-              <span class="card-label">Non justifiées</span>
-            </div>
-          </div>
-
-          <div class="summary-card">
-            <div class="icon-box success-box">
-              <i class="fa-solid fa-square-check"></i>
-            </div>
-            <div class="card-info">
-              <span class="card-val">3</span>
-              <span class="card-label">Justifiées</span>
-            </div>
-          </div>
-
-          <div class="summary-card">
-            <div class="icon-box neutral-box">
-              <i class="fa-solid fa-stopwatch"></i>
-            </div>
-            <div class="card-info">
-              <span class="card-val">19</span>
-              <span class="card-label">nombre d'absences</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- TABLEAU DES ABSENCES -->
-        <div class="table-wrapper">
-          <table class="absences-table">
-            <thead>
-              <tr>
-                <th>ÉTUDIANT</th>
-                <th>CLASSE</th>
-                <th>MATIÈRE</th>
-                <th>DATE</th>
-                <th>DURÉE</th>
-                <th>STATUT</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Rahmani Sonia</strong></td>
-                <td>3ème B</td>
-                <td>Mathématiques</td>
-                <td class="text-muted">28/10/2025</td>
-                <td><strong>2h</strong></td>
-                <td><span class="badge badge-danger">Non justifiée</span></td>
-              </tr>
-              <tr>
-                <td><strong>Larbi Sofiane</strong></td>
-                <td>1ère A</td>
-                <td>Français</td>
-                <td class="text-muted">03/11/2025</td>
-                <td><strong>4h</strong></td>
-                <td><span class="badge badge-danger">Non justifiée</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-      </main>
-
-    </div>
-
-  </div>
-
   <style>
-    * {
+
+      * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -497,7 +359,192 @@ body {
   border: 1px dashed #fca5a5;
 }
 
+/* ACTIONS */
+.actions-cell {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-action {
+  border: none;
+  border-radius: 6px;
+  padding: 7px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-edit {
+  background: #eef2ff;
+  color: #2563eb;
+}
+
+.btn-edit:hover {
+  background: #dbe4ff;
+}
+
+.btn-delete {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.btn-delete:hover {
+  background: #fee2e2;
+}
+
+  
   </style>
+
+  <div class="layout">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">É</div>
+        <div class="brand-text">
+          <span class="brand-name">EcoleAdmin</span>
+          <span class="brand-year">2025–2026</span>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <span class="nav-title">NAVIGATION</span>
+        <ul class="nav-list">
+          <li><a class="nav-item" href="/dashboard-admin"><i
+                class="fa-solid fa-users"></i><span>Utilisateurs</span></a></li>
+          <li><a class="nav-item" href="/dashboard-etudiant"><i
+                class="fa-solid fa-user-graduate"></i><span>Étudiants</span></a></li>
+          <li><a class="nav-item" href="/dashboard-prof"><i
+                class="fa-solid fa-chalkboard-user"></i><span>Professeurs</span></a></li>
+          <li><a class="nav-item" href="/matieres"><i class="fa-solid fa-book-open"></i><span>Matières</span></a>
+          </li>
+          <li><a class="nav-item" href="/notes"><i class="fa-solid fa-file-signature"></i><span>Notes</span></a></li>
+          <li><a class="nav-item active" href="/absences"><i
+                class="fa-solid fa-calendar-days"></i><span>Absences</span></a></li>
+          <li><a class="nav-item" href="/statistiques"><i
+                class="fa-solid fa-chart-simple"></i><span>Statistiques</span></a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-avatar">A</div>
+        <div class="admin-info">
+          <span class="admin-name">Administrateur</span>
+          <span class="admin-email">admin@ecole.dz</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <div class="topbar-title">
+          <i class="fa-solid fa-calendar-days icon-title"></i>
+          <h1>Absences</h1>
+        </div>
+        <div class="topbar-right">
+          <span class="topbar-date">Lun 03 Août 2026</span>
+          <span class="status-dot"></span>
+        </div>
+      </header>
+
+      <!-- CONTENT -->
+      <main class="content">
+
+        <div class="content-header">
+          <div>
+            <h2>Absences</h2>
+            <p class="subtitle">8 absences enregistrées · 5 non justifiées</p>
+          </div>
+          <button class="btn-primary">+ Signaler une absence</button>
+        </div>
+
+        <!-- CARTES DE RÉSUMÉ -->
+        <div class="summary-grid">
+          <div class="summary-card">
+            <div class="icon-box warning-box">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <div class="card-info">
+              <span class="card-val">5</span>
+              <span class="card-label">Non justifiées</span>
+            </div>
+          </div>
+
+          <div class="summary-card">
+            <div class="icon-box success-box">
+              <i class="fa-solid fa-square-check"></i>
+            </div>
+            <div class="card-info">
+              <span class="card-val">3</span>
+              <span class="card-label">Justifiées</span>
+            </div>
+          </div>
+
+          <div class="summary-card">
+            <div class="icon-box neutral-box">
+              <i class="fa-solid fa-stopwatch"></i>
+            </div>
+            <div class="card-info">
+              <span class="card-val">19</span>
+              <span class="card-label">nombre d'absences</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABLEAU DES ABSENCES -->
+        <div class="table-wrapper">
+          <table class="absences-table">
+            <thead>
+              <tr>
+                <th>ÉTUDIANT</th>
+                <th>CLASSE</th>
+                <th>MATIÈRE</th>
+                <th>DATE</th>
+                <th>ACTIONS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Rahmani Sonia</strong></td>
+                <td>3ème B</td>
+                <td>Mathématiques</td>
+                <td class="text-muted">28/10/2025</td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn-action btn-edit"><i class="fa-solid fa-pen"></i>Modifier</button>
+                    <button class="btn-action btn-delete"><i class="fa-solid fa-trash"></i>Supprimer</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Larbi Sofiane</strong></td>
+                <td>1ère A</td>
+                <td>Français</td>
+                <td class="text-muted">03/11/2025</td>
+                <td>
+                  <div class="actions-cell">
+                    <button class="btn-action btn-edit"><i class="fa-solid fa-pen"></i>Modifier</button>
+                    <button class="btn-action btn-delete"><i class="fa-solid fa-trash"></i>Supprimer</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+
+
 
   <script src="/js/api.js"></script>
   <script src="/js/absences.js"></script>
