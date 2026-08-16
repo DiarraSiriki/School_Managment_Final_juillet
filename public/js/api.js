@@ -30,7 +30,7 @@ const API = {
         console.warn("[API] Session expirée ou accès non autorisé.");
         localStorage.removeItem('token');
         localStorage.removeItem('user');
-        window.location.href = '/login.html';
+        window.location.href = '/';
         return;
       }
 
@@ -70,16 +70,29 @@ const API = {
     return this.request(endpoint, { method: 'DELETE' });
   },
 
-  // 4. Endpoints Métiers prêts à l'emploi
-  auth: {
-    login: (credentials) => API.post('/auth/login', credentials)
+ auth: {
+    login: (credentials) => API.post('/auth/login', credentials),
+    me: () => API.get('/auth/me'),
+    // Prévient le backend puis nettoie la session locale et redirige vers le login
+    async logout() {
+      try {
+        await API.post('/auth/logout');
+      } catch (error) {
+        // Même si l'appel échoue (token déjà expiré, réseau, etc.), on déconnecte quand même localement
+        console.warn('[API] Déconnexion serveur échouée, nettoyage local quand même.', error.message);
+      } finally {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '/';
+      }
+    }
   },
 
   admin: {
-    getUsers: () => API.get('/admin/users'),
-    getUserByMatricule: (matricule) => API.get(`/admin/users/matricule/${matricule}`),
-    createUser: (userData) => API.post('/admin/users', userData),
-    deleteUser: (id) => API.delete(`/admin/users/${id}`)
+     getUsers: () => API.get('/users'),
+     getUserByMatricule: (matricule) => API.get(`/users/matricule/${matricule}`),
+    createUser: (userData) => API.post('/users', userData),
+    deleteUser: (id) => API.delete(`/users/${id}`)
   },
 
   students: {

@@ -1,7 +1,7 @@
 import User from '../models/modelUsers.js';
 import logger from '../utils/logger.js';
 
-export { addUser, authenticate, removeUser, listUsers };
+export { addUser, authenticate, removeUser, listUsers, getUserById , updateUser};
 
 function addUser(name, role, email, mot_passe, matricule = null) {
   let passwordToSave = mot_passe;
@@ -30,6 +30,10 @@ function addUser(name, role, email, mot_passe, matricule = null) {
   // Retourne l'ID généré pour conserver la compatibilité
   return result.id;
 }
+
+function getUserById(id) {
+  return User.getById(id);
+};
 
 function authenticate(email, mot_passe) {
   let emailToVerify = (email || '').toLowerCase().trim();
@@ -70,4 +74,26 @@ function listUsers() {
 
   logger.info(`Liste des utilisateurs consultée (${users.length} utilisateurs)`);
   return users;
+}
+
+function updateUser(id, name, role, email, mot_passe, matricule = null) {
+  const currentUser = User.getById(id); 
+  if (!currentUser) {
+    return false;
+  }
+
+  // Si aucun nouveau mot de passe n'est fourni, on garde l'ancien
+  let passwordToSave = mot_passe;
+  if (!passwordToSave) {
+    const fullUser = User.getByEmail(currentUser.email); 
+    passwordToSave = fullUser?.mot_passe;
+  }
+
+  const result = User.update(id, name, role, email, passwordToSave, matricule);
+
+  if (result.changes > 0) {
+    logger.info(`Utilisateur modifié: ID=${id}, Nom=${name}, Rôle=${role}`);
+    return true;
+  }
+  return false;
 }

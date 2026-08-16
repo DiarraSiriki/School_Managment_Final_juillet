@@ -16,10 +16,10 @@ const router = express.Router();
 router.use(verifyToken);
 
 
-router.get('/', checkRole(['admin', 'teacher']), getProfesseurs);
-router.get('/search', checkRole(['admin', 'teacher']), chercherProfesseur);
+router.get('/', checkRole(['admin']), getProfesseurs);
+router.get('/search', checkRole(['admin']), chercherProfesseur);
 router.get('/me', checkRole(['teacher']), getMonProfilProfesseur);
-router.get('/:id', checkRole(['admin', 'teacher']), getProfesseurParId);
+router.get('/:id', checkRole(['admin']), getProfesseurParId);
 
 
 router.post('/', checkRole(['admin']), ajouterProfesseur);

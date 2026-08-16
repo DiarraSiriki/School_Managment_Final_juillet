@@ -16,10 +16,10 @@ const router = express.Router();
 // Protège toutes les routes avec verifyToken
 router.use(verifyToken);
 
-router.get('/', checkRole(['admin', 'teacher', 'student']), getMatieres);
-router.get('/search', checkRole(['admin', 'teacher', 'student']), chercherMatiere);
-router.get('/:id', checkRole(['admin', 'teacher', 'student']), getMatiereParId);
-
+// 
+router.get('/', checkRole(['admin', 'teacher']), getMatieres);
+router.get('/search', checkRole(['admin', 'teacher']), chercherMatiere);
+router.get('/:id', checkRole(['admin', 'teacher']), getMatiereParId);
 
 router.post('/', checkRole(['admin']), ajouterMatiere);
 router.put('/:id', checkRole(['admin']), modifierMatiere);

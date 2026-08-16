@@ -1,4 +1,4 @@
-import { authenticate } from '../services/userService.js';
+import { authenticate, getUserById } from '../services/userService.js';
 import jwt from 'jsonwebtoken';
 import { logToFile } from '../utils/logger.js';
 
@@ -70,7 +70,33 @@ const login = (req, res) => {
     }
 };
 
+// Récupère le profil de l'utilisateur actuellement connecté (tous rôles confondus)
+const getMonProfil = (req, res) => {
 
+    const userId = req.user.id;
+
+    try {
+        const user = getUserById(userId);
+
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                message: "Profil introuvable."
+            });
+        }
+
+        return res.json({
+            success: true,
+            data: user
+        });
+    } catch (error) {
+        console.error("[ERREUR GET MON PROFIL]", error);
+        return res.status(500).json({
+            success: false,
+            message: "Erreur lors de la récupération du profil."
+        });
+    }
+};
 
 const logout = (req, res) => {
     
@@ -86,7 +112,4 @@ const logout = (req, res) => {
 };
 
 
-export {
-    login,
-    logout
-};
+export { login, logout, getMonProfil };

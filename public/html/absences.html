@@ -1,553 +1,524 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SchoolManagment - Absences</title>
+  <title>EcoleAdmin - Absences</title>
+  
+  <!-- Font Awesome 6 CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <!-- <link rel="stylesheet" href="/css/absences.css"> -->
+  
+  <!-- Google Font (Inter) -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+  
+  <link rel="stylesheet" href="style.css">
 </head>
-
-<body>
-
-  <style>
-
+<body data-roles="admin,teacher,student">
+    <style>
       * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
-  background: #f3f4f8;
-  color: #1a1d2e;
-}
-
-.layout {
   display: flex;
+  background-color: #f3f5f9;
+  color: #1a1d2e;
   min-height: 100vh;
 }
 
 /* SIDEBAR */
 .sidebar {
-  width: 250px;
-  background: #0f1527;
-  color: #8c95ad;
-  display: flex;
-  flex-direction: column;
-  padding: 24px 16px;
-  flex-shrink: 0;
+  width: 240px;
+  background-color: #0c1427;
+  color: #ffffff;
   height: 100vh;
   position: sticky;
   top: 0;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
 }
 
 .brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 32px;
+  margin-bottom: 30px;
 }
 
-.brand-logo {
-  width: 40px;
-  height: 40px;
-  background: #2563eb;
-  color: #fff;
-  font-weight: bold;
-  font-size: 20px;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.brand-name {
-  display: block;
-  color: #fff;
-  font-weight: 700;
-  font-size: 16px;
-}
-
-.brand-year {
-  font-size: 12px;
-  color: #586380;
-}
-
-.nav {
-  flex: 1;
-}
-
-.nav-title {
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  color: #434c66;
-  margin-left: 24px;
-  margin-bottom: 12px;
-  display: block;
-  padding-left: 12px;
-}
-
-.nav-list {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 20px;
-  margin: 2px 12px;
+.logo {
+  background-color: #2563eb;
+  color: #ffffff;
+  padding: 6px 12px;
   border-radius: 8px;
-  font-size: 14px;
-  cursor: pointer;
-  color: #d1d5db;
-  text-decoration: none;
-}
-
-.nav-item:hover {
-  background: #2a2d3e;
-  color: #fff;
-}
-
-.nav-item i {
-  width: 20px;
-  text-align: center;
-  font-size: 15px;
-}
-
-.nav-item.active {
-  background: #1e293b;
-  color: #3b82f6;
-  font-weight: 600;
-}
-
-.sidebar-footer {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-top: 16px;
-  border-top: 1px solid #1e293b;
-}
-
-.admin-avatar {
-  width: 36px;
-  height: 36px;
-  background: #2563eb;
-  color: #fff;
   font-weight: bold;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.admin-name {
-  display: block;
-  color: #fff;
-  font-weight: 600;
-  font-size: 13px;
-}
-
-.admin-email {
-  font-size: 12px;
-  color: #586380;
-}
-
-/* MAIN CONTENT */
-.main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  height: 100vh;
-}
-
-.topbar {
-  height: 64px;
-  background: #fff;
-  border-bottom: 1px solid #e5e7eb;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 32px;
-}
-
-.topbar-title {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.icon-title {
-  color: #3b82f6;
   font-size: 18px;
 }
 
-.topbar-title h1 {
+.brand-title {
+  font-weight: bold;
   font-size: 16px;
+}
+
+.brand-sub {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.menu-title {
+  font-size: 11px;
+  color: #475569;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
   font-weight: 700;
 }
 
-.topbar-right {
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.menu-item {
+  color: #94a3b8;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.menu-item i {
+  width: 22px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.menu-item.active, 
+.menu-item:hover {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.user-profile {
   display: flex;
   align-items: center;
   gap: 10px;
-  color: #8c95ad;
+  padding-top: 15px;
+  border-top: 1px solid #1e293b;
+}
+
+.avatar {
+  background-color: #2563eb;
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.user-info {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.user-name {
   font-size: 13px;
+  font-weight: bold;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.user-role {
+  font-size: 11px;
+  color: #64748b;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.logout-icon {
+  color: #64748b;
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.2s ease;
+}
+
+.logout-icon:hover {
+  color: #ffffff;
+}
+
+/* CONTENU PRINCIPAL */
+.main-content {
+  flex-grow: 1;
+  padding: 20px 40px;
+  overflow-y: auto;
+}
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 25px;
+}
+
+.top-title {
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.top-title i {
+  color: #2563eb;
+  font-size: 18px;
+}
+
+.top-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .status-dot {
   width: 8px;
   height: 8px;
-  background: #10b981;
+  background-color: #22c55e;
   border-radius: 50%;
 }
 
-/* CONTENT AREA */
-.content {
-  padding: 32px;
-  flex: 1;
-  overflow-y: auto;
-  max-height: calc(100vh - 64px);
-}
-
-.content-header {
+.page-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 24px;
+  margin-bottom: 25px;
 }
 
-.content-header h2 {
-  font-size: 28px;
-  font-weight: 800;
-}
-
-.subtitle {
-  color: #6b7280;
-  font-size: 14px;
-  margin-top: 4px;
-}
-
-.btn-primary {
-  background: #2563eb;
-  color: #fff;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-/* CARTES DE RÉSUMÉ */
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  margin-bottom: 28px;
-}
-
-.summary-card {
-  background: #fff;
-  border-radius: 12px;
-  padding: 24px;
-  border: 1px solid #e5e7eb;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.icon-box {
-  width: 48px;
-  height: 48px;
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-}
-
-.warning-box {
-  background: #fff7ed;
-  color: #f97316;
-}
-
-.success-box {
-  background: #f0fdf4;
-  color: #22c55e;
-}
-
-.neutral-box {
-  background: #fdf8f6;
-  color: #475569;
-}
-
-.card-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.card-val {
-  font-size: 22px;
+.page-header h1 {
+  font-size: 24px;
   font-weight: 800;
   color: #0f172a;
 }
 
-.card-label {
+.subtitle {
+  color: #64748b;
   font-size: 13px;
-  color: #6b7280;
+  margin-top: 4px;
 }
 
-/* TABLEAU DES ABSENCES */
-.table-wrapper {
-  background: #fff;
+.btn-primary {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+/* CARTES DE RÉSUMÉ */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.card {
+  background: #ffffff;
   border-radius: 12px;
-  border: 1px solid #e5e7eb;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.card-icon.warning {
+  background-color: #fef3c7;
+  color: #f59e0b;
+}
+
+.card-icon.success {
+  background-color: #dcfce7;
+  color: #22c55e;
+}
+
+.card-icon.neutral {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.card-label {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* TABLEAU DE DONNÉES */
+.table-container {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
   overflow: hidden;
 }
 
-.absences-table {
+table {
   width: 100%;
   border-collapse: collapse;
   text-align: left;
+  font-size: 14px;
 }
 
-.absences-table th {
+th {
+  color: #64748b;
+  font-size: 11px;
   padding: 16px 24px;
-  font-size: 12px;
+  border-bottom: 1px solid #f1f5f9;
   font-weight: 700;
-  color: #6b7280;
   letter-spacing: 0.05em;
-  border-bottom: 1px solid #e5e7eb;
 }
 
-.absences-table td {
+td {
   padding: 20px 24px;
-  font-size: 15px;
-  border-bottom: 1px solid #f3f4f6;
-  color: #374151;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
 }
 
-.absences-table tr:last-child td {
+tr:last-child td {
   border-bottom: none;
 }
 
-.text-muted {
-  color: #9ca3af;
+td strong {
+  color: #0f172a;
+  font-weight: 700;
 }
 
-/* BADGES */
-.badge {
-  padding: 6px 12px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  display: inline-block;
-}
-
-.badge-danger {
-  background: #fef2f2;
-  color: #dc2626;
-  border: 1px dashed #fca5a5;
-}
-
-/* ACTIONS */
-.actions-cell {
+.action-buttons {
   display: flex;
   gap: 8px;
 }
 
-.btn-action {
+.btn-edit {
+  background-color: #eff6ff;
+  color: #2563eb;
   border: none;
+  padding: 6px 12px;
   border-radius: 6px;
-  padding: 7px 12px;
-  font-size: 13px;
-  font-weight: 500;
   cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
   display: flex;
   align-items: center;
-  gap: 6px;
-}
-
-.btn-edit {
-  background: #eef2ff;
-  color: #2563eb;
+  gap: 5px;
+  transition: background 0.2s ease;
 }
 
 .btn-edit:hover {
-  background: #dbe4ff;
+  background-color: #dbeafe;
 }
 
 .btn-delete {
-  background: #fef2f2;
-  color: #dc2626;
+  background-color: #fef2f2;
+  color: #ef4444;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.2s ease;
 }
 
 .btn-delete:hover {
-  background: #fee2e2;
+  background-color: #fee2e2;
 }
-
-  
-  </style>
-
-  <div class="layout">
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-logo">É</div>
-        <div class="brand-text">
-          <span class="brand-name">EcoleAdmin</span>
-          <span class="brand-year">2025–2026</span>
-        </div>
+    </style>
+   
+  <!-- BARRE LATÉRALE (SIDEBAR) -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">É</div>
+      <div>
+        <div class="brand-title">ABSENCES</div>
+        <div class="brand-sub">2025–2026</div>
       </div>
-
-      <nav class="nav">
-        <span class="nav-title">NAVIGATION</span>
-        <ul class="nav-list">
-          <li><a class="nav-item" href="/dashboard-admin"><i
-                class="fa-solid fa-users"></i><span>Utilisateurs</span></a></li>
-          <li><a class="nav-item" href="/dashboard-etudiant"><i
-                class="fa-solid fa-user-graduate"></i><span>Étudiants</span></a></li>
-          <li><a class="nav-item" href="/dashboard-prof"><i
-                class="fa-solid fa-chalkboard-user"></i><span>Professeurs</span></a></li>
-          <li><a class="nav-item" href="/matieres"><i class="fa-solid fa-book-open"></i><span>Matières</span></a>
-          </li>
-          <li><a class="nav-item" href="/notes"><i class="fa-solid fa-file-signature"></i><span>Notes</span></a></li>
-          <li><a class="nav-item active" href="/absences"><i
-                class="fa-solid fa-calendar-days"></i><span>Absences</span></a></li>
-          <li><a class="nav-item" href="/statistiques"><i
-                class="fa-solid fa-chart-simple"></i><span>Statistiques</span></a></li>
-        </ul>
-      </nav>
-
-      <div class="sidebar-footer">
-        <div class="admin-avatar">A</div>
-        <div class="admin-info">
-          <span class="admin-name">Administrateur</span>
-          <span class="admin-email">admin@ecole.dz</span>
-        </div>
-      </div>
-    </aside>
-
-    <!-- MAIN CONTENT -->
-    <div class="main">
-
-      <!-- TOPBAR -->
-      <header class="topbar">
-        <div class="topbar-title">
-          <i class="fa-solid fa-calendar-days icon-title"></i>
-          <h1>Absences</h1>
-        </div>
-        <div class="topbar-right">
-          <span class="topbar-date">Lun 03 Août 2026</span>
-          <span class="status-dot"></span>
-        </div>
-      </header>
-
-      <!-- CONTENT -->
-      <main class="content">
-
-        <div class="content-header">
-          <div>
-            <h2>Absences</h2>
-            <p class="subtitle">8 absences enregistrées · 5 non justifiées</p>
-          </div>
-          <button class="btn-primary">+ Signaler une absence</button>
-        </div>
-
-        <!-- CARTES DE RÉSUMÉ -->
-        <div class="summary-grid">
-          <div class="summary-card">
-            <div class="icon-box warning-box">
-              <i class="fa-solid fa-triangle-exclamation"></i>
-            </div>
-            <div class="card-info">
-              <span class="card-val">5</span>
-              <span class="card-label">Non justifiées</span>
-            </div>
-          </div>
-
-          <div class="summary-card">
-            <div class="icon-box success-box">
-              <i class="fa-solid fa-square-check"></i>
-            </div>
-            <div class="card-info">
-              <span class="card-val">3</span>
-              <span class="card-label">Justifiées</span>
-            </div>
-          </div>
-
-          <div class="summary-card">
-            <div class="icon-box neutral-box">
-              <i class="fa-solid fa-stopwatch"></i>
-            </div>
-            <div class="card-info">
-              <span class="card-val">19</span>
-              <span class="card-label">nombre d'absences</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- TABLEAU DES ABSENCES -->
-        <div class="table-wrapper">
-          <table class="absences-table">
-            <thead>
-              <tr>
-                <th>ÉTUDIANT</th>
-                <th>CLASSE</th>
-                <th>MATIÈRE</th>
-                <th>DATE</th>
-                <th>ACTIONS</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td><strong>Rahmani Sonia</strong></td>
-                <td>3ème B</td>
-                <td>Mathématiques</td>
-                <td class="text-muted">28/10/2025</td>
-                <td>
-                  <div class="actions-cell">
-                    <button class="btn-action btn-edit"><i class="fa-solid fa-pen"></i>Modifier</button>
-                    <button class="btn-action btn-delete"><i class="fa-solid fa-trash"></i>Supprimer</button>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td><strong>Larbi Sofiane</strong></td>
-                <td>1ère A</td>
-                <td>Français</td>
-                <td class="text-muted">03/11/2025</td>
-                <td>
-                  <div class="actions-cell">
-                    <button class="btn-action btn-edit"><i class="fa-solid fa-pen"></i>Modifier</button>
-                    <button class="btn-action btn-delete"><i class="fa-solid fa-trash"></i>Supprimer</button>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-      </main>
-
     </div>
 
-  </div>
+    <div class="menu-title">NAVIGATION</div>
 
+    <nav class="menu">
+      <a href="/dashboard-admin" class="menu-item"><i class="fa-solid fa-users"></i> Utilisateurs</a>
+      <a href="/dashboard-etudiant" class="menu-item"><i class="fa-solid fa-user-graduate"></i> Étudiants</a>
+      <a href="/dashboard-prof" class="menu-item"><i class="fa-solid fa-chalkboard-user"></i> Professeurs</a>
+      <a href="/matieres" class="menu-item"><i class="fa-solid fa-book-open"></i> Matières</a>
+      <a href="/notes" class="menu-item"><i class="fa-solid fa-pen-to-square"></i> Notes</a>
+      <a href="/absences" class="menu-item active"><i class="fa-solid fa-calendar-days"></i> Absences</a>
+      <a href="/statistiques" class="menu-item"><i class="fa-solid fa-chart-column"></i> Statistiques</a>
+      <a href="/profil" class="menu-item"><i class="fa-solid fa-id-card"></i>Mon Profil</a>
+    </nav>
 
+    <div class="user-profile">
+      <div class="avatar">A</div>
+      <div class="user-info">
+        <div class="user-name">Administrateur</div>
+        <div class="user-role">admin@ecole.dz</div>
+      </div>
+      <i class="fa-solid fa-right-from-bracket logout-icon"></i>
+    </div>
+  </aside>
 
+  <!-- CONTENU PRINCIPAL -->
+  <main class="main-content">
+    
+    <!-- EN-TÊTE HAUT -->
+    <header class="top-header">
+      <div class="top-title">
+        <i class="fa-solid fa-calendar-days"></i> Absences
+      </div>
+      <div class="top-date">
+        Lun 03 Août 2026 <span class="status-dot"></span>
+      </div>
+    </header>
+
+    <!-- EN-TÊTE PAGE + BOUTON -->
+    <div class="page-header">
+      <div>
+        <h1>Absences</h1>
+        <p class="subtitle">8 absences enregistrées · 5 non justifiées</p>
+      </div>
+      <button class="btn-primary"><i class="fa-solid fa-plus"></i> Signaler une absence</button>
+    </div>
+
+    <!-- CARTES DE RÉSUMÉ -->
+    <div class="summary-cards">
+      <div class="card">
+        <div class="card-icon warning">
+          <i class="fa-solid fa-triangle-exclamation"></i>
+        </div>
+        <div class="card-content">
+          <span class="card-value">5</span>
+          <span class="card-label">Non justifiées</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon success">
+          <i class="fa-solid fa-square-check"></i>
+        </div>
+        <div class="card-content">
+          <span class="card-value">3</span>
+          <span class="card-label">Justifiées</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon neutral">
+          <i class="fa-solid fa-stopwatch"></i>
+        </div>
+        <div class="card-content">
+          <span class="card-value">19</span>
+          <span class="card-label">nombre d'absences</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLEAU DES ABSENCES -->
+    <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>ÉTUDIANT</th>
+            <th>CLASSE</th>
+            <th>MATIÈRE</th>
+            <th>DATE</th>
+            <th>ACTIONS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Rahmani Sonia</strong></td>
+            <td>3ème B</td>
+            <td>Mathématiques</td>
+            <td>28/10/2025</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-edit"><i class="fa-solid fa-pen"></i> Modifier</button>
+                <button class="btn-delete"><i class="fa-solid fa-trash"></i> Supprimer</button>
+              </div>
+            </td>
+          </tr>
+
+          <tr>
+            <td><strong>Larbi Sofiane</strong></td>
+            <td>1ère A</td>
+            <td>Français</td>
+            <td>03/11/2025</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-edit"><i class="fa-solid fa-pen"></i> Modifier</button>
+                <button class="btn-delete"><i class="fa-solid fa-trash"></i> Supprimer</button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </main>
+
+   <script src="/js/authGuard.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/absences.js"></script>
 </body>
-
 </html>

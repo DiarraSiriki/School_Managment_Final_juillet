@@ -18,13 +18,12 @@ router.use(verifyToken);
 
 
 router.get('/search', checkRole(['admin', 'teacher']), chercherEtudiant);
-router.get('/me', checkRole(['student']), getMonProfilEtudiant);
-router.get('/matricule/:matricule', checkRole(['admin', 'teacher', 'student']), getEtudiantParMatricule);
+router.get('/me', checkRole(['student', 'admin']), getMonProfilEtudiant);
+router.get('/matricule/:matricule', checkRole(['admin', 'teacher']), getEtudiantParMatricule);
 
 
 router.get('/', checkRole(['admin', 'teacher']), getEtudiants);
-router.get('/:id', checkRole(['admin', 'teacher', 'student']), getEtudiantParId);
-
+router.get('/:id', checkRole(['admin', 'teacher']), getEtudiantParId);
 
 router.post('/', checkRole(['admin']), ajouterEtudiant);
 router.put('/:id', checkRole(['admin']), modifierEtudiant);

@@ -1,12 +1,9 @@
 import {
-    getGeneralAverage,
-    getBestStudent,
-    getRankings,
-    countAbsencesByStudent,
-    countAllAbsences,
-    getAllStats
+    getGeneralAverage, getBestStudent,
+     getRankings,countAbsencesByStudent,
+    countAllAbsences, getAllStats
 } from '../services/statsService.js';
-
+import { getStudentByUserId } from '../services/studentService.js';
 
 // Récupère la moyenne générale de l'établissement
 
@@ -73,6 +70,14 @@ const getStatsAbsencesGlobales = (req, res) => {
 
 const getStatsAbsencesParEtudiant = (req, res) => {
     const student_id = req.params.student_id;
+
+   
+    if (req.user.role === 'student') {
+        const me = getStudentByUserId(req.user.id);
+        if (!me || String(me.id) !== String(student_id)) {
+            return res.status(403).json({ error: "Vous ne pouvez voir que vos propres statistiques d'absences." });
+        }
+    }
 
     try {
         const stats = countAbsencesByStudent(student_id);

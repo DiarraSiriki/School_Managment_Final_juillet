@@ -8,6 +8,7 @@ import {
   getStudentById,
   getStudentByUserId
 } from '../services/studentService.js';
+
 import logger from '../utils/logger.js';
 
 const getEtudiants = (req, res) => {

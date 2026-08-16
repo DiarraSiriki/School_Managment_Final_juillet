@@ -1,12 +1,10 @@
 import {
-    addGrade,
-    updateGrade,
-    removeGrade,
-    listGrades,
-    getGradeById,
-    getStudentGrades,
-    calculateAverage
-} from '../services/gradeService.js';
+    addGrade,updateGrade,
+    removeGrade,listGrades,
+    getGradeById,getStudentGrades,
+    calculateAverage } from '../services/gradeService.js';
+import { getTeacherByUserId } from '../services/teacherService.js';
+import { getSubjectById } from '../services/matiereService.js';
 import { getStudentByUserId } from '../services/studentService.js';
 
  // Récupère la liste de toutes les notes
@@ -23,15 +21,25 @@ const getNotes = (req, res) => {
 
 
  // Récupère une note spécifique par son ID
- 
+  
  const getNoteParId = (req, res) => {
     const { id } = req.params;
 
     try {
+       
         const grade = getGradeById(id);
         if (!grade) {
             return res.status(404).json({ error: "Note introuvable." });
         }
+
+        if (req.user.role === 'student') {
+            const me = getStudentByUserId(req.user.id);
+
+            if (!me || String(me.id) !== String(grade.student_id)) {
+                return res.status(403).json({ error: "Vous ne pouvez voir que vos propres notes." });
+            }
+        }
+ 
         return res.json(grade);
     } catch (error) {
         console.error("[ERREUR GET NOTE BY ID]", error);
@@ -44,13 +52,19 @@ const getNotes = (req, res) => {
  
  const getNotesParEtudiant = (req, res) => {
     const { student_id } = req.params;
-  
+
+    if (req.user.role === 'student') {
+        const me = getStudentByUserId(req.user.id);
+        if (!me || String(me.id) !== String(student_id)) {
+            return res.status(403).json({ error: 'Vous ne pouvez voir que vos propres notes.' });
+        }
+    }
+
     try {
         const grades = getStudentGrades(student_id);
         return res.json(grades);
     } catch (error) {
-        console.error("[ERREUR GET NOTES ETUDIANT]", error);
-        return res.status(500).json({ error: "Impossible de récupérer les notes de cet étudiant." });
+        // ...
     }
 };
 
@@ -59,6 +73,15 @@ const getNotes = (req, res) => {
  const getMoyenneEtudiant = (req, res) => {
     const { student_id } = req.params;
 
+   
+    if (req.user.role === 'student') {
+        const me = getStudentByUserId(req.user.id);
+        if (!me || String(me.id) !== String(student_id)) {
+            return res.status(403).json({ error: 'Vous ne pouvez voir que votre propre moyenne.' });
+        }
+    } 
+
+    
     try {
         const average = calculateAverage(student_id);
         return res.json({
@@ -72,22 +95,35 @@ const getNotes = (req, res) => {
     }
 };
 
-
  // Ajoute une nouvelle note à un étudiant
-
- const ajouterNote = (req, res) => {
+const ajouterNote = (req, res) => {
     const { student_id, subject_id, note } = req.body;
 
+
+    uis
     if (student_id === undefined || subject_id === undefined || note === undefined) {
         return res.status(400).json({ 
             error: "Tous les champs (student_id, subject_id, note) sont requis." 
         });
     }
 
-    if (note < 0 || note > 20) {
-        return res.status(400).json({ error: "La note doit être comprise entre 0 et 20." });
+   
+    if (typeof note !== 'number' || note < 0 || note > 20) {
+        return res.status(400).json({ error: "La note doit être un nombre compris entre 0 et 20." });
     }
 
+    
+    if (req.user.role === 'teacher') {
+        const monProfil = getTeacherByUserId(req.user.id);
+        const matiere = getSubjectById(subject_id);
+
+        
+        if (!monProfil || !matiere || String(matiere.teacher_id) !== String(monProfil.id)) {
+            return res.status(403).json({ error: "Vous ne pouvez ajouter des notes que pour vos propres matières." });
+        }
+    }
+
+   
     try {
         const gradeId = addGrade(student_id, subject_id, note);
         return res.status(201).json({
@@ -101,6 +137,7 @@ const getNotes = (req, res) => {
     }
 };
 
+
 // Mettre à jour une note existante
 
 const modifierNote = (req, res) => {
@@ -110,6 +147,18 @@ const modifierNote = (req, res) => {
     if (note === undefined) {
         return res.status(400).json({ error: "La nouvelle valeur de la note est requise." });
     }
+
+     if (req.user.role === 'teacher') {
+         const noteExistante = getGradeById(id);
+        if (!noteExistante) {
+                 return res.status(404).json({ error: "Note introuvable." });
+        }
+        const monProfil = getTeacherByUserId(req.user.id);
+        const matiere = getSubjectById(noteExistante.subject_id);
+        if (!monProfil || !matiere || matiere.teacher_id !== monProfil.id) {
+           return res.status(403).json({ error: "Vous ne pouvez modifier que les notes de vos propres matières." });
+        }
+     }
 
     if (note < 0 || note > 20) {
         return res.status(400).json({ error: "La note doit être comprise entre 0 et 20." });

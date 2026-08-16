@@ -17,11 +17,10 @@ const router = express.Router();
 router.use(verifyToken);
 
 
-router.get('/', checkRole(['admin', 'teacher']), getStats);
+// + router.get('/', checkRole(['admin']), getStats);
 router.get('/average', checkRole(['admin', 'teacher']), getMoyenneGenerale);
 router.get('/rankings', checkRole(['admin', 'teacher']), getClassement);
 router.get('/best-student', checkRole(['admin', 'teacher']), getMeilleurEtudiant);
 router.get('/absences', checkRole(['admin', 'teacher']), getStatsAbsencesGlobales);
-router.get('/absences/student/:student_id', checkRole(['admin', 'teacher', 'student']), getStatsAbsencesParEtudiant);
-
+router.get('/absences/student/:student_id', checkRole(['admin', 'teacher']), getStatsAbsencesParEtudiant);
 export default router;

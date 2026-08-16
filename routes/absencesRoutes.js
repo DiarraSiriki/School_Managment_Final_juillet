@@ -18,14 +18,14 @@ const router = express.Router();
 router.use(verifyToken);
 
 
+// CONSULTATION
 router.get('/', checkRole(['admin', 'teacher']), getHistoriqueAbsences);
 router.get('/student/:student_id', checkRole(['admin', 'teacher', 'student']), getHistoriqueEtudiant);
 
-
-router.post('/', checkRole(['admin', 'teacher']), ajouterAbsence);
-router.put('/:id/status', checkRole(['admin', 'teacher']), modifierStatutAbsence);
-router.patch('/:id/justify', checkRole(['admin', 'teacher']), justifierAbsence);
-router.patch('/:id/unjustify', checkRole(['admin', 'teacher']), injustifierAbsence);
+// GESTION → Admin uniquement
+router.post('/', checkRole(['admin']), ajouterAbsence);
+router.put('/:id/status', checkRole(['admin']), modifierStatutAbsence);
+router.patch('/:id/justify', checkRole(['admin']), justifierAbsence);
+router.patch('/:id/unjustify', checkRole(['admin']), injustifierAbsence);
 router.delete('/:id', checkRole(['admin']), supprimerAbsence);
-
 export default router;

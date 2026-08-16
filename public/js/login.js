@@ -5,40 +5,23 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     const mot_passe = document.getElementById('password').value;
 
     try {
-        // 1. Appel via le module centralisé API.js
         const result = await API.auth.login({ email, mot_passe });
 
         if (result.success || result.token) {
-            const rawRole = result.user?.role ? String(result.user.role).trim().toLowerCase() : '';
-            const normalizedRoleMap = {
-                admin: 'Admin',
-                administrateur: 'Admin',
-                teacher: 'Prof',
-                professeur: 'Prof',
-                prof: 'Prof',
-                student: 'Etudiant',
-                etudiant: 'Etudiant',
-                eleve: 'Etudiant'
-            };
-            const formattedRole = normalizedRoleMap[rawRole] || '';
-
-            const userToStore = {
-                ...result.user,
-                role: formattedRole || result.user.role
-            };
+           
+            const role = result.user?.role;
 
             localStorage.setItem('token', result.token);
-            localStorage.setItem('user', JSON.stringify(userToStore));
+            localStorage.setItem('user', JSON.stringify(result.user));
 
             const redirectMap = {
-                Admin: '/dashboard-admin',
-                Prof: '/dashboard-prof',
-                Etudiant: '/dashboard-etudiant'
+                admin: '/dashboard-admin',
+                teacher: '/dashboard-prof',
+                student: '/dashboard-etudiant'
             };
 
-            const targetPath = redirectMap[formattedRole] || '/';
-            if (formattedRole && redirectMap[formattedRole]) {
-                window.location.href = targetPath;
+            if (role && redirectMap[role]) {
+                window.location.href = redirectMap[role];
             } else {
                 alert("Rôle utilisateur inconnu.");
             }

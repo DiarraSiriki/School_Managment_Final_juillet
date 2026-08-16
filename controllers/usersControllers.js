@@ -1,4 +1,4 @@
-import { addUser, removeUser, listUsers } from '../services/userService.js';
+import { addUser, removeUser, listUsers,updateUser } from '../services/userService.js';
 
 // Récupère la liste de tous les utilisateurs
 const getUtilisateurs = (req, res) => {
@@ -51,6 +51,30 @@ const ajouterUtilisateur = (req, res) => {
     }
 };
 
+// Modifie un utilisateur existant par son ID
+const modifierUtilisateur = (req, res) => {
+    const { id } = req.params;
+    const { name, role, email, mot_passe, matricule } = req.body;
+
+    if (!name || !role || !email) {
+        return res.status(400).json({ error: "Les champs name, role et email sont requis." });
+    }
+
+    try {
+        const estModifie = updateUser(id, name, role, email, mot_passe, matricule);
+
+        if (!estModifie) {
+            return res.status(404).json({ error: "Utilisateur introuvable." });
+        }
+
+        return res.json({ success: true, message: "Utilisateur modifié avec succès." });
+    } catch (error) {
+        console.error("[ERREUR MODIFICATION UTILISATEUR]", error.message);
+        return res.status(400).json({ error: error.message });
+    }
+};
+
+
 // Supprime un utilisateur par son ID
 const supprimerUtilisateur = (req, res) => {
     const id = req.params.id;
@@ -73,5 +97,7 @@ export {
     getUtilisateurs,
     getUtilisateurParMatricule,
     ajouterUtilisateur,
-    supprimerUtilisateur
+    supprimerUtilisateur,
+    modifierUtilisateur
+
 };

@@ -5,15 +5,15 @@ const AuthGuard = {
     return userJson ? JSON.parse(userJson) : null;
   },
 
-  //  Récupère uniquement le rôle ('Admin', 'Prof', 'Etudiant')
+  // Récupère le rôle réel stocké en base : 'admin', 'teacher', 'student'
   getRole() {
     const user = this.getUser();
     return user ? user.role : null;
-  }, 
+  },
 
-  //  Matrice des permissions
+  // Matrice des permissions (clés alignées sur les vrais rôles de la BDD)
   permissions: {
-    Admin: [
+    admin: [
       'gerer_utilisateurs',
       'gerer_etudiants',
       'gerer_professeurs',
@@ -21,51 +21,115 @@ const AuthGuard = {
       'gerer_notes',
       'gerer_absences'
     ],
-    Prof: [
+    teacher: [
       'consulter_etudiants',
       'consulter_matieres',
       'ajouter_notes',
       'modifier_notes',
       'consulter_absences'
     ],
-    Etudiant: [
+    student: [
       'voir_ses_notes',
       'voir_ses_absences'
     ]
   },
 
-  //  Vérifie si le rôle actuel possède une permission spécifique
+  // Vérifie si le rôle actuel possède une permission spécifique
   can(permission) {
     const role = this.getRole();
     if (!role || !this.permissions[role]) return false;
     return this.permissions[role].includes(permission);
-  }, 
+  },
 
- 
-  applyUI() {
+  // NOUVEAU : bloque l'accès à toute la page si le rôle n'est pas autorisé.
+  // Contrat : <body data-roles="admin,teacher"> = rôles ayant le droit d'être ICI.
+  checkPageAccess() {
     const role = this.getRole();
 
-   
     if (!role) {
-      window.location.href = '/login.html';
-      return;
+      window.location.href = '/';
+      return false;
     }
 
-    // Parcourt tous les éléments HTML avec l'attribut data-perm
+    const allowedRolesAttr = document.body.getAttribute('data-roles');
+    if (allowedRolesAttr) {
+      const allowedRoles = allowedRolesAttr.split(',').map(r => r.trim());
+      if (!allowedRoles.includes(role)) {
+        const redirects = {
+          admin: '/dashboard-admin',
+          teacher: '/dashboard-prof',
+          student: '/dashboard-etudiant'
+        };
+        window.location.href = redirects[role] || '/';
+        return false;
+      }
+    }
+    return true;
+  },
+
+  applyUI() {
     document.querySelectorAll('[data-perm]').forEach(element => {
       const requiredPerm = element.getAttribute('data-perm');
-      
-      // Si l'utilisateur n'a pas la permission, on cache le bouton/lien
       if (!this.can(requiredPerm)) {
         element.style.display = 'none';
       }
     });
+  },
+
+  // Libellés lisibles pour chaque rôle
+  roleLabels: {
+    admin: 'Administrateur',
+    teacher: 'Professeur',
+    student: 'Étudiant'
+  },
+
+  // Construit les initiales à partir du nom (ex: "Awa Koné" -> "AK")
+  getInitials(name) {
+    if (!name) return '?';
+    const parts = name.trim().split(/\s+/);
+    const initials = parts.slice(0, 2).map(p => p[0]?.toUpperCase() || '').join('');
+    return initials || '?';
+  },
+
+  // Remplit le bloc .sidebar-footer présent sur toutes les pages (avatar, nom, rôle),
+  // le rend cliquable vers /profil, et ajoute un bouton de déconnexion.
+  renderUserWidget() {
+    const footer = document.querySelector('.sidebar-footer');
+    if (!footer) return;
+
+    const user = this.getUser();
+    if (!user) return;
+
+    const initials = this.getInitials(user.name);
+    const roleLabel = this.roleLabels[user.role] || user.role;
+
+    footer.innerHTML = `
+      <a href="/profil" class="sidebar-footer-link" title="Voir mon profil">
+        <div class="admin-avatar">${initials}</div>
+        <div class="admin-info">
+          <span class="admin-name">${user.name || 'Utilisateur'}</span>
+          <span class="admin-email">${roleLabel}</span>
+        </div>
+      </a>
+      <button type="button" class="logout-btn" id="logoutBtn" title="Se déconnecter">
+        <i class="fa-solid fa-right-from-bracket"></i>
+      </button>
+    `;
+
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        if (confirm('Voulez-vous vraiment vous déconnecter ?')) {
+          API.auth.logout();
+        }
+      });
+    }
   }
-}; 
-
-
-
+};
 
 document.addEventListener('DOMContentLoaded', () => {
-  AuthGuard.applyUI();
+  if (AuthGuard.checkPageAccess()) {
+    AuthGuard.applyUI();
+    AuthGuard.renderUserWidget();
+  }
 });

@@ -25,11 +25,11 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(join(__dirname, 'public')));
+app.use(express.static(join(__dirname, 'public'), { index: false }));
 
 
 app.get('/', (req, res) => {
-    res.sendFile(join(__dirname, 'public', 'index.html'));
+    res.sendFile(join(__dirname, 'public', 'login.html'));
 });
 
 // Mapping des alias pour les pages HTML
@@ -40,7 +40,7 @@ app.get('/absences', (req, res) => res.sendFile(join(__dirname, 'public', 'html'
 app.get('/matieres', (req, res) => res.sendFile(join(__dirname, 'public', 'html', 'matieres.html')));
 app.get('/notes', (req, res) => res.sendFile(join(__dirname, 'public', 'html', 'notes.html')));
 app.get('/statistiques', (req, res) => res.sendFile(join(__dirname, 'public', 'html', 'statistiques.html')));
-
+app.get('/mon-profil', (req, res) => res.sendFile(join(__dirname, 'public', 'html', 'mon-profil.html')));
 
 
 
@@ -54,7 +54,8 @@ const htmlRouteMap = {
     'matières.html': '/matieres',
     'notes.html': '/notes',
     'statistiques.html': '/statistiques',
-    'utilisateurs.html': '/utilisateurs'
+    'utilisateurs.html': '/utilisateurs',
+    'mon-profil.html': '/mon-profil'
 };
 
 app.get('/HTML/:page', (req, res) => {
@@ -74,7 +75,6 @@ app.use('/api/grades', gradesRoutes);
 app.use('/api/absences', absenceRoutes);
 app.use('/api/stats', statsRoutes);
 
-// Route de diagnostic (Health Check)
 app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', message: 'API School Management fonctionnelle' });
 });

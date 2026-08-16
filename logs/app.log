@@ -329,3 +329,62 @@
 [2026-08-13 22:09:44] [INFO] Connexion réussie: admin@gmail.com (role: admin)
 [2026-08-13 23:52:44] [INFO] Tentative de connexion: admin@gmail.com
 [2026-08-13 23:52:44] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-14 10:26:49] [INFO] Tentative de connexion: regis@gmail.com
+[2026-08-14 10:26:49] [INFO] Connexion réussie: regis@gmail.com (role: teacher)
+[2026-08-14 11:30:55] [INFO] Tentative de connexion: regis@gmail.com
+[2026-08-14 11:30:55] [INFO] Connexion réussie: regis@gmail.com (role: teacher)
+[2026-08-14 11:31:09] [INFO] Tentative de connexion: regis@gmail.com
+[2026-08-14 11:31:09] [INFO] Connexion réussie: regis@gmail.com (role: teacher)
+[2026-08-14 11:31:52] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-14 11:31:52] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-14 11:38:31] [INFO] Tentative de connexion: regis@gmail.com
+[2026-08-14 11:38:31] [INFO] Connexion réussie: regis@gmail.com (role: teacher)
+[2026-08-14 11:38:46] [INFO] Tentative de connexion: regis@gmail.com
+[2026-08-14 11:38:46] [INFO] Connexion réussie: regis@gmail.com (role: teacher)
+[2026-08-14 11:41:01] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-14 11:41:01] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-14 11:50:57] [INFO] Tentative de connexion: admin@gamil.com
+[2026-08-14 11:50:57] [WARN] Connexion échouée (identifiants incorrects): admin@gamil.com
+[2026-08-14 11:51:40] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-14 11:51:40] [WARN] Connexion échouée (identifiants incorrects): admin@gmail.com
+[2026-08-14 11:54:03] [INFO] Tentative de connexion: admin@gmail.Com
+[2026-08-14 11:54:03] [INFO] Connexion réussie: admin@gmail.Com (role: admin)
+[2026-08-14 11:54:51] [INFO] Tentative de connexion: regis@gmail.com
+[2026-08-14 11:54:51] [INFO] Connexion réussie: regis@gmail.com (role: teacher)
+[2026-08-14 12:09:44] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-14 12:09:44] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-14 16:37:43] [INFO] Tentative de connexion: admin@mail.com
+[2026-08-14 16:37:43] [WARN] Connexion échouée (identifiants incorrects): admin@mail.com
+[2026-08-14 16:38:15] [INFO] Tentative de connexion: regis@gmail.com
+[2026-08-14 16:38:15] [INFO] Connexion réussie: regis@gmail.com (role: teacher)
+[2026-08-14 16:39:13] [INFO] Tentative de connexion: admin@mail.com
+[2026-08-14 16:39:13] [WARN] Connexion échouée (identifiants incorrects): admin@mail.com
+[2026-08-14 16:40:16] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-14 16:40:16] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-15 00:38:39] [INFO] Tentative de connexion: regis@gmail.com
+[2026-08-15 00:38:39] [INFO] Connexion réussie: regis@gmail.com (role: teacher)
+[2026-08-15 00:38:59] [INFO] Déconnexion: regis@gmail.com (role: teacher)
+[2026-08-15 00:39:17] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-15 00:39:17] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-15 00:50:24] [INFO] Déconnexion: admin@gmail.com (role: admin)
+[2026-08-15 00:50:37] [INFO] Tentative de connexion: regis@gmail.com
+[2026-08-15 00:50:37] [INFO] Connexion réussie: regis@gmail.com (role: teacher)
+[2026-08-15 00:53:30] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-15 00:53:30] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-15 01:07:38] [INFO] Déconnexion: admin@gmail.com (role: admin)
+[2026-08-15 01:10:30] [INFO] Tentative de connexion: regis@gmail.com
+[2026-08-15 01:10:30] [INFO] Connexion réussie: regis@gmail.com (role: teacher)
+[2026-08-15 01:14:22] [INFO] Déconnexion: regis@gmail.com (role: teacher)
+[2026-08-15 01:14:36] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-15 01:14:36] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-15 02:25:09] [INFO] Tentative de connexion: regis@gmail.com
+[2026-08-15 02:25:09] [INFO] Connexion réussie: regis@gmail.com (role: teacher)
+[2026-08-15 02:27:35] [INFO] Déconnexion: regis@gmail.com (role: teacher)
+[2026-08-15 02:27:52] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-15 02:27:52] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-15 02:47:51] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-15 02:47:51] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-15 16:50:45] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-15 16:50:45] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-15 17:36:09] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-15 17:36:09] [INFO] Connexion réussie: admin@gmail.com (role: admin)
