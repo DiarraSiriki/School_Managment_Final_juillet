@@ -90,8 +90,8 @@ const API = {
 
   admin: {
      getUsers: () => API.get('/users'),
-     getUserByMatricule: (matricule) => API.get(`/users/matricule/${matricule}`),
     createUser: (userData) => API.post('/users', userData),
+    updateUser: (id, userData) => API.put(`/users/${id}`, userData),
     deleteUser: (id) => API.delete(`/users/${id}`)
   },
 
@@ -105,4 +105,3 @@ const API = {
     delete: (id) => API.delete(`/students/${id}`)
   }
 };
-

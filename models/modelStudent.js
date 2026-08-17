@@ -3,24 +3,7 @@ import logger from '../utils/logger.js';
 
 class Student {
  
-  static generateMatricule() {
-    let matricule = '';
-    let isUnique = false;
-    const year = new Date().getFullYear();
-
-    while (!isUnique) {
-      const randomCode = Math.random().toString(36).substring(2, 6).toUpperCase();
-      matricule = `ETU-${year}-${randomCode}`;
-
-      // Vérifie l'unicité en base de données
-      const existing = Student.getByMatricule(matricule);
-      if (!existing) {
-        isUnique = true;
-      }
-    }
-
-    return matricule;
-  }
+  
 
   static create(matricule, nom, prenom, age, classe, user_id = null) {
     try {

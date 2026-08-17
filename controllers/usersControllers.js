@@ -1,103 +1,98 @@
-import { addUser, removeUser, listUsers,updateUser } from '../services/userService.js';
 
-// Récupère la liste de tous les utilisateurs
+import {
+  addUser,
+  removeUser,
+  listUsers,
+  updateUser,
+  getUserById
+} from '../services/userService.js';
+
 const getUtilisateurs = (req, res) => {
-    try {
-        const users = listUsers();
-        return res.json(users);
-    } catch (error) {
-        console.error("[ERREUR GET UTILISATEURS]", error);
-        return res.status(500).json({ error: "Impossible de récupérer les utilisateurs." });
-    }
+  try {
+    const users = listUsers();
+    return res.json(users);
+  } catch (error) {
+    console.error('[ERREUR GET UTILISATEURS]', error);
+    return res.status(500).json({ error: 'Impossible de récupérer les utilisateurs.' });
+  }
 };
 
-// Récupère un utilisateur spécifique par son matricule
-const getUtilisateurParMatricule = (req, res) => {
-    const { matricule } = req.params;
-
-    try {
-        const user = getUserByMatricule(matricule);
-        if (!user) {
-            return res.status(404).json({ error: "Aucun utilisateur trouvé avec ce matricule." });
-        }
-        return res.json(user);
-    } catch (error) {
-        console.error("[ERREUR GET MATRICULE]", error);
-        return res.status(500).json({ error: "Erreur lors de la recherche par matricule." });
+const getUtilisateurParId = (req, res) => {
+  try {
+    const user = getUserById(req.params.id);
+    if (!user) {
+      return res.status(404).json({ error: 'Utilisateur introuvable.' });
     }
+    return res.json(user);
+  } catch (error) {
+    console.error('[ERREUR GET UTILISATEUR]', error);
+    return res.status(500).json({ error: 'Erreur lors de la récupération.' });
+  }
 };
 
-// Ajoute un nouvel utilisateur (génère ou enregistre le matricule)
 const ajouterUtilisateur = (req, res) => {
-    const { name, role, email, mot_passe, matricule } = req.body;
+  const { name, role, email, mot_passe } = req.body;
 
-    if (!name || !role || !email || !mot_passe) {
-        return res.status(400).json({ error: "Tous les champs requis (name, role, email, mot_passe) doivent être remplis." });
-    }
+  if (!name || !role || !email || !mot_passe) {
+    return res.status(400).json({
+      error: 'Tous les champs requis (name, role, email, mot_passe) doivent être remplis.'
+    });
+  }
 
-    try {
-        // addUser gère la création et le matricule
-        const newUser = addUser(name, role, email, mot_passe, matricule);
-        
-        return res.status(201).json({ 
-            success: true, 
-            message: "Utilisateur créé avec succès !",
-            id: newUser.userId || newUser, // S'adapte au type de retour (ID seul ou objet)
-            matricule: newUser.matricule || null
-        });
-    } catch (error) {
-        console.error("[ERREUR AJOUT UTILISATEUR]", error.message);
-        return res.status(400).json({ error: error.message });
-    }
+  try {
+    const newUser = addUser(name, role, email, mot_passe);
+    return res.status(201).json({
+      success: true,
+      message: 'Utilisateur créé avec succès !',
+      id: newUser.id
+    });
+  } catch (error) {
+    console.error('[ERREUR AJOUT UTILISATEUR]', error.message);
+    return res.status(400).json({ error: error.message });
+  }
 };
 
-// Modifie un utilisateur existant par son ID
 const modifierUtilisateur = (req, res) => {
-    const { id } = req.params;
-    const { name, role, email, mot_passe, matricule } = req.body;
+  const id = req.params.id;
+  const { name, role, email, mot_passe } = req.body;
 
-    if (!name || !role || !email) {
-        return res.status(400).json({ error: "Les champs name, role et email sont requis." });
+  if (!name && !role && !email && !mot_passe) {
+    return res.status(400).json({
+      error: 'Au moins un champ doit être fourni pour la mise à jour.'
+    });
+  }
+
+  try {
+    const ok = updateUser(id, name, role, email, mot_passe);
+    if (!ok) {
+      return res.status(404).json({ error: 'Utilisateur introuvable.' });
     }
-
-    try {
-        const estModifie = updateUser(id, name, role, email, mot_passe, matricule);
-
-        if (!estModifie) {
-            return res.status(404).json({ error: "Utilisateur introuvable." });
-        }
-
-        return res.json({ success: true, message: "Utilisateur modifié avec succès." });
-    } catch (error) {
-        console.error("[ERREUR MODIFICATION UTILISATEUR]", error.message);
-        return res.status(400).json({ error: error.message });
-    }
+    return res.json({ success: true, message: 'Utilisateur modifié avec succès.' });
+  } catch (error) {
+    console.error('[ERREUR MODIFICATION UTILISATEUR]', error.message);
+    return res.status(400).json({ error: error.message });
+  }
 };
 
-
-// Supprime un utilisateur par son ID
 const supprimerUtilisateur = (req, res) => {
-    const id = req.params.id;
+  const id = req.params.id;
 
-    try {
-        const estSupprime = removeUser(id);
-        
-        if (!estSupprime) {
-            return res.status(404).json({ error: "Utilisateur introuvable ou déjà supprimé." });
-        }
-        
-        return res.json({ success: true, message: "Utilisateur supprimé avec succès." });
-    } catch (error) {
-        console.error("[ERREUR SUPPRESSION UTILISATEUR]", error);
-        return res.status(500).json({ error: "Erreur lors de la suppression de l'utilisateur." });
+  try {
+    const ok = removeUser(id);
+    if (!ok) {
+      return res.status(404).json({ error: 'Utilisateur introuvable ou déjà supprimé.' });
     }
+    return res.json({ success: true, message: 'Utilisateur supprimé avec succès.' });
+  } catch (error) {
+    console.error('[ERREUR SUPPRESSION UTILISATEUR]', error);
+    return res.status(500).json({ error: "Erreur lors de la suppression de l'utilisateur." });
+  }
 };
 
 export {
-    getUtilisateurs,
-    getUtilisateurParMatricule,
-    ajouterUtilisateur,
-    supprimerUtilisateur,
-    modifierUtilisateur
-
+  getUtilisateurs,
+  getUtilisateurParId,
+  ajouterUtilisateur,
+  supprimerUtilisateur,
+  modifierUtilisateur
 };

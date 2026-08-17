@@ -1,3 +1,4 @@
+
 import Database from 'better-sqlite3';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -13,13 +14,13 @@ db.pragma('foreign_keys = ON');
 
 console.log(`Base de données connectée : ${dbPath}`);
 
-// 1. Table USERS (Uniquement les identifiants système : pas de matricule ici)
+// 1. Table USERS — identifiants système uniquement (pas de matricule)
 db.exec(`
   CREATE TABLE IF NOT EXISTS users (
     id        INTEGER PRIMARY KEY AUTOINCREMENT,
     name      TEXT    NOT NULL,
     role      TEXT    NOT NULL, -- 'admin', 'teacher', 'student'
-    email     TEXT    NOT NULL UNIQUE, 
+    email     TEXT    NOT NULL UNIQUE,
     mot_passe TEXT    NOT NULL
   )
 `);
@@ -36,7 +37,7 @@ db.exec(`
   )
 `);
 
-// 3. Table STUDENTS 
+// 3. Table STUDENTS — le matricule appartient ici
 db.exec(`
   CREATE TABLE IF NOT EXISTS students (
     id        INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -93,7 +94,7 @@ db.exec(`
   CREATE TABLE IF NOT EXISTS absences (
     id         INTEGER PRIMARY KEY AUTOINCREMENT,
     student_id INTEGER NOT NULL,
-    date       TEXT    NOT NULL, -- Format YYYY-MM-DD
+    date       TEXT    NOT NULL,
     status     TEXT    NOT NULL,
     FOREIGN KEY (student_id) REFERENCES students(id) ON DELETE CASCADE
   )

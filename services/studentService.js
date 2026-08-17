@@ -13,23 +13,22 @@ function addStudent(matricule, nom, prenom, age, classe_id, email, mot_passe) {
         }
     }
 
-    // 2. Vérification de l'existence de la classe
+  
     const classe = getClasseById(classe_id);
     if (!classe) {
         logger.warn(`Échec de l'ajout : La classe ID=${classe_id} n'existe pas.`);
         throw new Error(`La classe sélectionnée n'existe pas.`);
     }
 
-    // 3. Vérification de la capacité de la classe
     if (isClassFull(classe_id)) {
         logger.warn(`Échec de l'ajout : La classe "${classe.nom}" a atteint sa capacité maximale (${classe.capacite}).`);
         throw new Error(`Impossible d'ajouter l'étudiant : la classe "${classe.nom}" est pleine.`);
     }
 
-    // 4. Création du compte utilisateur associé
+    // Création du compte utilisateur associé
     const userId = addUser(`${prenom}_${nom}`, 'student', email, mot_passe);
 
-    // 5. Création de l'étudiant (Student.create génère le matricule si matricule est null/undefined)
+    // Création de l'étudiant (Student.create génère le matricule si matricule est null/undefined)
     const result = Student.create(matricule, nom, prenom, age, classe_id, userId);
     
     const studentId = result.lastInsertRowid; 

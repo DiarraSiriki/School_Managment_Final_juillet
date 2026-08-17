@@ -41,8 +41,7 @@ const AuthGuard = {
     return this.permissions[role].includes(permission);
   },
 
-  // NOUVEAU : bloque l'accès à toute la page si le rôle n'est pas autorisé.
-  // Contrat : <body data-roles="admin,teacher"> = rôles ayant le droit d'être ICI.
+ 
   checkPageAccess() {
     const role = this.getRole();
 
@@ -83,7 +82,7 @@ const AuthGuard = {
     student: 'Étudiant'
   },
 
-  // Construit les initiales à partir du nom (ex: "Awa Koné" -> "AK")
+ 
   getInitials(name) {
     if (!name) return '?';
     const parts = name.trim().split(/\s+/);
@@ -91,8 +90,7 @@ const AuthGuard = {
     return initials || '?';
   },
 
-  // Remplit le bloc .sidebar-footer présent sur toutes les pages (avatar, nom, rôle),
-  // le rend cliquable vers /profil, et ajoute un bouton de déconnexion.
+ 
   renderUserWidget() {
     const footer = document.querySelector('.sidebar-footer');
     if (!footer) return;
