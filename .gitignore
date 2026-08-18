@@ -13,5 +13,3 @@ config/
 # scripts
 scripts/
 
-# suspension de l'import des CSS
-css/

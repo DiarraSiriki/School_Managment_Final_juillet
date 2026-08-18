@@ -3,325 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <title>ETUDIANTS</title>
-  
-  <!-- Font Awesome 6 CDN pour les icônes -->
+
+  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Police Google Font (Inter) -->
+  <!-- Police Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-  
-  <link rel="stylesheet" href="style.css">
+
+  <!-- Lien vers votre fichier CSS -->
+  <link rel="stylesheet" href="css/dashboard-etudiant.css">
 </head>
+
 <body data-roles="admin">
-
-
-<style>
-  * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', Arial, sans-serif;
-}
-
-body {
-  display: flex;
-  background-color: #f3f5f9;
-  color: #333333;
-}
-
-/* SIDEBAR */
-.sidebar {
-  width: 240px;
-  background-color: #0c1427;
-  color: #ffffff;
-  min-height: 100vh;
-  padding: 20px 15px;
-  display: flex;
-  flex-direction: column;
-}
-
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 30px;
-}
-
-.logo {
-  background-color: #2563eb;
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 18px;
-}
-
-.brand-title {
-  font-weight: bold;
-  font-size: 16px;
-}
-
-.brand-sub {
-  font-size: 11px;
-  color: #64748b;
-}
-
-.menu-title {
-  font-size: 11px;
-  color: #475569;
-  margin-bottom: 12px;
-  letter-spacing: 1px;
-  font-weight: 600;
-}
-
-.menu {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  flex-grow: 1;
-}
-
-.menu-item {
-  color: #94a3b8;
-  text-decoration: none;
-  padding: 10px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.menu-item i {
-  width: 22px;
-  text-align: center;
-  font-size: 18px;
-}
-
-.menu-item.active, .menu-item:hover {
-  background-color: #2563eb;
-  color: #ffffff;
-}
-
-.user-profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding-top: 15px;
-  border-top: 1px solid #1e293b;
-}
-
-.avatar {
-  background-color: #2563eb;
-  width: 35px;
-  height: 35px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-}
-
-.user-info {
-  flex-grow: 1;
-  overflow: hidden;
-}
-
-.user-name {
-  font-size: 13px;
-  font-weight: bold;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.user-role {
-  font-size: 11px;
-  color: #64748b;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-
-.logout-icon {
-  color: #64748b;
-  cursor: pointer;
-  font-size: 18px;
-}
-
-.logout-icon:hover {
-  color: #ffffff;
-}
-
-/* CONTENU PRINCIPAL */
-.main-content {
-  flex-grow: 1;
-  padding: 20px 40px;
-}
-
-.top-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 14px;
-  color: #64748b;
-  margin-bottom: 25px;
-}
-
-.top-title {
-  font-weight: bold;
-  color: #0f172a;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.top-title i {
-  color: #2563eb;
-  font-size: 18px;
-}
-
-.status-dot {
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  background-color: #22c55e;
-  border-radius: 50%;
-  margin-left: 5px;
-}
-
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 25px;
-}
-
-.page-header h1 {
-  font-size: 22px;
-  color: #0f172a;
-}
-
-.subtitle {
-  color: #64748b;
-  font-size: 13px;
-  margin-top: 4px;
-}
-
-.btn-primary {
-  background-color: #2563eb;
-  color: white;
-  border: none;
-  padding: 10px 18px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.btn-primary i {
-  font-size: 15px;
-}
-
-/* RECHERCHE */
-.filter-bar {
-  display: flex;
-  gap: 15px;
-  margin-bottom: 25px;
-}
-
-.search-box {
-  width: 320px;
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.search-icon {
-  position: absolute;
-  left: 15px;
-  color: #94a3b8;
-  font-size: 16px;
-}
-
-.search-input {
-  width: 100%;
-  padding: 10px 15px 10px 42px;
-  border: 1px solid #e2e8f0;
-  border-radius: 8px;
-  outline: none;
-  font-size: 13px;
-  background-color: #ffffff;
-}
-
-/* TABLEAU */
-.table-container {
-  background: white;
-  border-radius: 12px;
-  padding: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: left;
-  font-size: 13px;
-}
-
-th {
-  color: #64748b;
-  font-size: 11px;
-  padding: 15px 20px;
-  border-bottom: 1px solid #f1f5f9;
-  font-weight: 600;
-}
-
-td {
-  padding: 18px 20px;
-  border-bottom: 1px solid #f1f5f9;
-  color: #334155;
-}
-
-td strong {
-  color: #0f172a;
-}
-
-.btn-edit {
-  background-color: #eff6ff;
-  color: #2563eb;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 12px;
-  margin-right: 4px;
-}
-
-.btn-edit i {
-  font-size: 14px;
-  margin-right: 3px;
-}
-
-.btn-delete {
-  background-color: #fef2f2;
-  color: #ef4444;
-  border: none;
-  padding: 6px 12px;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 12px;
-}
-
-.btn-delete i {
-  font-size: 14px;
-  margin-right: 3px;
-}
-
-</style>
 
   <!-- BARRE LATÉRALE (SIDEBAR) -->
   <aside class="sidebar">
@@ -343,7 +36,7 @@ td strong {
       <a href="/notes" class="menu-item"><i class="fa-solid fa-pen-to-square"></i> Notes</a>
       <a href="/absences" class="menu-item"><i class="fa-solid fa-calendar-days"></i> Absences</a>
       <a href="/statistiques" class="menu-item"><i class="fa-solid fa-chart-column"></i> Statistiques</a>
-      <a href="/profil" class="menu-item"><i class="fa-solid fa-id-card"></i>Mon Profil</a>
+     <a href="/mon-profil" class="menu-item"><i class="fa-solid fa-id-card"></i> Mon Profil</a>
     </nav>
 
     <div class="user-profile">
@@ -443,7 +136,8 @@ td strong {
     </div>
 
   </main>
- <script src="/js/authGuard.js"></script>
+
+  <script src="/js/authGuard.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/dashboard-etudiant.js"></script>
 </body>

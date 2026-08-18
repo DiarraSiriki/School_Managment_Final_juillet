@@ -174,6 +174,7 @@ function openEditModal(user) {
   document.getElementById('userId').value = user.id;
   document.getElementById('userName').value = user.name || '';
   document.getElementById('userEmail').value = user.email || '';
+  
   const roleToSet = user.role || 'student';
   const roleRadio = document.querySelector(`input[name="userRole"][value="${roleToSet}"]`);
   if (roleRadio) roleRadio.checked = true;
