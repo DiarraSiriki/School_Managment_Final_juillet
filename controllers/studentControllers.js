@@ -74,7 +74,7 @@ const ajouterEtudiant = (req, res) => {
   try {
     const { matricule, nom, prenom, age, classe_id, email, mot_passe } = req.body;
 
-    // Le service gère l'unicité ou la génération automatique si matricule est null/undefined
+    // Le matricule doit être fourni manuellement
     const studentData = addStudent(matricule, nom, prenom, age, classe_id, email, mot_passe);
     
     res.status(201).json({
@@ -95,6 +95,7 @@ const modifierEtudiant = (req, res) => {
   try {
     const id = req.params.id;
     const { matricule, nom, prenom, age, classe_id, user_id } = req.body;
+    
     const updated = updateStudent(id, matricule, nom, prenom, age, classe_id, user_id);
     if (!updated) {
       return res.status(404).json({ success: false, message: `Étudiant ID ${id} introuvable.` });

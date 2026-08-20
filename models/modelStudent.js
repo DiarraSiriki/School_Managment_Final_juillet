@@ -2,23 +2,24 @@ import database from '../db/database.js';
 import logger from '../utils/logger.js';
 
 class Student {
- 
-  
 
-  static create(matricule, nom, prenom, age, classe, user_id = null) {
+  static create(matricule, nom, prenom, age, classe_id, user_id = null) {
     try {
-      // Auto-génération du matricule s'il n'est pas transmis
-      const finalMatricule = matricule || Student.generateMatricule();
+      if (!matricule || !String(matricule).trim()) {
+        throw new Error('Le matricule est obligatoire.');
+      }
+
+      const finalMatricule = String(matricule).trim();
 
       const query = database.prepare(`
-        INSERT INTO students (matricule, nom, prenom, age, classe, user_id) 
+        INSERT INTO students (matricule, nom, prenom, age, classe_id, user_id)
         VALUES (?, ?, ?, ?, ?, ?)
       `);
-      const result = query.run(finalMatricule, nom, prenom, age, classe, user_id);
-      
+      const result = query.run(finalMatricule, nom, prenom, age, classe_id, user_id);
+
       logger.info(`[Student Model] Insertion réussie: student_id=${result.lastInsertRowid}, matricule=${finalMatricule}, user_id=${user_id}`);
       database.exec('PRAGMA optimize');
-      
+
       return {
         lastInsertRowid: result.lastInsertRowid,
         changes: result.changes,
@@ -26,52 +27,47 @@ class Student {
       };
     } catch (err) {
       logger.error(`Erreur lors de l'insertion d'un étudiant: ${err.message}`);
-      logger.error(`Détails: ${JSON.stringify(err)}`);
       throw err;
     }
   }
 
   static getAll() {
-    const query = database.prepare('SELECT * FROM students');
-    return query.all();
+    return database.prepare('SELECT * FROM students').all();
   }
 
   static getById(id) {
-    const query = database.prepare('SELECT * FROM students WHERE id = ?');
-    return query.get(id);
+    return database.prepare('SELECT * FROM students WHERE id = ?').get(id);
   }
 
   static getByMatricule(matricule) {
-    const query = database.prepare('SELECT * FROM students WHERE matricule = ?');
-    return query.get(matricule);
+    return database.prepare('SELECT * FROM students WHERE matricule = ?').get(matricule);
   }
 
   static getByUserId(user_id) {
-    const query = database.prepare('SELECT * FROM students WHERE user_id = ?');
-    return query.get(user_id);
+    return database.prepare('SELECT * FROM students WHERE user_id = ?').get(user_id);
   }
 
   static search(keyword) {
     const query = database.prepare(`
       SELECT * FROM students
-      WHERE nom LIKE ? OR prenom LIKE ? OR matricule LIKE ? OR classe LIKE ?
+      WHERE nom LIKE ? OR prenom LIKE ? OR matricule LIKE ?
+         OR CAST(classe_id AS TEXT) LIKE ?
     `);
     const k = `%${keyword}%`;
     return query.all(k, k, k, k);
   }
 
-  static update(id, matricule, nom, prenom, age, classe, user_id = null) {
+  static update(id, matricule, nom, prenom, age, classe_id, user_id = null) {
     const query = database.prepare(`
-      UPDATE students 
-      SET matricule = ?, nom = ?, prenom = ?, age = ?, classe = ?, user_id = ?
+      UPDATE students
+      SET matricule = ?, nom = ?, prenom = ?, age = ?, classe_id = ?, user_id = ?
       WHERE id = ?
     `);
-    return query.run(matricule, nom, prenom, age, classe, user_id, id);
+    return query.run(matricule, nom, prenom, age, classe_id, user_id, id);
   }
 
   static delete(id) {
-    const query = database.prepare('DELETE FROM students WHERE id = ?');
-    return query.run(id);
+    return database.prepare('DELETE FROM students WHERE id = ?').run(id);
   }
 }
 

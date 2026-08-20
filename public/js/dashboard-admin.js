@@ -17,10 +17,10 @@ const ROLE_AVATAR_CLASS = {
 };
 
 let allUsers = [];
+let allClasses = [];
 let currentFilter = 'all';
 let searchTerm = '';
 
-// Mettre à jour le nom de l'utilisateur connecté
 function updateCurrentUserDisplay() {
   const currentUser = JSON.parse(localStorage.getItem('user') || 'null');
   if (currentUser) {
@@ -30,8 +30,6 @@ function updateCurrentUserDisplay() {
     if (userRoleEl) userRoleEl.textContent = ROLE_LABELS[currentUser.role] || '';
   }
 }
-
-
 
 function escapeHtml(str) {
   const div = document.createElement('div');
@@ -58,7 +56,51 @@ function showAlert(message, type = 'success') {
   }, 3500);
 }
 
+// --- Dynamic Role Fields Manager ---
+
+function updateRoleFields(role) {
+  const studentGroup = document.getElementById('studentFieldsGroup');
+  const teacherGroup = document.getElementById('teacherFieldsGroup');
+
+  const studentClasseSelect = document.getElementById('studentClasseSelect');
+  const studentMatriculeInput = document.getElementById('studentMatriculeInput');
+  const teacherMatiereInput = document.getElementById('teacherMatiereInput');
+
+  // Masquer tous les groupes optionnels par défaut
+  if (studentGroup) studentGroup.style.display = 'none';
+  if (teacherGroup) teacherGroup.style.display = 'none';
+
+  // Réinitialiser les validations obligatoires
+  if (studentClasseSelect) studentClasseSelect.required = false;
+  if (studentMatriculeInput) studentMatriculeInput.required = false;
+  if (teacherMatiereInput) teacherMatiereInput.required = false;
+
+  // Afficher et activer les validations selon le rôle coché
+  if (role === 'student') {
+    if (studentGroup) studentGroup.style.display = 'block';
+    if (studentClasseSelect) studentClasseSelect.required = true;
+    if (studentMatriculeInput) studentMatriculeInput.required = true;
+  } else if (role === 'teacher') {
+    if (teacherGroup) teacherGroup.style.display = 'block';
+    if (teacherMatiereInput) teacherMatiereInput.required = true;
+  }
+}
+
 // --- Chargement des données ---
+
+async function loadClasses() {
+  try {
+    const result = await API.classes.getAll();
+    allClasses = Array.isArray(result?.data) ? result.data : (Array.isArray(result) ? result : []);
+    const select = document.getElementById('studentClasseSelect');
+    if (!select) return;
+
+    select.innerHTML = '<option value="">Sélectionner une classe</option>' +
+      allClasses.map(c => `<option value="${c.id}">${escapeHtml(c.nom)}</option>`).join('');
+  } catch (error) {
+    console.error('[loadClasses]', error);
+  }
+}
 
 async function loadUsers() {
   try {
@@ -79,13 +121,19 @@ function renderStats() {
     if (counts[u.role] !== undefined) counts[u.role]++;
   });
 
-  document.getElementById('statAdmin').textContent = counts.admin;
-  document.getElementById('statProf').textContent = counts.teacher;
-  document.getElementById('statEtudiant').textContent = counts.student;
+  const statAdmin = document.getElementById('statAdmin');
+  const statProf = document.getElementById('statProf');
+  const statEtudiant = document.getElementById('statEtudiant');
+
+  if (statAdmin) statAdmin.textContent = counts.admin;
+  if (statProf) statProf.textContent = counts.teacher;
+  if (statEtudiant) statEtudiant.textContent = counts.student;
 
   const total = allUsers.length;
   const subtitle = document.getElementById('userCountSubtitle');
-  subtitle.textContent = `${total} compte${total > 1 ? 's' : ''} · ${counts.admin} admin, ${counts.teacher} prof, ${counts.student} étudiant${counts.student > 1 ? 's' : ''}`;
+  if (subtitle) {
+    subtitle.textContent = `${total} compte${total > 1 ? 's' : ''} · ${counts.admin} admin, ${counts.teacher} prof, ${counts.student} étudiant${counts.student > 1 ? 's' : ''}`;
+  }
 }
 
 function getFilteredUsers() {
@@ -101,6 +149,8 @@ function getFilteredUsers() {
 
 function renderTable() {
   const tbody = document.getElementById('usersTableBody');
+  if (!tbody) return;
+
   const users = getFilteredUsers();
 
   if (users.length === 0) {
@@ -126,8 +176,8 @@ function renderTable() {
         <td>${escapeHtml(u.email)}</td>
         <td><span class="badge ${badgeClass}">${escapeHtml(roleLabel)}</span></td>
         <td>
-          <button class="btn-edit" data-action="edit" data-id="${u.id}"><i class="fa-regular fa-pen-to-square"></i> Modifier</button>
-          <button class="btn-delete" data-action="delete" data-id="${u.id}"><i class="fa-regular fa-trash-can"></i> Supprimer</button>
+          <button class="btn-edit" data-action="edit" data-id="${u.id}" title="Modifier"><i class="fa-regular fa-pen-to-square"></i></button>
+          <button class="btn-delete" data-action="delete" data-id="${u.id}" title="Supprimer"><i class="fa-regular fa-trash-can"></i></button>
         </td>
       </tr>
     `;
@@ -137,20 +187,26 @@ function renderTable() {
 // --- Filtres et recherche ---
 
 function setupSearch() {
-  document.getElementById('filterButtons').addEventListener('click', (e) => {
-    const btn = e.target.closest('.btn-filter');
-    if (!btn) return;
+  const filterButtons = document.getElementById('filterButtons');
+  if (filterButtons) {
+    filterButtons.addEventListener('click', (e) => {
+      const btn = e.target.closest('.btn-filter');
+      if (!btn) return;
 
-    document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    currentFilter = btn.dataset.role;
-    renderTable();
-  });
+      document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentFilter = btn.dataset.role;
+      renderTable();
+    });
+  }
 
-  document.getElementById('searchInput').addEventListener('input', (e) => {
-    searchTerm = e.target.value.trim().toLowerCase();
-    renderTable();
-  });
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      searchTerm = e.target.value.trim().toLowerCase();
+      renderTable();
+    });
+  }
 }
 
 // --- Modale (création / modification) ---
@@ -164,6 +220,18 @@ function openCreateModal() {
   document.getElementById('userId').value = '';
   document.getElementById('userPassword').required = true;
   document.getElementById('passwordHint').textContent = 'Requis à la création.';
+
+  // Sélectionne 'student' par défaut au premier affichage
+  const selectedRoleRadio = document.querySelector('input[name="userRole"]:checked') || 
+                             document.querySelector('input[name="userRole"][value="student"]');
+  
+  if (selectedRoleRadio) {
+    selectedRoleRadio.checked = true;
+    updateRoleFields(selectedRoleRadio.value);
+  } else {
+    updateRoleFields('student');
+  }
+
   hideFormError();
   modal().classList.add('show');
 }
@@ -174,10 +242,23 @@ function openEditModal(user) {
   document.getElementById('userId').value = user.id;
   document.getElementById('userName').value = user.name || '';
   document.getElementById('userEmail').value = user.email || '';
-  
+
   const roleToSet = user.role || 'student';
   const roleRadio = document.querySelector(`input[name="userRole"][value="${roleToSet}"]`);
   if (roleRadio) roleRadio.checked = true;
+
+  updateRoleFields(roleToSet);
+
+  if (roleToSet === 'student') {
+    const select = document.getElementById('studentClasseSelect');
+    const matInput = document.getElementById('studentMatriculeInput');
+    if (select) select.value = user.classe_id || '';
+    if (matInput) matInput.value = user.matricule || '';
+  } else if (roleToSet === 'teacher') {
+    const matieresInput = document.getElementById('teacherMatiereInput');
+    if (matieresInput) matieresInput.value = user.matiere || '';
+  }
+
   document.getElementById('userPassword').value = '';
   document.getElementById('userPassword').required = false;
   document.getElementById('passwordHint').textContent = 'Laisser vide pour conserver le mot de passe actuel.';
@@ -191,63 +272,93 @@ function closeModal() {
 
 function showFormError(message) {
   const box = document.getElementById('formError');
+  if (!box) return;
   box.textContent = message;
   box.classList.add('show');
 }
 
 function hideFormError() {
   const box = document.getElementById('formError');
+  if (!box) return;
   box.textContent = '';
   box.classList.remove('show');
 }
 
 function setupModal() {
-  document.getElementById('btnNewUser').addEventListener('click', openCreateModal);
-  document.getElementById('btnCancelModal').addEventListener('click', closeModal);
-  modal().addEventListener('click', (e) => {
-    if (e.target === modal()) closeModal();
+  const btnNewUser = document.getElementById('btnNewUser') || document.getElementById('btnNewStudent');
+  if (btnNewUser) btnNewUser.addEventListener('click', openCreateModal);
+
+  const btnCancel = document.getElementById('btnCancelModal');
+  if (btnCancel) btnCancel.addEventListener('click', closeModal);
+
+  if (modal()) {
+    modal().addEventListener('click', (e) => {
+      if (e.target === modal()) closeModal();
+    });
+  }
+
+  // Écouteur en direct sur les boutons radio de rôle
+  document.querySelectorAll('input[name="userRole"]').forEach(radio => {
+    radio.addEventListener('change', (e) => {
+      updateRoleFields(e.target.value);
+    });
   });
 
-  document.getElementById('userForm').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    hideFormError();
+  const userForm = document.getElementById('userForm');
+  if (userForm) {
+    userForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideFormError();
 
-    const id = document.getElementById('userId').value;
-    const name = document.getElementById('userName').value.trim();
-    const email = document.getElementById('userEmail').value.trim();
-    const roleRadio = document.querySelector('input[name="userRole"]:checked');
-    const role = roleRadio ? roleRadio.value : '';
-    const mot_passe = document.getElementById('userPassword').value;
+      const id = document.getElementById('userId').value;
+      const name = document.getElementById('userName').value.trim();
+      const email = document.getElementById('userEmail').value.trim();
+      const roleRadio = document.querySelector('input[name="userRole"]:checked');
+      const role = roleRadio ? roleRadio.value : '';
+      const mot_passe = document.getElementById('userPassword').value;
 
-    const submitBtn = document.getElementById('btnSubmitModal');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Enregistrement...';
+      const payload = { name, email, role };
+      if (mot_passe) payload.mot_passe = mot_passe;
 
-    try {
-      if (id) {
-        const payload = { name, email, role };
-        if (mot_passe) payload.mot_passe = mot_passe;
-        await API.admin.updateUser(id, payload);
-        showAlert('Utilisateur modifié avec succès.');
-      } else {
-        await API.admin.createUser({ name, email, role, mot_passe });
-        showAlert('Utilisateur créé avec succès.');
+      // Construction dynamique du payload selon le rôle
+      if (role === 'student') {
+        payload.classe_id = document.getElementById('studentClasseSelect')?.value || null;
+        payload.matricule = document.getElementById('studentMatriculeInput')?.value.trim() || null;
+      } else if (role === 'teacher') {
+        payload.matiere = document.getElementById('teacherMatiereInput')?.value.trim() || null;
       }
-      closeModal();
-      await loadUsers();
-    } catch (error) {
-      showFormError(error.message || "Une erreur est survenue.");
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Enregistrer';
-    }
-  });
+
+      const submitBtn = document.getElementById('btnSubmitModal');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Enregistrement...';
+
+      try {
+        if (id) {
+          await API.admin.updateUser(id, payload);
+          showAlert('Utilisateur modifié avec succès.');
+        } else {
+          await API.admin.createUser(payload);
+          showAlert('Utilisateur créé avec succès.');
+        }
+        closeModal();
+        await loadUsers();
+      } catch (error) {
+        showFormError(error.message || "Une erreur est survenue.");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Enregistrer';
+      }
+    });
+  }
 }
 
-// --- Actions sur les lignes (édition / suppression) ---
+// --- Actions sur les lignes ---
 
 function setupTableActions() {
-  document.getElementById('usersTableBody').addEventListener('click', async (e) => {
+  const tbody = document.getElementById('usersTableBody');
+  if (!tbody) return;
+
+  tbody.addEventListener('click', async (e) => {
     const btn = e.target.closest('button[data-action]');
     if (!btn) return;
 
@@ -280,8 +391,6 @@ function setupTableActions() {
   });
 }
 
-
-
 function renderTodayDate() {
   const el = document.getElementById('topDateText');
   if (!el) return;
@@ -291,15 +400,16 @@ function renderTodayDate() {
   el.textContent = formatted.charAt(0).toUpperCase() + formatted.slice(1);
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   renderTodayDate();
   updateCurrentUserDisplay();
   setupSearch();
   setupModal();
   setupTableActions();
-  loadUsers();
 
-  // Setup logout button
+  await loadClasses();
+  await loadUsers();
+
   const logoutBtn = document.querySelector('.logout-btn');
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {

@@ -1,6 +1,4 @@
-
-  
-    * {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -13,15 +11,20 @@ body {
   color: #333333;
 }
 
-/* SIDEBAR */
+/* SIDEBAR : fixe, ne défile jamais avec le contenu */
 .sidebar {
   width: 240px;
   background-color: #0c1427;
   color: #ffffff;
-  min-height: 100vh;
+  height: 100vh;
   padding: 20px 15px;
   display: flex;
   flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  z-index: 100;
 }
 
 .brand {
@@ -129,10 +132,15 @@ body {
   color: #ffffff;
 }
 
-/* CONTENU PRINCIPAL */
+/* CONTENU PRINCIPAL : décalé de la largeur de la sidebar, défile indépendamment */
 .main-content {
   flex-grow: 1;
+  margin-left: 240px;
   padding: 20px 40px;
+  min-height: 100vh;
+  height: 100vh;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .top-header {
@@ -301,4 +309,190 @@ td {
 .btn-delete i {
   font-size: 14px;
   margin-right: 3px;
+}
+
+/* RECHERCHE */
+.filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.search-box {
+  width: 320px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 14px 10px 40px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  outline: none;
+  font-size: 13px;
+  background-color: #ffffff;
+}
+
+.table-state-row td {
+  text-align: center;
+  color: #64748b;
+  padding: 32px;
+}
+
+/* ALERTES */
+.alert-box {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #ffffff;
+  z-index: 2000;
+  display: none;
+}
+
+.alert-box.show {
+  display: block;
+}
+
+.alert-success {
+  background-color: #10b981;
+}
+
+.alert-error {
+  background-color: #ef4444;
+}
+
+/* La boîte d'erreur du formulaire réutilise .alert-box mais reste dans la modale */
+#formError.alert-box {
+  position: static;
+  display: none;
+  margin-bottom: 16px;
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+#formError.alert-box.show {
+  display: block;
+}
+
+/* MODALE (masquée par défaut, affichée uniquement via la classe .show ajoutée par JS) */
+#teacherModal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(4px);
+  z-index: 1500;
+}
+
+#teacherModal.show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-sizing: border-box;
+}
+
+.modal-content h3 {
+  margin: 0 0 6px 0;
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.modal-content p#modalSubtitle {
+  margin: 0 0 24px 0;
+  font-size: 0.92rem;
+  color: #64748b;
+  line-height: 1.4;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #1e293b;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #334155;
+  outline: none;
+  background-color: #ffffff;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-group input::placeholder {
+  color: #94a3b8;
+}
+
+.form-group input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+small#passwordHint {
+  display: block;
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 0.82rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.btn-secondary {
+  background: #f1f5f9;
+  color: #0f172a;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0;
 }

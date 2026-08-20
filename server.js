@@ -27,12 +27,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(join(__dirname, 'public'), { index: false }));
 
-
+// 1. PAGE D'ACCUEIL (Renvoyer index.html pour '/')
 app.get('/', (req, res) => {
+    res.sendFile(join(__dirname, 'public', 'index.html'));
+});
+
+// 2. PAGE DE CONNEXION (Renvoyer login.html pour '/login')
+app.get('/login', (req, res) => {
     res.sendFile(join(__dirname, 'public', 'login.html'));
 });
 
-// Mapping des alias pour les pages HTML
+
 app.get('/dashboard-admin', (req, res) => res.sendFile(join(__dirname, 'public', 'html', 'dashboard-admin.html')));
 app.get('/dashboard-etudiant', (req, res) => res.sendFile(join(__dirname, 'public', 'html', 'dashboard-etudiant.html')));
 app.get('/dashboard-prof', (req, res) => res.sendFile(join(__dirname, 'public', 'html', 'dashboard-prof.html')));
@@ -43,10 +48,9 @@ app.get('/statistiques', (req, res) => res.sendFile(join(__dirname, 'public', 'h
 app.get('/mon-profil', (req, res) => res.sendFile(join(__dirname, 'public', 'html', 'mon-profil.html')));
 
 
-
-// Redirection pour les anciens liens /HTML/:page
 const htmlRouteMap = {
-    'login.html': '/',
+    'index.html': '/',
+    'login.html': '/login',
     'dashboard-admin.html': '/dashboard-admin',
     'dashboard-etudiant.html': '/dashboard-etudiant',
     'dashboard-prof.html': '/dashboard-prof',
@@ -64,7 +68,7 @@ app.get('/HTML/:page', (req, res) => {
     res.redirect(redirectUrl);
 });
 
-
+// Routes API
 app.use('/api/auth', authRoutes);
 app.use('/api/users', usersRoutes); 
 app.use('/api/classes', classRoutes);
@@ -79,8 +83,7 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'OK', message: 'API School Management fonctionnelle' });
 });
 
-
-// Route 404 (Attrape toutes les requêtes vers des routes inexistantes)
+// Route 404
 app.use((req, res, next) => {
     res.status(404).json({ error: `Route non trouvée : ${req.originalUrl}` });
 });
@@ -101,4 +104,3 @@ app.listen(PORT, () => {
     console.log(`URL : http://localhost:${PORT}`);
     console.log(`=================================`);
 });
-

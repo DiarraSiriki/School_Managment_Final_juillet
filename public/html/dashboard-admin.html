@@ -40,7 +40,6 @@
       <a href="/notes" class="menu-item"><i class="fa-solid fa-pen-to-square"></i> Notes</a>
       <a href="/absences" class="menu-item"><i class="fa-solid fa-calendar-days"></i> Absences</a>
       <a href="/statistiques" class="menu-item"><i class="fa-solid fa-chart-column"></i> Statistiques</a>
-     
     </nav>
 
     <div class="user-profile">
@@ -53,7 +52,6 @@
     </div>
   </aside>
 
-  <!-- CONTENU PRINCIPAL (DÉFILANT) -->
   <main class="main-content">
 
     <header class="top-header">
@@ -173,6 +171,28 @@
             <label><input type="radio" name="userRole" value="student" checked> Étudiant</label>
             <label><input type="radio" name="userRole" value="teacher"> Professeur</label>
             <label><input type="radio" name="userRole" value="admin"> Admin</label>
+          </div>
+        </div>
+
+        <!-- CHAMPS SPÉCIFIQUES POUR ÉTUDIANT -->
+        <div id="studentFieldsGroup" style="display: none;">
+          <div class="form-group">
+            <label for="studentMatriculeInput">Matricule</label>
+            <input type="text" id="studentMatriculeInput" placeholder="Ex: ETU-2026-0001">
+          </div>
+          <div class="form-group">
+            <label for="studentClasseSelect">Classe</label>
+            <select id="studentClasseSelect" class="form-control">
+              <option value="">Chargement des classes...</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- CHAMPS SPÉCIFIQUES POUR PROFESSEUR -->
+        <div id="teacherFieldsGroup" style="display: none;">
+          <div class="form-group">
+            <label for="teacherMatiereInput">Matière / Spécialité</label>
+            <input type="text" id="teacherMatiereInput" placeholder="Ex: Mathématiques">
           </div>
         </div>
 

@@ -10,11 +10,14 @@
   <!-- Police Google Font -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
 
-  <!-- Lien vers votre fichier CSS -->
+  <!-- Style CSS principal -->
   <link rel="stylesheet" href="css/dashboard-etudiant.css">
 </head>
 
 <body data-roles="admin">
+
+  <!-- BOÎTE D'ALERTE -->
+  <div id="alertBox" class="alert-box"></div>
 
   <!-- BARRE LATÉRALE (SIDEBAR) -->
   <aside class="sidebar">
@@ -36,7 +39,7 @@
       <a href="/notes" class="menu-item"><i class="fa-solid fa-pen-to-square"></i> Notes</a>
       <a href="/absences" class="menu-item"><i class="fa-solid fa-calendar-days"></i> Absences</a>
       <a href="/statistiques" class="menu-item"><i class="fa-solid fa-chart-column"></i> Statistiques</a>
-     <a href="/mon-profil" class="menu-item"><i class="fa-solid fa-id-card"></i> Mon Profil</a>
+      <a href="/mon-profil" class="menu-item"><i class="fa-solid fa-id-card"></i> Mon Profil</a>
     </nav>
 
     <div class="user-profile">
@@ -55,23 +58,23 @@
     <!-- EN-TÊTE HAUT -->
     <header class="top-header">
       <div class="top-title"><i class="fa-solid fa-user-graduate"></i> Étudiants</div>
-      <div class="top-date">Lun 03 Août 2026 <span class="status-dot"></span></div>
+      <div class="top-date"><span id="TopDateText"></span> <span class="status-dot"></span></div>
     </header>
 
     <!-- EN-TÊTE PAGE + BOUTON -->
     <div class="page-header">
       <div>
         <h1>Étudiants</h1>
-        <p class="subtitle">12 étudiants inscrits</p>
+        <p class="subtitle" id="studuntSubtitle">Chargement.....</p>
       </div>
-      <button class="btn-primary"><i class="fa-solid fa-plus"></i> Nouvel étudiant</button>
+      <button class="btn-primary" id="btnNewStudent"><i class="fa-solid fa-plus"></i> Nouvel étudiant</button>
     </div>
 
     <!-- RECHERCHE -->
     <div class="filter-bar">
       <div class="search-box">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input type="text" placeholder="Rechercher un étudiant ou une classe..." class="search-input">
+        <input type="text" id="searchInput" placeholder="Rechercher un étudiant ou une classe..." class="search-input">
       </div>
     </div>
 
@@ -87,49 +90,9 @@
             <th>ACTIONS</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td><strong>ETU-001</strong></td>
-            <td>Benali Yasmine</td>
-            <td>3ème A</td>
-            <td>14</td>
-            <td>
-              <button class="btn-edit"><i class="fa-regular fa-pen-to-square"></i> </button>
-              <button class="btn-delete"><i class="fa-regular fa-trash-can"></i> </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td><strong>ETU-002</strong></td>
-            <td>Chérif Amine</td>
-            <td>2ème B</td>
-            <td>13</td>
-            <td>
-              <button class="btn-edit"><i class="fa-regular fa-pen-to-square"></i> </button>
-              <button class="btn-delete"><i class="fa-regular fa-trash-can"></i> </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td><strong>ETU-003</strong></td>
-            <td>Meziani Lina</td>
-            <td>4ème A</td>
-            <td>15</td>
-            <td>
-              <button class="btn-edit"><i class="fa-regular fa-pen-to-square"></i> </button>
-              <button class="btn-delete"><i class="fa-regular fa-trash-can"></i> </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td><strong>ETU-004</strong></td>
-            <td>Hamidi Nour</td>
-            <td>3ème B</td>
-            <td>14</td>
-            <td>
-              <button class="btn-edit"><i class="fa-regular fa-pen-to-square"></i> </button>
-              <button class="btn-delete"><i class="fa-regular fa-trash-can"></i> </button>
-            </td>
+        <tbody id="studensTableBody">
+          <tr class="table-state-row">
+            <td colspan="5">Chargement des étudiants...</td>
           </tr>
         </tbody>
       </table>
@@ -137,6 +100,74 @@
 
   </main>
 
+  <!-- MODALE D'AJOUT / MODIFICATION -->
+  <div id="studentModal" class="modal">
+    <div class="modal-content">
+      <h3 id="modalTitle">Nouvel étudiant</h3>
+      <p id="modalSubtitle">Créer un étudiant et son compte de connexion.</p>
+      
+      <div id="formError" class="alert-box"></div>
+
+      <form id="studentForm">
+        <input type="hidden" id="studentId">
+       <div class="form-group">
+          <label for="studentMatricule">Matricule</label>
+          <input type="text" id="studentMatricule" placeholder="Ex: ETU-2026-0001" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="studentNom">Nom</label>
+            <input type="text" id="studentNom" placeholder="Ex: Nom" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="studentPrenom">Prénom</label>
+            <input type="text" id="studentPrenom" placeholder="Ex: Prénom" required>
+          </div>
+        </div>
+          
+        <div class="form-row">
+          <div class="form-group">
+            <label for="studentAge">Âge</label>
+            <input type="number" id="studentAge" placeholder="Ex: 15">
+          </div>
+          <div class="form-group">
+            <label for="studentClasse">Classe</label>
+            <select id="studentClasse" required>
+              <option value="">Chargement...</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="studentNiveau">Niveau</label>
+            <input type="text" id="studentNiveau" placeholder="Déterminé par la classe" readonly>
+          </div>
+          
+          
+        </div>
+
+        <div id="studentAccountGroup">
+          <div class="form-group">
+            <label for="studentEmail">Adresse email</label>
+            <input type="email" id="studentEmail" placeholder="Ex: adresse@ecole.dz">
+          </div>
+
+          <div class="form-group">
+            <label for="studentPassword">Mot de passe</label>
+            <input type="password" id="studentPassword" placeholder="••••••••">
+            <small id="passwordHint">Requis à la création.</small>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="btnCancelModal" class="btn-secondary">Annuler</button>
+          <button type="submit" id="btnSubmitModal" class="btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts JS -->
   <script src="/js/authGuard.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/dashboard-etudiant.js"></script>

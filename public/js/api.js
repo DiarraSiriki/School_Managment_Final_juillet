@@ -37,7 +37,7 @@ const API = {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || `Erreur serveur (${response.status})`);
+        throw new Error(data.message || data.error || `Erreur serveur (${response.status})`);
       }
 
       return data;
@@ -103,5 +103,24 @@ const API = {
     create: (studentData) => API.post('/students', studentData),
     update: (id, studentData) => API.put(`/students/${id}`, studentData),
     delete: (id) => API.delete(`/students/${id}`)
-  }
+  },
+
+  classes: {
+    getAll: () => API.get('/classes')
+  },
+
+
+  teachers: {
+  getAll: () => API.get('/teachers'),
+  getById: (id) => API.get(`/teachers/${id}`),
+  getMyProfile: () => API.get('/teachers/me'),
+  create: (teacherData) => API.post('/teachers', teacherData),
+  update: (id, teacherData) => API.put(`/teachers/${id}`, teacherData),
+  delete: (id) => API.delete(`/teachers/${id}`)
+},
+subjects: {
+  getAll: () => API.get('/subjects')
+}
+
+
 };
