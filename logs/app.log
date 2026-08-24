@@ -582,3 +582,427 @@
 [2026-08-20 01:35:26] [INFO] Liste des utilisateurs consultée (6 utilisateurs)
 [2026-08-20 01:38:36] [INFO] Liste des matières consultée (3 matières)
 [2026-08-20 01:38:36] [INFO] Liste des utilisateurs consultée (6 utilisateurs)
+[2026-08-20 10:41:37] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 10:41:37] [INFO] Liste des utilisateurs consultée (6 utilisateurs)
+[2026-08-20 10:41:40] [INFO] Liste des utilisateurs consultée (6 utilisateurs)
+[2026-08-20 10:42:08] [INFO] Liste des utilisateurs consultée (6 utilisateurs)
+[2026-08-20 10:42:11] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 10:42:11] [INFO] Liste des utilisateurs consultée (6 utilisateurs)
+[2026-08-20 10:42:19] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 10:42:19] [INFO] Liste des utilisateurs consultée (6 utilisateurs)
+[2026-08-20 10:42:21] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 10:42:21] [INFO] Liste des utilisateurs consultée (6 utilisateurs)
+[2026-08-20 10:42:26] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 10:42:26] [INFO] Liste des utilisateurs consultée (6 utilisateurs)
+[2026-08-20 10:42:43] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:47] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:47] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:48] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:48] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:48] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:48] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:49] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:49] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:49] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:49] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:50] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:50] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:50] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:51] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:51] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:51] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:51] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:52] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:52] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:52] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:53] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:54] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:54] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:55] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:55] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:55] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:42:55] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:43:13] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:43:14] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:43:15] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:43:16] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:43:16] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:43:16] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:43:17] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:43:17] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:43:17] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:43:17] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:43:18] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:43:18] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:43:18] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:43:18] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:44:11] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:44:12] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:44:12] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:44:12] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:44:12] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:44:13] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:44:13] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:44:13] [ERROR] [Student Controller] Erreur modification ID=1: no such column: classe_id
+[2026-08-20 10:44:27] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 10:44:27] [INFO] Liste des utilisateurs consultée (6 utilisateurs)
+[2026-08-20 10:44:29] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 10:44:29] [INFO] Liste des utilisateurs consultée (6 utilisateurs)
+[2026-08-20 11:05:04] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 11:05:04] [INFO] Liste des utilisateurs consultée (6 utilisateurs)
+[2026-08-20 11:05:05] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 11:05:05] [INFO] Liste des utilisateurs consultée (6 utilisateurs)
+[2026-08-20 11:10:13] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 11:10:13] [INFO] Liste des utilisateurs consultée (6 utilisateurs)
+[2026-08-20 11:11:30] [INFO] Utilisateur ajouté: ID=18, Nom=Diallo Amadou, Rôle=teacher
+[2026-08-20 11:58:42] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 11:58:42] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 12:02:15] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 12:02:17] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 12:02:17] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 12:02:27] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 12:02:27] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 12:02:29] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 12:02:32] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 12:02:32] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 12:02:39] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 13:04:17] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-20 13:04:17] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-20 13:04:17] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 13:04:24] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 13:04:29] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 13:04:32] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 13:04:34] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 13:04:37] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 13:07:16] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 13:08:26] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 13:08:57] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 13:09:43] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 13:09:44] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 13:15:42] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 13:16:13] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 13:16:18] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 13:16:18] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 13:16:20] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 13:21:32] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:18:37] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:18:38] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:18:39] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:20:30] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:39:27] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:43:53] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:43:55] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:43:56] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:43:56] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 14:43:59] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 14:44:19] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 14:44:21] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:44:22] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:47:55] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:48:03] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:48:13] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:48:28] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:48:33] [INFO] Liste des matières consultée (3 matières)
+[2026-08-20 14:49:07] [INFO] Matière supprimée: ID=2
+[2026-08-20 14:49:07] [INFO] Liste des matières consultée (2 matières)
+[2026-08-20 14:49:11] [INFO] Liste des matières consultée (2 matières)
+[2026-08-20 16:00:14] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-20 16:00:14] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-20 16:00:14] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 16:00:21] [INFO] Liste des matières consultée (2 matières)
+[2026-08-20 16:00:21] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-20 16:00:22] [INFO] Liste des matières consultée (2 matières)
+[2026-08-20 16:00:30] [INFO] Liste des matières consultée (2 matières)
+[2026-08-20 16:00:36] [INFO] Liste des matières consultée (2 matières)
+[2026-08-20 16:00:46] [INFO] Liste des matières consultée (2 matières)
+[2026-08-20 23:31:34] [INFO] Liste des matières consultée (2 matières)
+[2026-08-20 23:31:35] [INFO] Liste des matières consultée (2 matières)
+[2026-08-20 23:31:37] [INFO] Liste des matières consultée (2 matières)
+[2026-08-20 23:31:38] [INFO] Liste des matières consultée (2 matières)
+[2026-08-20 23:31:38] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:05:13] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:05:22] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:05:42] [INFO] Étudiant supprimé: ID=2
+[2026-08-21 00:05:51] [INFO] Étudiant supprimé: ID=3
+[2026-08-21 00:05:59] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:31:34] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:31:36] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:31:43] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:31:44] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:31:45] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 00:31:50] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 00:31:52] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 00:31:53] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 00:31:56] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:33:31] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 00:33:31] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 00:33:31] [INFO] Meilleur étudiant : Siriki Diarra (Moyenne: 15.00)
+[2026-08-21 00:33:31] [INFO] Toutes les absences globales : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 00:33:31] [INFO] Absences de l'étudiant ID=1 : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 00:33:31] [INFO] Absences de l'étudiant ID=4 : Total=0, Justifiées=0, Non justifiées=0
+[2026-08-21 00:33:31] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 00:33:39] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:33:41] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:33:45] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:34:59] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:35:53] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:35:53] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:35:56] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:36:58] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:36:59] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:37:00] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:37:09] [ERROR] Erreur lors de la récupération des statistiques globales: calcAverage(...).toFixed is not a function
+[2026-08-21 00:37:20] [ERROR] Erreur lors de la récupération des statistiques globales: calcAverage(...).toFixed is not a function
+[2026-08-21 00:37:21] [ERROR] Erreur lors de la récupération des statistiques globales: calcAverage(...).toFixed is not a function
+[2026-08-21 00:37:21] [ERROR] Erreur lors de la récupération des statistiques globales: calcAverage(...).toFixed is not a function
+[2026-08-21 00:37:22] [ERROR] Erreur lors de la récupération des statistiques globales: calcAverage(...).toFixed is not a function
+[2026-08-21 00:37:22] [ERROR] Erreur lors de la récupération des statistiques globales: calcAverage(...).toFixed is not a function
+[2026-08-21 00:37:23] [ERROR] Erreur lors de la récupération des statistiques globales: calcAverage(...).toFixed is not a function
+[2026-08-21 00:37:24] [ERROR] Erreur lors de la récupération des statistiques globales: calcAverage(...).toFixed is not a function
+[2026-08-21 00:39:12] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:39:18] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 00:39:18] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 00:39:18] [INFO] Meilleur étudiant : Siriki Diarra (Moyenne: 15.00)
+[2026-08-21 00:39:18] [INFO] Toutes les absences globales : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 00:39:18] [INFO] Absences de l'étudiant ID=1 : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 00:39:18] [INFO] Absences de l'étudiant ID=4 : Total=0, Justifiées=0, Non justifiées=0
+[2026-08-21 00:39:18] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 00:39:21] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:39:23] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:39:25] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:39:27] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:39:27] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:39:36] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:40:54] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:41:41] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:41:41] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:42:48] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:42:50] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:43:04] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 00:43:04] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 00:43:04] [INFO] Meilleur étudiant : Siriki Diarra (Moyenne: 15.00)
+[2026-08-21 00:43:04] [INFO] Toutes les absences globales : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 00:43:04] [INFO] Absences de l'étudiant ID=1 : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 00:43:04] [INFO] Absences de l'étudiant ID=4 : Total=0, Justifiées=0, Non justifiées=0
+[2026-08-21 00:43:04] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 00:43:12] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:48:43] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:48:44] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:48:46] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:48:50] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:48:50] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:48:52] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:48:53] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:48:53] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:48:57] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:48:59] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:49:00] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:49:03] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:49:05] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:49:05] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:49:09] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:49:16] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:49:17] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:49:17] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:49:20] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 00:49:20] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 00:49:20] [INFO] Meilleur étudiant : Siriki Diarra (Moyenne: 15.00)
+[2026-08-21 00:49:21] [INFO] Toutes les absences globales : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 00:49:21] [INFO] Absences de l'étudiant ID=1 : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 00:49:21] [INFO] Absences de l'étudiant ID=4 : Total=0, Justifiées=0, Non justifiées=0
+[2026-08-21 00:49:21] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 00:49:31] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:49:32] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:49:34] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:49:35] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:49:35] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:49:37] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:51:19] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:51:19] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:51:20] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:51:26] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:51:35] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:51:38] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 00:51:38] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 00:51:38] [INFO] Meilleur étudiant : Siriki Diarra (Moyenne: 15.00)
+[2026-08-21 00:51:38] [INFO] Toutes les absences globales : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 00:51:38] [INFO] Absences de l'étudiant ID=1 : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 00:51:38] [INFO] Absences de l'étudiant ID=4 : Total=0, Justifiées=0, Non justifiées=0
+[2026-08-21 00:51:38] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 00:51:40] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:51:41] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:51:48] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 00:51:48] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 00:51:48] [INFO] Meilleur étudiant : Siriki Diarra (Moyenne: 15.00)
+[2026-08-21 00:51:48] [INFO] Toutes les absences globales : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 00:51:48] [INFO] Absences de l'étudiant ID=1 : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 00:51:48] [INFO] Absences de l'étudiant ID=4 : Total=0, Justifiées=0, Non justifiées=0
+[2026-08-21 00:51:48] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 00:51:49] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 00:51:50] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:51:52] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:51:53] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 00:51:53] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 00:51:55] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 01:53:32] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 01:53:32] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 01:53:35] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 01:53:36] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 01:53:37] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 01:53:39] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 01:53:39] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 01:53:39] [INFO] Meilleur étudiant : Siriki Diarra (Moyenne: 15.00)
+[2026-08-21 01:53:39] [INFO] Toutes les absences globales : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 01:53:39] [INFO] Absences de l'étudiant ID=1 : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 01:53:39] [INFO] Absences de l'étudiant ID=4 : Total=0, Justifiées=0, Non justifiées=0
+[2026-08-21 01:53:39] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 01:53:41] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 01:53:44] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 01:53:44] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 01:53:44] [INFO] Meilleur étudiant : Siriki Diarra (Moyenne: 15.00)
+[2026-08-21 01:53:44] [INFO] Toutes les absences globales : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 01:53:44] [INFO] Absences de l'étudiant ID=1 : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 01:53:44] [INFO] Absences de l'étudiant ID=4 : Total=0, Justifiées=0, Non justifiées=0
+[2026-08-21 01:53:44] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 01:53:46] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 01:53:49] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 01:53:52] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 01:53:56] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 01:53:58] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 01:53:58] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 01:54:01] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 01:54:23] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 01:54:23] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 11:22:42] [INFO] Liste des utilisateurs consultée (7 utilisateurs)
+[2026-08-21 14:43:43] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-21 14:43:43] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-21 14:43:56] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 14:43:56] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 14:44:00] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 14:44:01] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 14:44:06] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 14:44:08] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 14:44:10] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 14:44:10] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 14:44:10] [INFO] Meilleur étudiant : Siriki Diarra (Moyenne: 15.00)
+[2026-08-21 14:44:10] [INFO] Toutes les absences globales : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 14:44:10] [INFO] Absences de l'étudiant ID=1 : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 14:44:10] [INFO] Absences de l'étudiant ID=4 : Total=0, Justifiées=0, Non justifiées=0
+[2026-08-21 14:44:10] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 14:44:12] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 14:44:13] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 14:44:14] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 14:44:15] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 14:44:15] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 14:45:22] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 14:45:56] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 14:45:56] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 14:46:00] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 14:46:08] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:05:58] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:05:58] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:05:59] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:06:01] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:06:01] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:06:03] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:06:04] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 15:06:07] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:06:08] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 15:06:10] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 15:06:10] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 15:06:10] [INFO] Meilleur étudiant : Siriki Diarra (Moyenne: 15.00)
+[2026-08-21 15:06:10] [INFO] Toutes les absences globales : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 15:06:10] [INFO] Absences de l'étudiant ID=1 : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 15:06:10] [INFO] Absences de l'étudiant ID=4 : Total=0, Justifiées=0, Non justifiées=0
+[2026-08-21 15:06:10] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 15:06:11] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 15:06:12] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:06:13] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:06:14] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:06:14] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:06:16] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:07:45] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:21:20] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:22:10] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:22:17] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:27:23] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:28:35] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:36:58] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:37:06] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:37:06] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:37:09] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:37:11] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:37:12] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:37:13] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:37:13] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:37:15] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:37:17] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:37:19] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:37:19] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:37:20] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:37:21] [INFO] Historique des absences consulté (1 absences)
+[2026-08-21 15:37:22] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 15:37:22] [INFO] Classement consulté (2 étudiants)
+[2026-08-21 15:37:22] [INFO] Meilleur étudiant : Siriki Diarra (Moyenne: 15.00)
+[2026-08-21 15:37:22] [INFO] Toutes les absences globales : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 15:37:22] [INFO] Absences de l'étudiant ID=1 : Total=1, Justifiées=0, Non justifiées=1
+[2026-08-21 15:37:22] [INFO] Absences de l'étudiant ID=4 : Total=0, Justifiées=0, Non justifiées=0
+[2026-08-21 15:37:22] [INFO] Statistiques globales : Étudiants=2, Professeurs=12, Matières=2
+[2026-08-21 15:37:25] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:37:27] [INFO] Liste des matières consultée (2 matières)
+[2026-08-21 15:37:27] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:37:29] [INFO] Liste des utilisateurs consultée (21 entrées)
+[2026-08-21 15:38:33] [INFO] Utilisateur ajouté: ID=19, Nom=Diarra Moussa, Rôle=student
+[2026-08-21 15:38:33] [INFO] Liste des utilisateurs consultée (22 entrées)
+[2026-08-23 23:50:13] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-23 23:50:13] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-23 23:50:13] [INFO] Liste des utilisateurs consultée (22 entrées)
+[2026-08-23 23:50:32] [INFO] Liste des matières consultée (2 matières)
+[2026-08-23 23:50:32] [INFO] Liste des utilisateurs consultée (22 entrées)
+[2026-08-24 00:00:06] [INFO] Liste des matières consultée (2 matières)
+[2026-08-24 00:02:18] [INFO] Liste des utilisateurs consultée (22 entrées)
+[2026-08-24 11:41:31] [INFO] Liste des utilisateurs consultée (22 entrées)
+[2026-08-24 11:44:57] [INFO] Utilisateur ajouté: ID=20, Nom=Big Campbell, Rôle=admin
+[2026-08-24 11:44:57] [INFO] Liste des utilisateurs consultée (23 entrées)
+[2026-08-24 11:46:12] [INFO] Utilisateur ajouté: ID=21, Nom=Coulibaly Mouna, Rôle=teacher
+[2026-08-24 11:46:12] [INFO] Fiche professeur créée pour user_id=21, matière=pc
+[2026-08-24 11:46:12] [INFO] Liste des utilisateurs consultée (24 entrées)
+[2026-08-24 11:46:16] [INFO] Liste des matières consultée (2 matières)
+[2026-08-24 11:46:16] [INFO] Liste des utilisateurs consultée (24 entrées)
+[2026-08-24 11:46:24] [INFO] Liste des utilisateurs consultée (24 entrées)
+[2026-08-24 11:48:13] [ERROR] [Student Controller] Erreur création: Le matricule est obligatoire pour un étudiant.
+[2026-08-24 11:48:15] [ERROR] [Student Controller] Erreur création: Le matricule est obligatoire pour un étudiant.
+[2026-08-24 11:48:15] [ERROR] [Student Controller] Erreur création: Le matricule est obligatoire pour un étudiant.
+[2026-08-24 11:48:15] [ERROR] [Student Controller] Erreur création: Le matricule est obligatoire pour un étudiant.
+[2026-08-24 11:48:16] [ERROR] [Student Controller] Erreur création: Le matricule est obligatoire pour un étudiant.
+[2026-08-24 11:48:16] [ERROR] [Student Controller] Erreur création: Le matricule est obligatoire pour un étudiant.
+[2026-08-24 11:48:16] [ERROR] [Student Controller] Erreur création: Le matricule est obligatoire pour un étudiant.
+[2026-08-24 11:48:16] [ERROR] [Student Controller] Erreur création: Le matricule est obligatoire pour un étudiant.
+[2026-08-24 11:48:16] [ERROR] [Student Controller] Erreur création: Le matricule est obligatoire pour un étudiant.
+[2026-08-24 11:48:16] [ERROR] [Student Controller] Erreur création: Le matricule est obligatoire pour un étudiant.
+[2026-08-24 11:48:16] [ERROR] [Student Controller] Erreur création: Le matricule est obligatoire pour un étudiant.
+[2026-08-24 11:48:17] [ERROR] [Student Controller] Erreur création: Le matricule est obligatoire pour un étudiant.
+[2026-08-24 11:48:59] [INFO] Liste des matières consultée (2 matières)
+[2026-08-24 11:48:59] [INFO] Liste des utilisateurs consultée (24 entrées)
+[2026-08-24 12:29:52] [INFO] Liste des matières consultée (2 matières)
+[2026-08-24 12:29:52] [INFO] Liste des utilisateurs consultée (24 entrées)
+[2026-08-24 12:30:49] [INFO] Liste des utilisateurs consultée (24 entrées)
+[2026-08-24 12:32:52] [INFO] Liste des matières consultée (2 matières)
+[2026-08-24 12:32:52] [INFO] Liste des utilisateurs consultée (24 entrées)
+[2026-08-24 12:33:25] [INFO] Utilisateur ajouté: ID=22, Nom=Zebi Lobognon, Rôle=teacher
+[2026-08-24 12:33:25] [INFO] Fiche professeur créée pour user_id=22, matière=Algo
+[2026-08-24 12:34:11] [INFO] Utilisateur ajouté: ID=23, Nom=Zebi Lobognon, Rôle=teacher
+[2026-08-24 12:34:11] [INFO] Fiche professeur créée pour user_id=23, matière=Algo
+[2026-08-24 12:35:48] [INFO] Liste des utilisateurs consultée (26 entrées)
+[2026-08-24 12:35:56] [INFO] Liste des matières consultée (2 matières)
+[2026-08-24 12:35:56] [INFO] Liste des utilisateurs consultée (26 entrées)
+[2026-08-24 12:37:06] [INFO] Utilisateur ajouté: ID=24, Nom=Ali Ballo, Rôle=teacher
+[2026-08-24 12:37:06] [INFO] Fiche professeur créée pour user_id=24, matière=ASI
+[2026-08-24 12:37:06] [INFO] Professeur ajouté: ID=17, Nom=Ali Ballo, UserID=24
+[2026-08-24 12:37:06] [INFO] Liste des utilisateurs consultée (27 entrées)
+[2026-08-24 12:37:06] [INFO] Liste des matières consultée (2 matières)
+[2026-08-24 12:37:20] [INFO] Liste des utilisateurs consultée (27 entrées)
+[2026-08-24 12:45:44] [INFO] Liste des matières consultée (2 matières)
+[2026-08-24 12:46:55] [INFO] Liste des matières consultée (2 matières)
+[2026-08-24 12:47:18] [INFO] Liste des matières consultée (2 matières)
+[2026-08-24 12:47:27] [INFO] Liste des matières consultée (2 matières)

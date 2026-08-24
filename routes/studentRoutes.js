@@ -1,27 +1,26 @@
 import express from 'express';
 import {
-    getEtudiants,
-    getEtudiantParId,
-    getEtudiantParMatricule,
-    getMonProfilEtudiant,
-    chercherEtudiant,
-    ajouterEtudiant,
-    modifierEtudiant,
-    supprimerEtudiant
+  getEtudiants,
+  getEtudiantParId,
+  getEtudiantParMatricule,
+  getMonProfilEtudiant,
+  chercherEtudiant,
+  ajouterEtudiant,
+  modifierEtudiant,
+  supprimerEtudiant
 } from '../controllers/studentControllers.js';
 import { verifyToken, checkRole } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-// Protège toutes les routes avec verifyToken
 router.use(verifyToken);
 
-
+// Routes spécifiques EN PREMIER
 router.get('/search', checkRole(['admin', 'teacher']), chercherEtudiant);
 router.get('/me', checkRole(['student', 'admin']), getMonProfilEtudiant);
 router.get('/matricule/:matricule', checkRole(['admin', 'teacher']), getEtudiantParMatricule);
 
-
+// Routes générales
 router.get('/', checkRole(['admin', 'teacher']), getEtudiants);
 router.get('/:id', checkRole(['admin', 'teacher']), getEtudiantParId);
 

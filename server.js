@@ -58,7 +58,6 @@ const htmlRouteMap = {
     'matières.html': '/matieres',
     'notes.html': '/notes',
     'statistiques.html': '/statistiques',
-    'utilisateurs.html': '/utilisateurs',
     'mon-profil.html': '/mon-profil'
 };
 

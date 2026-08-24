@@ -2,7 +2,7 @@ import Teacher from '../models/modelTeacher.js';
 import User from '../models/modelUsers.js';
 import database from '../db/database.js';
 import logger from '../utils/logger.js';
-import { addUser } from './userService.js'; 
+import { addUser } from './userService.js';
 
 export {
   addTeacher,
@@ -15,52 +15,60 @@ export {
 };
 
 function addTeacher(nom, matiere, email, password) {
-       const userId = addUser(nom, 'teacher', email, password);
-        const result = Teacher.create(nom, matiere, userId);
-        const teacherId = result.lastInsertRowid;
+  const userResult = addUser(nom, 'teacher', email, password, { matiere });
+  const userId = userResult?.id ?? userResult;
 
-        logger.info(`Professeur ajouté: ID=${teacherId}, Nom=${nom}, UserID=${userId}`);
-        return teacherId;
+  // La fiche professeur est déjà créée par addUser, on récupère juste l'ID
+  const teacher = Teacher.getByUserId(userId);
+  const teacherId = teacher ? teacher.id : null;
+
+  if (!teacherId) {
+    logger.error(`Erreur: Fiche professeur non trouvée après création pour user_id=${userId}`);
+    throw new Error('Erreur lors de la création de la fiche professeur');
+  }
+
+  logger.info(`Professeur ajouté: ID=${teacherId}, Nom=${nom}, UserID=${userId}`);
+  return teacherId;
 }
 
 function updateTeacher(id, nom, matiere, email = null, password = null) {
-        const teacher = Teacher.getById(id);
-      if (!teacher) {
-         logger.error(`Professeur introuvable: ID=${id}`);
-        return false;
+  const teacher = Teacher.getById(id);
+  if (!teacher) {
+    logger.error(`Professeur introuvable: ID=${id}`);
+    return false;
   }
 
-        let tableTeachersModifiee = false;
-        let tableUsersModifiee = false;
+  let tableTeachersModifiee = false;
+  let tableUsersModifiee = false;
 
   const resultTeacher = Teacher.update(id, nom, matiere, teacher.user_id);
-        if (resultTeacher && resultTeacher.changes > 0) {
+  if (resultTeacher && resultTeacher.changes > 0) {
     tableTeachersModifiee = true;
   }
-  
+
   if (teacher.user_id) {
-        const updates = [];
-        const values = [];
-    
+    const updates = [];
+    const values = [];
+
     if (nom) {
-         updates.push('nom = ?');
-         values.push(nom);
+      updates.push('name = ?');
+      values.push(nom);
     }
     if (email) {
-         updates.push('email = ?');
-         values.push(email);
+      updates.push('email = ?');
+      values.push(email);
     }
     if (password) {
-         updates.push('mot_passe = ?');
-         values.push(password);
+      updates.push('mot_passe = ?');
+      values.push(password);
     }
-    
+
     if (updates.length > 0) {
-         values.push(teacher.user_id);
-         const query = `UPDATE users SET ${updates.join(', ')} WHERE id = ?`;
-      
-         const resultUser = database.prepare(query).run(...values);
-         if (resultUser && resultUser.changes > 0) {
+      values.push(teacher.user_id);
+      const query = `UPDATE users SET ${updates.join(', ')} WHERE id = ?`;
+
+      const resultUser = database.prepare(query).run(...values);
+      if (resultUser && resultUser.changes > 0) {
         tableUsersModifiee = true;
       }
     }
@@ -73,7 +81,7 @@ function updateTeacher(id, nom, matiere, email = null, password = null) {
     return true;
   } else {
     logger.info(`Mise à jour demandée pour l'ID=${id} mais aucune donnée n'a changé.`);
-    return true; 
+    return true;
   }
 }
 

@@ -40,29 +40,36 @@ async function loadClasses() {
       ? result.data
       : (Array.isArray(result) ? result : []);
 
-    const select = document.getElementById('studentClasse');
-    if (!select) return;
-
-    if (allClasses.length === 0) {
-      select.innerHTML = '<option value="">Aucune classe disponible</option>';
-      ShowAlert("Aucune classe en base. Créez d'abord des classes.", 'error');
-      return;
+    // Remplir le datalist (saisie libre)
+    const datalist = document.getElementById('classeList');
+    if (datalist) {
+      datalist.innerHTML = allClasses
+        .map(c => `<option value="${escapeHtml(c.nom)}"></option>`)
+        .join('');
     }
 
-    select.innerHTML = '<option value="">Sélectionner une classe</option>' +
-      allClasses.map(c => `<option value="${c.id}">${escapeHtml(c.nom)}</option>`).join('');
+    if (allClasses.length === 0) {
+      ShowAlert("Aucune classe en base. Créez d'abord des classes.", 'error');
+    }
   } catch (error) {
     console.error('[loadClasses]', error);
     ShowAlert("Impossible de charger les classes : " + (error.message || 'erreur réseau'), 'error');
   }
 }
 
-function updateNiveauFromClasse() {
-  const select = document.getElementById('studentClasse');
-  const niveauInput = document.getElementById('studentNiveau');
-  if (!select || !niveauInput) return;
+function findClasseIdByName(classeName) {
+  if (!classeName || !allClasses.length) return null;
+  const normalized = String(classeName).trim().toLowerCase();
+  const found = allClasses.find(c => (c.nom || '').trim().toLowerCase() === normalized);
+  return found ? found.id : null;
+}
 
-  const classe = allClasses.find(c => String(c.id) === String(select.value));
+function updateNiveauFromClasse() {
+  const input = document.getElementById('studentClasse');
+  const niveauInput = document.getElementById('studentNiveau');
+  if (!input || !niveauInput) return;
+
+  const classe = allClasses.find(c => (c.nom || '').trim().toLowerCase() === input.value.trim().toLowerCase());
   niveauInput.value = classe ? (classe.niveau || '') : '';
 }
 
@@ -114,6 +121,7 @@ function renderTable() {
 
   if (students.length === 0) {
     tbody.innerHTML = `<tr class="table-state-row"><td colspan="5">Aucun étudiant ne correspond à cette recherche.</td></tr>`;
+    if (typeof AuthGuard !== 'undefined') AuthGuard.applyUI();
     return;
   }
 
@@ -125,13 +133,15 @@ function renderTable() {
         <td>${escapeHtml(s.nom || '')} ${escapeHtml(s.prenom || '')}</td>
         <td>${escapeHtml(getClasseName(classeId))}</td>
         <td>${escapeHtml(String(s.age ?? ''))}</td>
-        <td>
+        <td data-perm="gerer_etudiants,modifier,supprimer">
           <button class="btn-edit" data-action="edit" data-id="${s.id}"><i class="fa-regular fa-pen-to-square"></i></button>
           <button class="btn-delete" data-action="delete" data-id="${s.id}"><i class="fa-regular fa-trash-can"></i></button>
         </td>
       </tr>
     `;
   }).join('');
+
+  if (typeof AuthGuard !== 'undefined') AuthGuard.applyUI();
 }
 
 function setupSearch() {
@@ -181,9 +191,13 @@ function openEditModal(student) {
   document.getElementById('studentNom').value = student.nom || '';
   document.getElementById('studentPrenom').value = student.prenom || '';
   document.getElementById('studentAge').value = student.age || '';
-  
-  // Assignation directe de classe_id au selecteur HTML
-  document.getElementById('studentClasse').value = student.classe_id || student.class_id || '';
+
+  // Afficher le nom de la classe (saisie libre)
+  const classeInput = document.getElementById('studentClasse');
+  if (classeInput) {
+    classeInput.value = getClasseName(student.classe_id || student.class_id);
+    if (classeInput.value === '-') classeInput.value = '';
+  }
   updateNiveauFromClasse();
 
   document.getElementById('studentAccountGroup').style.display = 'none';
@@ -220,8 +234,11 @@ function setupModal() {
   if (btnNew) btnNew.addEventListener('click', openCreateModal);
   if (btnCancel) btnCancel.addEventListener('click', closeModal);
 
-  const classeSelect = document.getElementById('studentClasse');
-  if (classeSelect) classeSelect.addEventListener('change', updateNiveauFromClasse);
+  const classeInput = document.getElementById('studentClasse');
+  if (classeInput) {
+    classeInput.addEventListener('change', updateNiveauFromClasse);
+    classeInput.addEventListener('input', updateNiveauFromClasse);
+  }
 
   if (modal()) {
     modal().addEventListener('click', (e) => {
@@ -240,8 +257,7 @@ function setupModal() {
       const prenom = document.getElementById('studentPrenom').value.trim();
       const ageRaw = document.getElementById('studentAge').value;
       const age = ageRaw === '' ? null : Number(ageRaw);
-      const classeRaw = document.getElementById('studentClasse').value;
-      const classe_id = classeRaw === '' ? null : Number(classeRaw);
+      const classeName = document.getElementById('studentClasse').value.trim();
 
       if (!matricule) {
         showFormError('Le matricule est obligatoire.');
@@ -255,8 +271,14 @@ function setupModal() {
         showFormError('Veuillez indiquer un âge valide.');
         return;
       }
+      if (!classeName) {
+        showFormError('Veuillez indiquer une classe.');
+        return;
+      }
+
+      const classe_id = findClasseIdByName(classeName);
       if (!classe_id) {
-        showFormError('Veuillez sélectionner une classe.');
+        showFormError(`Classe "${classeName}" introuvable. Vérifiez le nom exact.`);
         return;
       }
 
@@ -328,6 +350,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupSearch();
   setupModal();
   setupTableActions();
-  await loadClasses();   // Exécuté en premier pour alimenter le sélecteur et getClasseName
+  await loadClasses();
   await loadStudents();
 });

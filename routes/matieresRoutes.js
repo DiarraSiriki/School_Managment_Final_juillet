@@ -1,24 +1,20 @@
-// routes/subjectRoutes.js
 import express from 'express';
 import {
-    getMatieres,
-    getMatiereParId,
-    chercherMatiere,
-    ajouterMatiere,
-    modifierMatiere,
-    supprimerMatiere
+  getMatieres,
+  getMatiereParId,
+  chercherMatiere,
+  ajouterMatiere,
+  modifierMatiere,
+  supprimerMatiere
 } from '../controllers/matieresControllers.js';
 import { verifyToken, checkRole } from '../middlewares/authMiddleware.js';
 
-
 const router = express.Router();
 
-// Protège toutes les routes avec verifyToken
 router.use(verifyToken);
 
-// 
-router.get('/', checkRole(['admin', 'teacher']), getMatieres);
 router.get('/search', checkRole(['admin', 'teacher']), chercherMatiere);
+router.get('/', checkRole(['admin', 'teacher']), getMatieres);
 router.get('/:id', checkRole(['admin', 'teacher']), getMatiereParId);
 
 router.post('/', checkRole(['admin']), ajouterMatiere);

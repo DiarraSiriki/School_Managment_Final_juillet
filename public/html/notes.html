@@ -1,21 +1,18 @@
 <!DOCTYPE html>
 <html lang="fr">
-   <head>
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EcoleAdmin - Notes</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
- 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-  
-
   <link rel="stylesheet" href="css/notes.css">
 </head>
 <body data-roles="admin,teacher,student">
-  
 
-  
+  <!-- BOÎTE D'ALERTE POUR NOTIFICATIONS -->
+  <div id="alertBox" class="alert-box"></div>
 
   <!-- BARRE LATÉRALE (SIDEBAR) -->
   <aside class="sidebar">
@@ -59,7 +56,7 @@
         <i class="fa-solid fa-pen-to-square"></i> Notes
       </div>
       <div class="top-date">
-        Lun 03 Août 2026 <span class="status-dot"></span>
+        <span id="topDateText">Chargement...</span> <span class="status-dot"></span>
       </div>
     </header>
 
@@ -67,9 +64,9 @@
     <div class="page-header">
       <div>
         <h1>Notes</h1>
-        <p class="subtitle">10 notes enregistrées</p>
+        <p class="subtitle" id="gradeSubtitle">Chargement des notes...</p>
       </div>
-      <button class="btn-primary"><i class="fa-solid fa-plus"></i> Saisir une note</button>
+      <button class="btn-primary" id="btnNewGrade"><i class="fa-solid fa-plus"></i> Saisir une note</button>
     </div>
 
     <!-- TABLEAU DES NOTES -->
@@ -84,44 +81,9 @@
             <th>ACTIONS</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td><strong>Benali Yasmine</strong></td>
-            <td>3ème A</td>
-            <td>Mathématiques</td>
-            <td><span class="grade grade-high">18/20</span></td>
-            <td>
-              <div class="action-buttons">
-                <button class="btn-edit"><i class="fa-solid fa-pen"></i> </button>
-                <button class="btn-delete"><i class="fa-solid fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td><strong>Chérif Amine</strong></td>
-            <td>2ème B</td>
-            <td>Français</td>
-            <td><span class="grade grade-high">14/20</span></td>
-            <td>
-              <div class="action-buttons">
-                <button class="btn-edit"><i class="fa-solid fa-pen"></i> </button>
-                <button class="btn-delete"><i class="fa-solid fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td><strong>Meziani Lina</strong></td>
-            <td>4ème A</td>
-            <td>Sciences Naturelles</td>
-            <td><span class="grade grade-medium">11/20</span></td>
-            <td>
-              <div class="action-buttons">
-                <button class="btn-edit"><i class="fa-solid fa-pen"></i></button>
-                <button class="btn-delete"><i class="fa-solid fa-trash"></i></button>
-              </div>
-            </td>
+        <tbody id="gradesTableBody">
+          <tr class="table-state-row">
+            <td colspan="5" style="text-align:center;">Chargement des données...</td>
           </tr>
         </tbody>
       </table>
@@ -129,7 +91,45 @@
 
   </main>
 
-   <script src="/js/authGuard.js"></script>
+  <!-- MODALE DE SAISIE ET MODIFICATION -->
+  <div id="gradeModal" class="modal">
+    <div class="modal-content">
+      <h3 id="modalTitle">Saisir une note</h3>
+      <p id="modalSubtitle">Renseignez les détails de la note de l'élève.</p>
+
+      <div id="formError" class="alert-box alert-error" style="display: none;"></div>
+
+      <form id="gradeForm">
+        <input type="hidden" id="gradeId">
+
+        <div class="form-group">
+          <label for="gradeStudent">Étudiant</label>
+          <select id="gradeStudent" required>
+            <option value="">Sélectionner un étudiant</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="gradeSubject">Matière</label>
+          <select id="gradeSubject" required>
+            <option value="">Sélectionner une matière</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="gradeValue">Note (/20)</label>
+          <input type="number" id="gradeValue" min="0" max="20" step="0.25" placeholder="Ex: 15.5" required>
+        </div>
+
+        <div class="form-actions">
+          <button type="button" id="btnCancelModal" class="btn-secondary">Annuler</button>
+          <button type="submit" id="btnSubmitModal" class="btn-primary">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="/js/authGuard.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/notes.js"></script>
 </body>

@@ -54,16 +54,19 @@ db.exec(`
 
 db.exec(`CREATE INDEX IF NOT EXISTS idx_students_matricule ON students(matricule)`);
 
-// 4. Table TEACHERS
+// 4. Table TEACHERS (modifiée)
 db.exec(`
   CREATE TABLE IF NOT EXISTS teachers (
-    id      INTEGER PRIMARY KEY AUTOINCREMENT,
-    nom     TEXT    NOT NULL,
-    matiere TEXT    NOT NULL,
-    user_id INTEGER UNIQUE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+    id        INTEGER PRIMARY KEY AUTOINCREMENT,
+    nom       TEXT    NOT NULL,
+    matiere   TEXT    NOT NULL,
+    classe_id INTEGER,
+    user_id   INTEGER UNIQUE,
+    FOREIGN KEY (classe_id) REFERENCES classes(id) ON DELETE SET NULL,
+    FOREIGN KEY (user_id)   REFERENCES users(id)   ON DELETE SET NULL
   )
 `);
+
 
 // 5. Table SUBJECTS
 db.exec(`

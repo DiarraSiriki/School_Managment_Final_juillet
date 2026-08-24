@@ -1,4 +1,3 @@
-
 import {
   addUser,
   removeUser,
@@ -31,7 +30,7 @@ const getUtilisateurParId = (req, res) => {
 };
 
 const ajouterUtilisateur = (req, res) => {
-  const { name, role, email, mot_passe } = req.body;
+  const { name, role, email, mot_passe, matricule, classe_id, matiere, age, prenom, nom } = req.body;
 
   if (!name || !role || !email || !mot_passe) {
     return res.status(400).json({
@@ -40,7 +39,8 @@ const ajouterUtilisateur = (req, res) => {
   }
 
   try {
-    const newUser = addUser(name, role, email, mot_passe);
+    const extra = { matricule, classe_id, matiere, age, prenom, nom };
+    const newUser = addUser(name, role, email, mot_passe, extra);
     return res.status(201).json({
       success: true,
       message: 'Utilisateur créé avec succès !',
@@ -54,16 +54,17 @@ const ajouterUtilisateur = (req, res) => {
 
 const modifierUtilisateur = (req, res) => {
   const id = req.params.id;
-  const { name, role, email, mot_passe } = req.body;
+  const { name, role, email, mot_passe, matricule, classe_id, matiere, age, prenom, nom } = req.body;
 
-  if (!name && !role && !email && !mot_passe) {
+  if (!name && !role && !email && !mot_passe && !matricule && !classe_id && !matiere) {
     return res.status(400).json({
       error: 'Au moins un champ doit être fourni pour la mise à jour.'
     });
   }
 
   try {
-    const ok = updateUser(id, name, role, email, mot_passe);
+    const extra = { matricule, classe_id, matiere, age, prenom, nom };
+    const ok = updateUser(id, name, role, email, mot_passe, extra);
     if (!ok) {
       return res.status(404).json({ error: 'Utilisateur introuvable.' });
     }

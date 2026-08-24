@@ -391,3 +391,71 @@ td strong {
 .grade-low {
   color: #ef4444; /* Rouge */
 }
+
+/* Badges de notes */
+.grade {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.813rem;
+}
+
+.grade-high {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.grade-medium {
+  background-color: #fef9c3;
+  color: #854d0e;
+}
+
+.grade-low {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+
+/* ==========================================
+   FORMULAIRE EN ARRIÈRE-PLAN (MASQUÉ PAR DÉFAUT)
+   ========================================== */
+.modal {
+  display: none;                /* Reste invisible et en arrière-plan tant qu'il n'y a pas la classe .show */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.6); /* Fond sombre semi-transparent */
+  backdrop-filter: blur(4px);   /* Floute le contenu derrière la modale */
+  z-index: 9999;               /* S'affiche au-dessus du tableau et de la sidebar lors de l'activation */
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+/* ==========================================
+   AFFICHAGE AU CLIC (DÉCLENCHÉ PAR JS)
+   ========================================== */
+.modal.show {
+  display: flex;                /* Rend le formulaire visible au-dessus de la page */
+  opacity: 1;
+}
+
+/* Conteneur blanc du formulaire */
+.modal-content {
+  background-color: #ffffff;
+  padding: 28px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  transform: translateY(-10px);
+  transition: transform 0.2s ease-in-out;
+}
+
+.modal.show .modal-content {
+  transform: translateY(0);
+}

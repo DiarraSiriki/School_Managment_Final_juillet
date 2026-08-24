@@ -56,50 +56,63 @@ function showAlert(message, type = 'success') {
   }, 3500);
 }
 
-// --- Dynamic Role Fields Manager ---
-
 function updateRoleFields(role) {
   const studentGroup = document.getElementById('studentFieldsGroup');
   const teacherGroup = document.getElementById('teacherFieldsGroup');
+  const fullNameGroup = document.getElementById('fullNameGroup');
+  const userNameInput = document.getElementById('userName');
 
-  const studentClasseSelect = document.getElementById('studentClasseSelect');
   const studentMatriculeInput = document.getElementById('studentMatriculeInput');
+  const studentPrenomInput = document.getElementById('studentPrenomInput');
+  const studentNomInput = document.getElementById('studentNomInput');
+  const studentAgeInput = document.getElementById('studentAgeInput');
+  const studentClasseInput = document.getElementById('studentClasseInput');
   const teacherMatiereInput = document.getElementById('teacherMatiereInput');
 
-  // Masquer tous les groupes optionnels par défaut
   if (studentGroup) studentGroup.style.display = 'none';
   if (teacherGroup) teacherGroup.style.display = 'none';
 
-  // Réinitialiser les validations obligatoires
-  if (studentClasseSelect) studentClasseSelect.required = false;
   if (studentMatriculeInput) studentMatriculeInput.required = false;
+  if (studentPrenomInput) studentPrenomInput.required = false;
+  if (studentNomInput) studentNomInput.required = false;
+  if (studentAgeInput) studentAgeInput.required = false;
+  if (studentClasseInput) studentClasseInput.required = false;
   if (teacherMatiereInput) teacherMatiereInput.required = false;
+  if (userNameInput) userNameInput.required = false;
 
-  // Afficher et activer les validations selon le rôle coché
   if (role === 'student') {
+    if (fullNameGroup) fullNameGroup.style.display = 'none';
     if (studentGroup) studentGroup.style.display = 'block';
-    if (studentClasseSelect) studentClasseSelect.required = true;
+    if (studentPrenomInput) studentPrenomInput.required = true;
+    if (studentNomInput) studentNomInput.required = true;
+    if (studentAgeInput) studentAgeInput.required = true;
     if (studentMatriculeInput) studentMatriculeInput.required = true;
+    if (studentClasseInput) studentClasseInput.required = true;
   } else if (role === 'teacher') {
+    if (fullNameGroup) fullNameGroup.style.display = 'block';
+    if (userNameInput) userNameInput.required = true;
     if (teacherGroup) teacherGroup.style.display = 'block';
     if (teacherMatiereInput) teacherMatiereInput.required = true;
+  } else {
+    if (fullNameGroup) fullNameGroup.style.display = 'block';
+    if (userNameInput) userNameInput.required = true;
   }
 }
-
-// --- Chargement des données ---
 
 async function loadClasses() {
   try {
     const result = await API.classes.getAll();
     allClasses = Array.isArray(result?.data) ? result.data : (Array.isArray(result) ? result : []);
-    const select = document.getElementById('studentClasseSelect');
-    if (!select) return;
-
-    select.innerHTML = '<option value="">Sélectionner une classe</option>' +
-      allClasses.map(c => `<option value="${c.id}">${escapeHtml(c.nom)}</option>`).join('');
   } catch (error) {
     console.error('[loadClasses]', error);
   }
+}
+
+function findClasseIdByName(classeName) {
+  if (!classeName || !allClasses.length) return null;
+  const normalized = classeName.trim().toLowerCase();
+  const found = allClasses.find(c => (c.nom || '').trim().toLowerCase() === normalized);
+  return found ? found.id : null;
 }
 
 async function loadUsers() {
@@ -140,9 +153,8 @@ function getFilteredUsers() {
   return allUsers.filter(u => {
     const matchesRole = currentFilter === 'all' || u.role === currentFilter;
     if (!matchesRole) return false;
-
     if (!searchTerm) return true;
-    const haystack = `${u.name || ''} ${u.email || ''}`.toLowerCase();
+    const haystack = `${u.name || ''} ${u.nom || ''} ${u.prenom || ''} ${u.email || ''}`.toLowerCase();
     return haystack.includes(searchTerm);
   });
 }
@@ -155,11 +167,18 @@ function renderTable() {
 
   if (users.length === 0) {
     tbody.innerHTML = `<tr class="table-state-row"><td colspan="4">Aucun utilisateur ne correspond à cette recherche.</td></tr>`;
+    if (typeof AuthGuard !== 'undefined') AuthGuard.applyUI();
     return;
   }
 
   tbody.innerHTML = users.map(u => {
-    const initials = getInitials(u.name);
+    const displayName = u.role === 'student'
+      ? `${u.prenom || ''} ${u.nom || ''}`.trim() || u.name
+      : u.role === 'teacher'
+      ? u.nom || u.name
+      : u.name;
+
+    const initials = getInitials(displayName);
     const avatarClass = ROLE_AVATAR_CLASS[u.role] || 'blue-bg';
     const badgeClass = ROLE_BADGE_CLASS[u.role] || 'badge-blue';
     const roleLabel = ROLE_LABELS[u.role] || u.role;
@@ -169,22 +188,22 @@ function renderTable() {
         <td class="user-cell">
           <div class="circle-avatar ${avatarClass}">${escapeHtml(initials)}</div>
           <div>
-            <strong>${escapeHtml(u.name)}</strong><br>
+            <strong>${escapeHtml(displayName)}</strong><br>
             <small>ID-${escapeHtml(String(u.id))}</small>
           </div>
         </td>
-        <td>${escapeHtml(u.email)}</td>
+        <td>${escapeHtml(u.email || '')}</td>
         <td><span class="badge ${badgeClass}">${escapeHtml(roleLabel)}</span></td>
-        <td>
+        <td data-perm="gerer_utilisateurs">
           <button class="btn-edit" data-action="edit" data-id="${u.id}" title="Modifier"><i class="fa-regular fa-pen-to-square"></i></button>
           <button class="btn-delete" data-action="delete" data-id="${u.id}" title="Supprimer"><i class="fa-regular fa-trash-can"></i></button>
         </td>
       </tr>
     `;
   }).join('');
-}
 
-// --- Filtres et recherche ---
+  if (typeof AuthGuard !== 'undefined') AuthGuard.applyUI();
+}
 
 function setupSearch() {
   const filterButtons = document.getElementById('filterButtons');
@@ -192,7 +211,6 @@ function setupSearch() {
     filterButtons.addEventListener('click', (e) => {
       const btn = e.target.closest('.btn-filter');
       if (!btn) return;
-
       document.querySelectorAll('.btn-filter').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       currentFilter = btn.dataset.role;
@@ -209,8 +227,6 @@ function setupSearch() {
   }
 }
 
-// --- Modale (création / modification) ---
-
 const modal = () => document.getElementById('userModal');
 
 function openCreateModal() {
@@ -221,10 +237,9 @@ function openCreateModal() {
   document.getElementById('userPassword').required = true;
   document.getElementById('passwordHint').textContent = 'Requis à la création.';
 
-  // Sélectionne 'student' par défaut au premier affichage
-  const selectedRoleRadio = document.querySelector('input[name="userRole"]:checked') || 
+  const selectedRoleRadio = document.querySelector('input[name="userRole"]:checked') ||
                              document.querySelector('input[name="userRole"][value="student"]');
-  
+
   if (selectedRoleRadio) {
     selectedRoleRadio.checked = true;
     updateRoleFields(selectedRoleRadio.value);
@@ -238,7 +253,7 @@ function openCreateModal() {
 
 function openEditModal(user) {
   document.getElementById('modalTitle').textContent = 'Modifier l\'utilisateur';
-  document.getElementById('modalSubtitle').textContent = `${user.name} · ${ROLE_LABELS[user.role] || user.role}`;
+  document.getElementById('modalSubtitle').textContent = `${user.name || ''} · ${ROLE_LABELS[user.role] || user.role}`;
   document.getElementById('userId').value = user.id;
   document.getElementById('userName').value = user.name || '';
   document.getElementById('userEmail').value = user.email || '';
@@ -250,10 +265,21 @@ function openEditModal(user) {
   updateRoleFields(roleToSet);
 
   if (roleToSet === 'student') {
-    const select = document.getElementById('studentClasseSelect');
+    const prenomInput = document.getElementById('studentPrenomInput');
+    const nomInput = document.getElementById('studentNomInput');
+    const ageInput = document.getElementById('studentAgeInput');
     const matInput = document.getElementById('studentMatriculeInput');
-    if (select) select.value = user.classe_id || '';
+    const classeInput = document.getElementById('studentClasseInput');
+
+    if (prenomInput) prenomInput.value = user.prenom || '';
+    if (nomInput) nomInput.value = user.nom || '';
+    if (ageInput) ageInput.value = user.age != null ? user.age : '';
     if (matInput) matInput.value = user.matricule || '';
+
+    if (classeInput) {
+      const classe = allClasses.find(c => String(c.id) === String(user.classe_id));
+      classeInput.value = classe ? classe.nom : '';
+    }
   } else if (roleToSet === 'teacher') {
     const matieresInput = document.getElementById('teacherMatiereInput');
     if (matieresInput) matieresInput.value = user.matiere || '';
@@ -297,7 +323,6 @@ function setupModal() {
     });
   }
 
-  // Écouteur en direct sur les boutons radio de rôle
   document.querySelectorAll('input[name="userRole"]').forEach(radio => {
     radio.addEventListener('change', (e) => {
       updateRoleFields(e.target.value);
@@ -311,21 +336,70 @@ function setupModal() {
       hideFormError();
 
       const id = document.getElementById('userId').value;
-      const name = document.getElementById('userName').value.trim();
       const email = document.getElementById('userEmail').value.trim();
       const roleRadio = document.querySelector('input[name="userRole"]:checked');
       const role = roleRadio ? roleRadio.value : '';
       const mot_passe = document.getElementById('userPassword').value;
 
-      const payload = { name, email, role };
+      let name = document.getElementById('userName').value.trim();
+
+      const payload = { email, role };
       if (mot_passe) payload.mot_passe = mot_passe;
 
-      // Construction dynamique du payload selon le rôle
       if (role === 'student') {
-        payload.classe_id = document.getElementById('studentClasseSelect')?.value || null;
-        payload.matricule = document.getElementById('studentMatriculeInput')?.value.trim() || null;
+        const prenom = document.getElementById('studentPrenomInput')?.value.trim() || '';
+        const nom = document.getElementById('studentNomInput')?.value.trim() || '';
+        const age = document.getElementById('studentAgeInput')?.value;
+        const matricule = document.getElementById('studentMatriculeInput')?.value.trim() || null;
+        const classeName = document.getElementById('studentClasseInput')?.value.trim() || '';
+
+        if (!prenom || !nom) {
+          showFormError('Le prénom et le nom sont obligatoires pour un étudiant.');
+          return;
+        }
+        if (!age) {
+          showFormError('L\'âge est obligatoire pour un étudiant.');
+          return;
+        }
+        if (!matricule) {
+          showFormError('Le matricule est obligatoire pour un étudiant.');
+          return;
+        }
+        if (!classeName) {
+          showFormError('La classe est obligatoire pour un étudiant.');
+          return;
+        }
+
+        const classe_id = findClasseIdByName(classeName);
+        if (!classe_id) {
+          showFormError(`Classe "${classeName}" introuvable. Vérifiez le nom exact.`);
+          return;
+        }
+
+        name = `${prenom} ${nom}`.trim();
+        payload.name = name;
+        payload.prenom = prenom;
+        payload.nom = nom;
+        payload.age = Number(age);
+        payload.matricule = matricule;
+        payload.classe_id = classe_id;
       } else if (role === 'teacher') {
-        payload.matiere = document.getElementById('teacherMatiereInput')?.value.trim() || null;
+        if (!name) {
+          showFormError('Le nom complet est obligatoire.');
+          return;
+        }
+        payload.name = name;
+        payload.matiere = document.getElementById('teacherMatiereInput')?.value.trim() || '';
+        if (!payload.matiere) {
+          showFormError('La matière est obligatoire pour un professeur.');
+          return;
+        }
+      } else {
+        if (!name) {
+          showFormError('Le nom complet est obligatoire.');
+          return;
+        }
+        payload.name = name;
       }
 
       const submitBtn = document.getElementById('btnSubmitModal');
@@ -351,8 +425,6 @@ function setupModal() {
     });
   }
 }
-
-// --- Actions sur les lignes ---
 
 function setupTableActions() {
   const tbody = document.getElementById('usersTableBody');

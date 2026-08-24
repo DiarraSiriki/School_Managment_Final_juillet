@@ -105,7 +105,7 @@ School_Managment_Final_juillet/
 │   └── usersRoutes.js
 ├── middlewares/
 │   └── authMiddleware.js
-├── publics/
+├── public/
 │   ├── index.html
 │   ├── login.html
 │   ├── html/
@@ -116,7 +116,7 @@ School_Managment_Final_juillet/
 │   │   ├── matieres.html
 │   │   ├── notes.html
 │   │   ├── statistiques.html
-│   │   └── utilisateurs.html
+│   │   └── mon-profil.html
 │   ├── css/
 │   │   ├── absences.css
 │   │   ├── dashboard-admin.css
@@ -125,19 +125,18 @@ School_Managment_Final_juillet/
 │   │   ├── login.css
 │   │   ├── matieres.css
 │   │   ├── notes.css
-│   │   ├── statistiques.css
-│   │   └── utilisateurs.css
+│   │   └── statistiques.css
 │   └── js/
 │       ├── absences.js
 │       ├── api.js
+│       ├── authGuard.js
 │       ├── dashboard-admin.js
 │       ├── dashboard-etudiant.js
 │       ├── dashboard-prof.js
 │       ├── login.js
 │       ├── matieres.js
 │       ├── notes.js
-│       ├── statistiques.js
-│       └── utilisateurs.js
+│       └── statistiques.js
 ├── utils/
 │   └── logger.js
 └── logs/
@@ -168,6 +167,22 @@ PORT=3000
 JWT_SECRET=votre_clé_secrète_super_securisée
 NODE_ENV=development
 ```
+
+4. Initialiser la base de données (optionnel) :
+
+Si vous souhaitez peupler la base de données avec des données de test :
+
+```bash
+node scripts/seed.js
+```
+
+Cela créera un compte admin par défaut :
+- Email : `admin@school.com`
+- Mot de passe : `Admin123!`
+
+Et des comptes de test :
+- Professeur : `marie.kouassi@school.com` / `Prof123!`
+- Étudiant : `siriki.diarra@school.com` / `Etu123!`
 
 ---
 
@@ -204,86 +219,6 @@ Le serveur sera accessible à l'adresse : `http://localhost:3000`
 
 ---
 
-## API Endpoints
-
-### Authentification
-- `POST /api/auth/login` - Connexion
-- `POST /api/auth/logout` - Déconnexion (nécessite un token JWT)
-
-### Utilisateurs
-- `GET /api/users` - Liste des utilisateurs
-- `POST /api/users` - Créer un utilisateur
-- `DELETE /api/users/:id` - Supprimer un utilisateur
-
-### Étudiants
-- `GET /api/students` - Liste des étudiants
-- `GET /api/students/:id` - Détails d'un étudiant
-- `GET /api/students/matricule/:matricule` - Recherche par matricule
-- `GET /api/students/search?q=` - Recherche par mot-clé
-- `GET /api/students/me` - Profil de l'étudiant connecté
-- `POST /api/students` - Créer un étudiant
-- `PUT /api/students/:id` - Modifier un étudiant
-- `DELETE /api/students/:id` - Supprimer un étudiant
-
-### Professeurs
-- `GET /api/teachers` - Liste des professeurs
-- `GET /api/teachers/:id` - Détails d'un professeur
-- `GET /api/teachers/search?q=` - Recherche par mot-clé
-- `POST /api/teachers` - Créer un professeur
-- `PUT /api/teachers/:id` - Modifier un professeur
-- `DELETE /api/teachers/:id` - Supprimer un professeur
-
-### Matières
-- `GET /api/subjects` - Liste des matières
-- `GET /api/subjects/:id` - Détails d'une matière
-- `GET /api/subjects/search?q=` - Recherche par mot-clé
-- `POST /api/subjects` - Créer une matière
-- `PUT /api/subjects/:id` - Modifier une matière
-- `DELETE /api/subjects/:id` - Supprimer une matière
-
-### Notes
-- `GET /api/grades` - Liste des notes
-- `GET /api/grades/:id` - Détails d'une note
-- `GET /api/grades/student/:student_id` - Notes d'un étudiant
-- `GET /api/grades/student/:student_id/average` - Moyenne d'un étudiant
-- `POST /api/grades` - Ajouter une note
-- `PUT /api/grades/:id` - Modifier une note
-- `DELETE /api/grades/:id` - Supprimer une note
-
-### Absences
-- `GET /api/absences` - Liste des absences
-- `GET /api/absences/student/:student_id` - Absences d'un étudiant
-- `POST /api/absences` - Enregistrer une absence
-- `PUT /api/absences/:id/status` - Modifier le statut
-- `PATCH /api/absences/:id/justify` - Justifier une absence
-- `PATCH /api/absences/:id/unjustify` - Désjustifier une absence
-- `DELETE /api/absences/:id` - Supprimer une absence
-
-### Statistiques
-- `GET /api/stats` - Statistiques principales
-- `GET /api/stats/average` - Moyenne générale
-- `GET /api/stats/rankings` - Classement des étudiants
-- `GET /api/stats/best-student` - Meilleur étudiant
-- `GET /api/stats/absences` - Statistiques absences globales
-- `GET /api/stats/absences/student/:student_id` - Statistiques absences étudiant
-
-### Santé
-- `GET /api/health` - Vérifie que le serveur fonctionne
-
----
-
-## Base de Données
-
-L'application utilise SQLite avec les tables suivantes :
-- `users` : Comptes utilisateurs globaux (id, name, role, email, mot_passe)
-- `students` : Informations des étudiants (id, matricule, nom, prenom, age, classe, user_id)
-- `teachers` : Informations des professeurs (id, nom, matiere, user_id)
-- `subjects` : Matières (id, nom, classe, teacher_id)
-- `grades` : Notes des étudiants (id, student_id, subject_id, note)
-- `absences` : Absences des étudiants (id, student_id, date, status)
-
----
-
 ## Architecture
 
 Le projet suit une architecture **MVC (Model-View-Controller)** avec séparation des responsabilités :
@@ -291,12 +226,12 @@ Le projet suit une architecture **MVC (Model-View-Controller)** avec séparation
 ### Flux de données
 
 ```
-Frontend (publics/js/) → API (routes/) → Controllers → Services → Models → Base de données (SQLite)
+Frontend (public/js/) → API (routes/) → Controllers → Services → Models → Base de données (SQLite)
 ```
 
 ### Couches de l'application
 
-1. **Frontend** (`publics/`) :
+1. **Frontend** (`public/`) :
    - Pages HTML pour l'interface utilisateur
    - CSS pour le style
    - JavaScript vanilla pour la logique frontend et appels API
@@ -362,6 +297,3 @@ Les logs incluent :
 
 ---
 
-## Licence
-
-ISC

@@ -1,25 +1,18 @@
 <!DOCTYPE html>
 <html lang="fr">
- <head>
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PROFESSEURS</title>
-  
-  <!-- Font Awesome 6 CDN pour les icônes -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  
-  <!-- Police Google Font (Inter) -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-  
-  <!-- Lien vers votre fichier CSS -->
   <link rel="stylesheet" href="css/dashboard-prof.css">
 </head>
-<body data-roles="admin,teacher">
 
-  <!-- BOÎTE D'ALERTE -->
+<body data-roles="admin">
+
   <div id="alertBox" class="alert-box"></div>
 
-  <!-- BARRE LATÉRALE (SIDEBAR) -->
   <aside class="sidebar">
     <div class="brand">
       <div class="logo">É</div>
@@ -52,25 +45,22 @@
     </div>
   </aside>
 
-  <!-- CONTENU PRINCIPAL -->
   <main class="main-content">
-    
-    <!-- EN-TÊTE HAUT -->
     <header class="top-header">
       <div class="top-title"><i class="fa-solid fa-chalkboard-user"></i> Professeurs</div>
       <div class="top-date"><span id="TopDateText"></span> <span class="status-dot"></span></div>
     </header>
 
-    <!-- EN-TÊTE PAGE + BOUTON -->
     <div class="page-header">
       <div>
         <h1>Professeurs</h1>
         <p class="subtitle" id="profSubtitle">Chargement...</p>
       </div>
-      <button class="btn-primary" id="btnNewTeacher"><i class="fa-solid fa-plus"></i> Nouveau professeur</button>
+      <button class="btn-primary" id="btnNewTeacher" data-perm="gerer_professeurs,ajouter">
+        <i class="fa-solid fa-plus"></i> Nouveau professeur
+      </button>
     </div>
 
-    <!-- RECHERCHE -->
     <div class="filter-bar">
       <div class="search-box">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -78,7 +68,6 @@
       </div>
     </div>
 
-    <!-- TABLEAU DE DONNÉES -->
     <div class="table-container">
       <table>
         <thead>
@@ -86,7 +75,7 @@
             <th>PROFESSEUR</th>
             <th>DISCIPLINE</th>
             <th>CLASSES</th>
-            <th>ACTIONS</th>
+            <th data-perm="gerer_professeurs,modifier,supprimer">ACTIONS</th>
           </tr>
         </thead>
         <tbody id="teachersTableBody">
@@ -96,49 +85,39 @@
         </tbody>
       </table>
     </div>
-
   </main>
 
-  <!-- MODALE D'AJOUT / MODIFICATION -->
   <div id="teacherModal" class="modal">
     <div class="modal-content">
       <h3 id="modalTitle">Nouveau professeur</h3>
       <p id="modalSubtitle">Créer un professeur et son compte de connexion.</p>
-
       <div id="formError" class="alert-box"></div>
 
       <form id="teacherForm">
         <input type="hidden" id="teacherId">
-
         <div class="form-group">
           <label for="teacherNom">Nom complet</label>
           <input type="text" id="teacherNom" placeholder="Ex: Dr. Mansouri Farid" required>
         </div>
-
         <div class="form-group">
           <label for="teacherMatiere">Discipline</label>
           <input type="text" id="teacherMatiere" placeholder="Ex: Mathématiques" required>
         </div>
-
-        <!-- CHAMP CLASSE AJOUTÉ ICI -->
         <div class="form-group">
           <label for="teacherClasse">Classe assignée</label>
           <input type="text" id="teacherClasse" placeholder="Ex: 6ème A, 3ème B">
         </div>
-
         <div id="teacherAccountGroup">
           <div class="form-group">
             <label for="teacherEmail">Adresse email</label>
             <input type="email" id="teacherEmail" placeholder="Ex: adresse@ecole.dz">
           </div>
-
           <div class="form-group">
             <label for="teacherPassword">Mot de passe</label>
             <input type="password" id="teacherPassword" placeholder="••••••••">
             <small id="passwordHint">Requis à la création.</small>
           </div>
         </div>
-
         <div class="form-actions">
           <button type="button" id="btnCancelModal" class="btn-secondary">Annuler</button>
           <button type="submit" id="btnSubmitModal" class="btn-primary">Enregistrer</button>

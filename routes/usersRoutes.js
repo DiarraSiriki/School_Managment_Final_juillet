@@ -1,9 +1,11 @@
-
 import express from 'express';
 import {
-  getUtilisateurs,getUtilisateurParId,
-  ajouterUtilisateur,supprimerUtilisateur,
-  modifierUtilisateur} from '../controllers/usersControllers.js';
+  getUtilisateurs,
+  getUtilisateurParId,
+  ajouterUtilisateur,
+  supprimerUtilisateur,
+  modifierUtilisateur
+} from '../controllers/usersControllers.js';
 import { verifyToken, checkRole } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();

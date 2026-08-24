@@ -122,6 +122,7 @@ function renderTable() {
 
   if (teachers.length === 0) {
     tbody.innerHTML = `<tr class="table-state-row"><td colspan="4">Aucun professeur ne correspond à cette recherche.</td></tr>`;
+    if (typeof AuthGuard !== 'undefined') AuthGuard.applyUI();
     return;
   }
 
@@ -137,13 +138,15 @@ function renderTable() {
         </td>
         <td><span class="badge badge-light-blue">${escapeHtml(t.matiere || '-')}</span></td>
         <td><strong class="classes-text">${escapeHtml(classesText)}</strong></td>
-        <td>
+        <td data-perm="gerer_professeurs,modifier,supprimer">
           <button class="btn-edit" data-action="edit" data-id="${t.id}"><i class="fa-regular fa-pen-to-square"></i></button>
           <button class="btn-delete" data-action="delete" data-id="${t.id}"><i class="fa-regular fa-trash-can"></i></button>
         </td>
       </tr>
     `;
   }).join('');
+
+  if (typeof AuthGuard !== 'undefined') AuthGuard.applyUI();
 }
 
 function setupSearch() {
@@ -181,8 +184,7 @@ function openEditModal(teacher) {
 
   document.getElementById('teacherNom').value = teacher.nom || '';
   document.getElementById('teacherMatiere').value = teacher.matiere || '';
-  
-  // Pré-remplissage de la classe assignée
+
   const currentClasses = getClassesForTeacher(teacher.id);
   document.getElementById('teacherClasse').value = teacher.classe || currentClasses.join(', ') || '';
 
@@ -270,7 +272,7 @@ function setupModal() {
             submitBtn.textContent = 'Enregistrer';
             return;
           }
-          await API.teachers.create({ nom, matiere, classe, email, password });
+          await API.teachers.create({ nom, matiere, email, password });
           ShowAlert('Professeur créé avec succès.');
         }
         closeModal();

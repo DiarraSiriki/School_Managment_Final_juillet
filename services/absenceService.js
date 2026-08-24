@@ -1,4 +1,5 @@
 ﻿import Absence from '../models/modelAbsence.js';
+import Student from '../models/modelStudent.js';
 import logger from '../utils/logger.js';
 
 export {
@@ -56,12 +57,30 @@ function removeAbsence(id) {
 
 function getHistory() {
   const absences = Absence.getAll();
-  logger.info(`Historique des absences consulté (${absences.length} absences)`);
-  return absences;
+  // Joindre avec les informations de l'étudiant
+  const absencesWithStudentInfo = absences.map(absence => {
+    const student = Student.getById(absence.student_id);
+    return {
+      ...absence,
+      student_name: student ? `${student.prenom} ${student.nom}` : 'Inconnu',
+      student_matricule: student ? student.matricule : null,
+      classe_id: student ? student.classe_id : null
+    };
+  });
+  logger.info(`Historique des absences consulté (${absencesWithStudentInfo.length} absences)`);
+  return absencesWithStudentInfo;
 }
 
 function getStudentHistory(student_id) {
   const absences = Absence.getByStudent(student_id);
-  logger.info(`Historique des absences consulté pour l'étudiant ID=${student_id} (${absences.length} absences)`);
-  return absences;
+  const student = Student.getById(student_id);
+  // Ajouter les informations de l'étudiant
+  const absencesWithStudentInfo = absences.map(absence => ({
+    ...absence,
+    student_name: student ? `${student.prenom} ${student.nom}` : 'Inconnu',
+    student_matricule: student ? student.matricule : null,
+    classe_id: student ? student.classe_id : null
+  }));
+  logger.info(`Historique des absences consulté pour l'étudiant ID=${student_id} (${absencesWithStudentInfo.length} absences)`);
+  return absencesWithStudentInfo;
 }

@@ -1,5 +1,4 @@
-
-    * {
+* {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -13,18 +12,23 @@ body {
   min-height: 100vh;
 }
 
-/* SIDEBAR */
+/* ==========================================
+   SIDEBAR (BARRE LATÉRALE FIXE)
+   ========================================== */
 .sidebar {
   width: 240px;
   background-color: #0c1427;
   color: #ffffff;
   height: 100vh;
-  position: sticky;
+  position: fixed; /* Fixe la sidebar à l'écran */
   top: 0;
+  left: 0;
   padding: 20px 15px;
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
+  z-index: 100;
+  overflow-y: auto; /* Permet le défilement si le contenu du menu dépasse */
 }
 
 .brand {
@@ -144,11 +148,14 @@ body {
   color: #ffffff;
 }
 
-/* CONTENU PRINCIPAL */
+/* ==========================================
+   CONTENU PRINCIPAL (COMPENSATION MARGIN)
+   ========================================== */
 .main-content {
   flex-grow: 1;
+  margin-left: 240px; /* Décale le contenu pour ne pas chevaucher la sidebar fixe */
   padding: 20px 40px;
-  overflow-y: auto;
+  min-height: 100vh;
 }
 
 .top-header {
@@ -225,7 +232,25 @@ body {
   background-color: #1d4ed8;
 }
 
-/* TABLEAU DE DONNÉES */
+.btn-secondary {
+  background-color: #f1f5f9;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #e2e8f0;
+}
+
+/* ==========================================
+   TABLEAU DE DONNÉES
+   ========================================== */
 .table-container {
   background: #ffffff;
   border-radius: 12px;
@@ -305,4 +330,130 @@ td strong {
 
 .btn-delete:hover {
   background-color: #fee2e2;
+}
+
+/* ==========================================
+   MODALE DE FORMULAIRE (EN ARRIÈRE-PLAN PAR DÉFAUT)
+   ========================================== */
+.modal {
+  display: none; /* Reste masqué en arrière-plan */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.6); /* Fond sombre semi-transparent */
+  backdrop-filter: blur(4px);
+  z-index: 9999; /* Superposé au-dessus de tout */
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.modal.show {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 28px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 480px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  position: relative;
+  transform: translateY(-10px);
+  transition: transform 0.2s ease-in-out;
+}
+
+.modal.show .modal-content {
+  transform: translateY(0);
+}
+
+.modal-content h3 {
+  margin: 0 0 4px 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.modal-content #modalSubtitle {
+  margin-bottom: 20px;
+  font-size: 0.875rem;
+  color: #64748b;
+}
+
+/* ==========================================
+   STYLE DES CHAMPS DE FORMULAIRE
+   ========================================== */
+.form-group {
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 0.938rem;
+  font-family: inherit;
+  color: #0f172a;
+  background-color: #f8fafc;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #2563eb;
+  background-color: #ffffff;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+/* ==========================================
+   ALERTES ET NOTIFICATIONS
+   ========================================== */
+.alert-box {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  margin-bottom: 16px;
+  display: none;
+}
+
+.alert-box.show {
+  display: block;
+}
+
+.alert-box.alert-error,
+#formError {
+  background-color: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+}
+
+.alert-box.alert-success {
+  background-color: #f0fdf4;
+  color: #16a34a;
+  border: 1px solid #bbf7d0;
 }

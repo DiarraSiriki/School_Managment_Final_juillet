@@ -5,22 +5,15 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EcoleAdmin - Utilisateurs</title>
-
-  <!-- Font Awesome 6 CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Font (Inter) -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-  
-  <!-- Fichier CSS Externe -->
   <link rel="stylesheet" href="css/dashboard-admin.css">
 </head>
 
 <body data-roles="admin">
 
-  <!-- NOTIFICATION ALERT BOX -->
   <div id="alertBox" class="alert-box"></div>
 
-  <!-- SIDEBAR FIXE -->
   <aside class="sidebar">
     <div class="brand">
       <div class="logo">É</div>
@@ -40,6 +33,7 @@
       <a href="/notes" class="menu-item"><i class="fa-solid fa-pen-to-square"></i> Notes</a>
       <a href="/absences" class="menu-item"><i class="fa-solid fa-calendar-days"></i> Absences</a>
       <a href="/statistiques" class="menu-item"><i class="fa-solid fa-chart-column"></i> Statistiques</a>
+      <a href="/mon-profil" class="menu-item"><i class="fa-solid fa-id-card"></i> Mon Profil</a>
     </nav>
 
     <div class="user-profile">
@@ -69,37 +63,28 @@
         <h1>Utilisateurs</h1>
         <p class="subtitle" id="userCountSubtitle">Chargement des données...</p>
       </div>
-      <button class="btn-primary" id="btnNewUser">
+      <button class="btn-primary" id="btnNewUser" data-perm="gerer_utilisateurs,ajouter">
         <i class="fa-solid fa-plus"></i> Nouvel utilisateur
       </button>
     </div>
 
-    <!-- STATISTIQUES -->
     <div class="stats-container">
       <div class="stat-card">
-        <div class="stat-icon admin">
-          <i class="fa-solid fa-user-shield"></i>
-        </div>
+        <div class="stat-icon admin"><i class="fa-solid fa-user-shield"></i></div>
         <div>
           <div class="stat-number" id="statAdmin">0</div>
           <div class="stat-label">Administrateurs</div>
         </div>
       </div>
-
       <div class="stat-card">
-        <div class="stat-icon prof">
-          <i class="fa-solid fa-chalkboard-user"></i>
-        </div>
+        <div class="stat-icon prof"><i class="fa-solid fa-chalkboard-user"></i></div>
         <div>
           <div class="stat-number" id="statProf">0</div>
           <div class="stat-label">Professeurs</div>
         </div>
       </div>
-
       <div class="stat-card">
-        <div class="stat-icon etudiant">
-          <i class="fa-solid fa-user-graduate"></i>
-        </div>
+        <div class="stat-icon etudiant"><i class="fa-solid fa-user-graduate"></i></div>
         <div>
           <div class="stat-number" id="statEtudiant">0</div>
           <div class="stat-label">Étudiants</div>
@@ -107,7 +92,6 @@
       </div>
     </div>
 
-    <!-- FILTRES & RECHERCHE -->
     <div class="filter-bar">
       <div class="search-box">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
@@ -121,7 +105,6 @@
       </div>
     </div>
 
-    <!-- TABLEAU -->
     <div class="table-container">
       <table>
         <thead>
@@ -129,7 +112,7 @@
             <th>UTILISATEUR</th>
             <th>EMAIL</th>
             <th>RÔLE</th>
-            <th>ACTIONS</th>
+            <th data-perm="gerer_utilisateurs">ACTIONS</th>
           </tr>
         </thead>
         <tbody id="usersTableBody">
@@ -142,7 +125,6 @@
 
   </main>
 
-  <!-- MODALE CREATION / MODIFICATION -->
   <div id="userModal" class="modal">
     <div class="modal-content">
       <div class="modal-header">
@@ -155,9 +137,9 @@
       <form id="userForm">
         <input type="hidden" id="userId">
 
-        <div class="form-group">
+        <div class="form-group" id="fullNameGroup">
           <label for="userName">Nom complet</label>
-          <input type="text" id="userName" required placeholder="Ex: Nom Prénom">
+          <input type="text" id="userName" placeholder="Ex: Nom Prénom">
         </div>
 
         <div class="form-group">
@@ -174,21 +156,29 @@
           </div>
         </div>
 
-        <!-- CHAMPS SPÉCIFIQUES POUR ÉTUDIANT -->
         <div id="studentFieldsGroup" style="display: none;">
+          <div class="form-group">
+            <label for="studentPrenomInput">Prénom</label>
+            <input type="text" id="studentPrenomInput" placeholder="Ex: Ahmed">
+          </div>
+          <div class="form-group">
+            <label for="studentNomInput">Nom</label>
+            <input type="text" id="studentNomInput" placeholder="Ex: Benali">
+          </div>
+          <div class="form-group">
+            <label for="studentAgeInput">Âge</label>
+            <input type="number" id="studentAgeInput" min="1" max="100" placeholder="Ex: 18">
+          </div>
           <div class="form-group">
             <label for="studentMatriculeInput">Matricule</label>
             <input type="text" id="studentMatriculeInput" placeholder="Ex: ETU-2026-0001">
           </div>
           <div class="form-group">
-            <label for="studentClasseSelect">Classe</label>
-            <select id="studentClasseSelect" class="form-control">
-              <option value="">Chargement des classes...</option>
-            </select>
+            <label for="studentClasseInput">Classe</label>
+            <input type="text" id="studentClasseInput" placeholder="Ex: 3ème A">
           </div>
         </div>
 
-        <!-- CHAMPS SPÉCIFIQUES POUR PROFESSEUR -->
         <div id="teacherFieldsGroup" style="display: none;">
           <div class="form-group">
             <label for="teacherMatiereInput">Matière / Spécialité</label>
@@ -214,5 +204,4 @@
   <script src="/js/api.js"></script>
   <script src="/js/dashboard-admin.js"></script>
 </body>
-
 </html>

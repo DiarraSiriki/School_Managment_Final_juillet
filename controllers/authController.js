@@ -6,69 +6,64 @@ import { logToFile } from '../utils/logger.js';
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_securisee';
 
 
+const login = async (req, res) => {
+  const { email, mot_passe } = req.body;
 
-const login = (req, res) => {
-    
-    const { email, mot_passe } = req.body;
-    
-    logToFile('INFO', `Tentative de connexion: ${email}`);
+  logToFile('INFO', `Tentative de connexion: ${email}`);
 
-    if (!email || !mot_passe) {
-        logToFile('WARN', `Connexion échouée (champs manquants): ${email}`);
-        return res.status(400).json({ 
-            success: false,
-            message: "L'email et le mot de passe sont requis." 
-        });
+  if (!email || !mot_passe) {
+    logToFile('WARN', `Connexion échouée (champs manquants): ${email}`);
+    return res.status(400).json({
+      success: false,
+      message: "L'email et le mot de passe sont requis."
+    });
+  }
+
+  try {
+    const user = await authenticate(email, mot_passe);
+
+    if (!user) {
+      logToFile('WARN', `Connexion échouée (identifiants incorrects): ${email}`);
+      return res.status(401).json({
+        success: false,
+        message: "Email ou mot de passe incorrect."
+      });
     }
 
-    try {
-       
-        const user = authenticate(email, mot_passe);
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        name: user.name
+      },
+      JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN || '24h' }
+    );
 
-        // Si authenticate retourne null, c'est que les identifiants sont incorrects
-        if (!user) {
-            logToFile('WARN', `Connexion échouée (identifiants incorrects): ${email}`);
-            return res.status(401).json({ 
-                success: false,
-                message: "Email ou mot de passe incorrect." 
-            });
-        }
+    logToFile('INFO', `Connexion réussie: ${email} (role: ${user.role})`);
 
-        // Génération du token JWT
-
-        const token = jwt.sign(
-            { 
-                id: user.id,           
-                email: user.email,     
-                role: user.role,       
-                name: user.name        
-            },
-            JWT_SECRET,
-            { expiresIn: '24h' }
-        );
-
-        logToFile('INFO', `Connexion réussie: ${email} (role: ${user.role})`);
-
-        return res.json({
-            success: true,
-            message: "Connexion réussie !",
-            token: token,
-            user: {
-                id: user.id,
-                email: user.email,
-                role: user.role,
-                name: user.name
-            }
-        });
-    } catch (error) {
-        console.error("[ERREUR LOGIN]", error);
-        logToFile('ERROR', `Erreur lors de la connexion: ${email} - ${error.message}`);
-        return res.status(500).json({ 
-            success: false,
-            error: "Erreur lors de la connexion." 
-        });
-    }
+    return res.json({
+      success: true,
+      message: "Connexion réussie !",
+      token,
+      user: {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+        name: user.name
+      }
+    });
+  } catch (error) {
+    console.error("[ERREUR LOGIN]", error);
+    logToFile('ERROR', `Erreur lors de la connexion: ${email} - ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      error: "Erreur lors de la connexion."
+    });
+  }
 };
+
 
 // Récupère le profil de l'utilisateur actuellement connecté (tous rôles confondus)
 const getMonProfil = (req, res) => {

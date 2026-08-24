@@ -17,9 +17,9 @@ export {
 function calcAverage(student_id) {
   const grades = Grade.getByStudent(student_id);
   if (grades.length === 0)
-    return 0;
+    return null; // Retourner null au lieu de 0 pour distinguer "pas de notes"
   const sum = grades.reduce((acc, g) => acc + g.note, 0);
-  return sum / grades.length;
+  return (sum / grades.length).toFixed(2);
 }
 
 function getGeneralAverage() {
@@ -37,10 +37,13 @@ function getGeneralAverage() {
 function getRankings() {
   const students = Student.getAll();
   const rankings = students
-    .map((student) => ({
-      ...student,
-      moyenne: calcAverage(student.id).toFixed(2)
-    }))
+    .map((student) => {
+      const avg = calcAverage(student.id);
+      return {
+        ...student,
+        moyenne: avg !== null ? avg : '0.00'
+      };
+    })
     .sort((a, b) => parseFloat(b.moyenne) - parseFloat(a.moyenne));
 
   logger.info(`Classement consulté (${rankings.length} étudiants)`);
@@ -64,8 +67,8 @@ function countAbsencesByStudent(student_id) {
   const absences = Absence.getByStudent(student_id);
   const result = {
     total: absences.length,
-    justifiees: absences.filter(a => a.status === 'justifiée').length,
-    non_justifiees: absences.filter(a => a.status === 'non justifiée').length
+    justifiees: absences.filter(a => a.status === 'justifiée' || a.status === 'justifiee').length,
+    non_justifiees: absences.filter(a => a.status === 'non justifiée' || a.status === 'non justifiee').length
   };
   logger.info(`Absences de l'étudiant ID=${student_id} : Total=${result.total}, Justifiées=${result.justifiees}, Non justifiées=${result.non_justifiees}`);
   return result;
@@ -75,8 +78,8 @@ function countAllAbsences() {
   const absences = Absence.getAll();
   const result = {
     total: absences.length,
-    justifiees: absences.filter(a => a.status === 'justifiée').length,
-    non_justifiees: absences.filter(a => a.status === 'non justifiée').length
+    justifiees: absences.filter(a => a.status === 'justifiée' || a.status === 'justifiee').length,
+    non_justifiees: absences.filter(a => a.status === 'non justifiée' || a.status === 'non justifiee').length
   };
   logger.info(`Toutes les absences globales : Total=${result.total}, Justifiées=${result.justifiees}, Non justifiées=${result.non_justifiees}`);
   return result;
@@ -87,11 +90,24 @@ function getAllStats() {
     const students = Student.getAll();
     const teachers = Teacher.getAll();
     const subjects = Subjects.getAll();
+    const rankings = getRankings();
+    const bestStudent = getBestStudent();
+    const absences = countAllAbsences();
+
+    // Calculer les absences par étudiant
+    const absencesByStudent = {};
+    students.forEach(student => {
+      absencesByStudent[student.id] = countAbsencesByStudent(student.id);
+    });
 
     const stats = {
       students: students.length,
       teachers: teachers.length,
-      matieres: subjects.length
+      matieres: subjects.length,
+      rankings: rankings,
+      bestStudent: bestStudent,
+      absences: absences,
+      absencesByStudent: absencesByStudent
     };
 
     logger.info(`Statistiques globales : Étudiants=${stats.students}, Professeurs=${stats.teachers}, Matières=${stats.matieres}`);
