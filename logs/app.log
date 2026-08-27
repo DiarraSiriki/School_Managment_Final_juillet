@@ -1006,3 +1006,19 @@
 [2026-08-24 12:46:55] [INFO] Liste des matières consultée (2 matières)
 [2026-08-24 12:47:18] [INFO] Liste des matières consultée (2 matières)
 [2026-08-24 12:47:27] [INFO] Liste des matières consultée (2 matières)
+[2026-08-27 14:58:09] [INFO] Tentative de connexion: admin@gmail.com
+[2026-08-27 14:58:09] [INFO] Connexion réussie: admin@gmail.com (role: admin)
+[2026-08-27 14:58:09] [INFO] Liste des utilisateurs consultée (15 entrées)
+[2026-08-27 14:58:28] [INFO] Liste des matières consultée (3 matières)
+[2026-08-27 14:58:28] [INFO] Liste des utilisateurs consultée (15 entrées)
+[2026-08-27 14:58:31] [INFO] Liste des utilisateurs consultée (15 entrées)
+[2026-08-27 15:08:02] [INFO] Déconnexion: admin@gmail.com (role: admin)
+[2026-08-27 15:09:23] [INFO] Tentative de connexion: kofi@gmail.com
+[2026-08-27 15:09:23] [INFO] Connexion réussie: kofi@gmail.com (role: student)
+[2026-08-27 15:09:53] [INFO] Tentative de connexion: kofi@gmail.com
+[2026-08-27 15:09:53] [INFO] Connexion réussie: kofi@gmail.com (role: student)
+[2026-08-27 15:10:25] [INFO] Tentative de connexion: nf@gmail.com
+[2026-08-27 15:10:25] [INFO] Connexion réussie: nf@gmail.com (role: teacher)
+[2026-08-27 15:10:25] [INFO] Liste des matières consultée (3 matières)
+[2026-08-27 15:10:25] [INFO] Liste des matières consultée (3 matières)
+[2026-08-27 15:10:34] [INFO] Liste des matières consultée (3 matières)
