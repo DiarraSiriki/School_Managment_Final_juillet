@@ -13,7 +13,7 @@ import { getStudentByUserId } from '../services/studentService.js';
   // Enregistre une nouvelle absence
 
  const ajouterAbsence = (req, res) => {
-    const { student_id, class_id, subject_id, date, status } = req.body;
+    const { student_id, date, status } = req.body;
 
     if (!student_id || !date) {
         return res.status(400).json({ error: "L'ID de l'étudiant (student_id) et la date sont requis." });
@@ -37,7 +37,7 @@ import { getStudentByUserId } from '../services/studentService.js';
  const getHistoriqueAbsences = (req, res) => {
     try {
         const absences = getHistory();
-        return res.json({ data: absences });
+        return res.json(absences);
     } catch (error) {
         console.error("[ERREUR GET HISTORIQUE ABSENCES]", error);
         return res.status(500).json({ error: "Impossible de récupérer l'historique des absences." });

@@ -12,7 +12,7 @@ import { getStudentByUserId } from '../services/studentService.js';
 const getNotes = (req, res) => {
     try {
         const grades = listGrades();
-        return res.json({ data: grades });
+        return res.json(grades);
     } catch (error) {
         console.error("[ERREUR GET NOTES]", error);
         return res.status(500).json({ error: "Impossible de récupérer la liste des notes." });
@@ -97,17 +97,18 @@ const getNotes = (req, res) => {
 
  // Ajoute une nouvelle note à un étudiant
 const ajouterNote = (req, res) => {
-    const { student_id, subject_id, note, valeur } = req.body;
-    const finalNote = note !== undefined ? note : valeur;
+    const { student_id, subject_id, note } = req.body;
 
-    if (student_id === undefined || subject_id === undefined || finalNote === undefined) {
+
+    uis
+    if (student_id === undefined || subject_id === undefined || note === undefined) {
         return res.status(400).json({ 
             error: "Tous les champs (student_id, subject_id, note) sont requis." 
         });
     }
 
    
-    if (typeof finalNote !== 'number' || finalNote < 0 || finalNote > 20) {
+    if (typeof note !== 'number' || note < 0 || note > 20) {
         return res.status(400).json({ error: "La note doit être un nombre compris entre 0 et 20." });
     }
 
@@ -124,7 +125,7 @@ const ajouterNote = (req, res) => {
 
    
     try {
-        const gradeId = addGrade(student_id, subject_id, finalNote);
+        const gradeId = addGrade(student_id, subject_id, note);
         return res.status(201).json({
             success: true,
             message: "Note ajoutée avec succès !",
@@ -141,12 +142,14 @@ const ajouterNote = (req, res) => {
 
 const modifierNote = (req, res) => {
     const  id  = req.params.id;
-    const { student_id, subject_id, note, valeur } = req.body;
-    const finalNote = note !== undefined ? note : valeur;
+    const { note } = req.body;
 
-    let noteExistante = null;
+    if (note === undefined) {
+        return res.status(400).json({ error: "La nouvelle valeur de la note est requise." });
+    }
+
      if (req.user.role === 'teacher') {
-         noteExistante = getGradeById(id);
+         const noteExistante = getGradeById(id);
         if (!noteExistante) {
                  return res.status(404).json({ error: "Note introuvable." });
         }
@@ -157,18 +160,12 @@ const modifierNote = (req, res) => {
         }
      }
 
-    if (finalNote === undefined) {
-        return res.status(400).json({ error: "La nouvelle valeur de la note est requise." });
-    }
-
-    if (finalNote < 0 || finalNote > 20) {
+    if (note < 0 || note > 20) {
         return res.status(400).json({ error: "La note doit être comprise entre 0 et 20." });
     }
 
     try {
-        const finalStudentId = student_id || noteExistante?.student_id;
-        const finalSubjectId = subject_id || noteExistante?.subject_id;
-        const estModifie = updateGrade(id, finalStudentId, finalSubjectId, finalNote);
+        const estModifie = updateGrade(id, note);
 
         if (!estModifie) {
             return res.status(404).json({ error: "Note introuvable ou aucune modification effectuée." });

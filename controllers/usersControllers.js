@@ -6,19 +6,19 @@ import {
   getUserById
 } from '../services/userService.js';
 
-const getUtilisateurs = async (req, res) => {
+const getUtilisateurs = (req, res) => {
   try {
-    const users = await listUsers();
-    return res.json({ data: users });
+    const users = listUsers();
+    return res.json(users);
   } catch (error) {
     console.error('[ERREUR GET UTILISATEURS]', error);
     return res.status(500).json({ error: 'Impossible de récupérer les utilisateurs.' });
   }
 };
 
-const getUtilisateurParId = async (req, res) => {
+const getUtilisateurParId = (req, res) => {
   try {
-    const user = await getUserById(req.params.id);
+    const user = getUserById(req.params.id);
     if (!user) {
       return res.status(404).json({ error: 'Utilisateur introuvable.' });
     }
@@ -29,8 +29,8 @@ const getUtilisateurParId = async (req, res) => {
   }
 };
 
-const ajouterUtilisateur = async (req, res) => {
-  const { name, role, email, mot_passe, matricule, classe_id, classe, matiere, age, prenom, nom } = req.body;
+const ajouterUtilisateur = (req, res) => {
+  const { name, role, email, mot_passe, matricule, classe_id, matiere, age, prenom, nom } = req.body;
 
   if (!name || !role || !email || !mot_passe) {
     return res.status(400).json({
@@ -39,8 +39,8 @@ const ajouterUtilisateur = async (req, res) => {
   }
 
   try {
-    const extra = { matricule, classe_id, classe, matiere, age, prenom, nom };
-    const newUser = await addUser(name, role, email, mot_passe, extra);
+    const extra = { matricule, classe_id, matiere, age, prenom, nom };
+    const newUser = addUser(name, role, email, mot_passe, extra);
     return res.status(201).json({
       success: true,
       message: 'Utilisateur créé avec succès !',
@@ -52,19 +52,19 @@ const ajouterUtilisateur = async (req, res) => {
   }
 };
 
-const modifierUtilisateur = async (req, res) => {
+const modifierUtilisateur = (req, res) => {
   const id = req.params.id;
-  const { name, role, email, mot_passe, matricule, classe_id, classe, matiere, age, prenom, nom } = req.body;
+  const { name, role, email, mot_passe, matricule, classe_id, matiere, age, prenom, nom } = req.body;
 
-  if (!name && !role && !email && !mot_passe && !matricule && !classe_id && !classe && !matiere) {
+  if (!name && !role && !email && !mot_passe && !matricule && !classe_id && !matiere) {
     return res.status(400).json({
       error: 'Au moins un champ doit être fourni pour la mise à jour.'
     });
   }
 
   try {
-    const extra = { matricule, classe_id, classe, matiere, age, prenom, nom };
-    const ok = await updateUser(id, name, role, email, mot_passe, extra);
+    const extra = { matricule, classe_id, matiere, age, prenom, nom };
+    const ok = updateUser(id, name, role, email, mot_passe, extra);
     if (!ok) {
       return res.status(404).json({ error: 'Utilisateur introuvable.' });
     }
@@ -75,11 +75,11 @@ const modifierUtilisateur = async (req, res) => {
   }
 };
 
-const supprimerUtilisateur = async (req, res) => {
+const supprimerUtilisateur = (req, res) => {
   const id = req.params.id;
 
   try {
-    const ok = await removeUser(id);
+    const ok = removeUser(id);
     if (!ok) {
       return res.status(404).json({ error: 'Utilisateur introuvable ou déjà supprimé.' });
     }

@@ -72,10 +72,10 @@ const chercherEtudiant = (req, res) => {
 
 const ajouterEtudiant = (req, res) => {
   try {
-    const { matricule, nom, prenom, age, classe_id, classe, email, mot_passe } = req.body;
+    const { matricule, nom, prenom, age, classe_id, email, mot_passe } = req.body;
 
-    // classe_id OU classe (nom libre) — le service crée la classe si besoin
-    const studentData = addStudent(matricule, nom, prenom, age, classe_id, email, mot_passe, classe);
+    // Le matricule doit être fourni manuellement
+    const studentData = addStudent(matricule, nom, prenom, age, classe_id, email, mot_passe);
     
     res.status(201).json({
       success: true,
@@ -94,9 +94,9 @@ const ajouterEtudiant = (req, res) => {
 const modifierEtudiant = (req, res) => {
   try {
     const id = req.params.id;
-    const { matricule, nom, prenom, age, classe_id, classe, user_id } = req.body;
+    const { matricule, nom, prenom, age, classe_id, user_id } = req.body;
     
-    const updated = updateStudent(id, matricule, nom, prenom, age, classe_id, user_id, classe);
+    const updated = updateStudent(id, matricule, nom, prenom, age, classe_id, user_id);
     if (!updated) {
       return res.status(404).json({ success: false, message: `Étudiant ID ${id} introuvable.` });
     }
