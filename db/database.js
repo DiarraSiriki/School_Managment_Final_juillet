@@ -1,5 +1,6 @@
-
 import Database from 'better-sqlite3';
+import path from 'path';
+import{connect} from '@tursodatabase/serverless';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
@@ -7,7 +8,12 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname  = dirname(__filename);
 const dbPath     = join(__dirname, 'database.db');
 
-const db = new Database(dbPath);
+// const db = new Database(dbPath);
+const db = connect({
+  url: process.env.TURSO_DATABASE_URL,
+  authToken: process.env.TURSO_AUTH_TOKEN
+});
+
 db.pragma('journal_mode = WAL');
 db.pragma('synchronous = NORMAL');
 db.pragma('foreign_keys = ON');
@@ -53,6 +59,77 @@ db.exec(`
 `);
 
 db.exec(`CREATE INDEX IF NOT EXISTS idx_students_matricule ON students(matricule)`);
+
+// --- Migration : ancienne colonne "classe" (TEXT NOT NULL) -> schéma moderne avec classe_id ---
+(function migrateStudentsSchema() {
+  try {
+    const cols = db.prepare(`PRAGMA table_info(students)`).all();
+    const hasOldClasse = cols.some(c => c.name === 'classe');
+    const hasClasseId = cols.some(c => c.name === 'classe_id');
+
+    if (!hasOldClasse) {
+      return; // déjà à jour
+    }
+
+    console.log('[Migration] Table students : colonne obsolète "classe" détectée — migration en cours...');
+
+    db.pragma('foreign_keys = OFF');
+    db.exec('BEGIN');
+
+    db.exec(`
+      CREATE TABLE students_new (
+        id        INTEGER PRIMARY KEY AUTOINCREMENT,
+        matricule TEXT    NOT NULL UNIQUE,
+        nom       TEXT    NOT NULL,
+        prenom    TEXT    NOT NULL,
+        age       INTEGER NOT NULL,
+        classe_id INTEGER,
+        user_id   INTEGER UNIQUE,
+        FOREIGN KEY (classe_id) REFERENCES classes(id) ON DELETE SET NULL,
+        FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
+      )
+    `);
+
+    // Copier les données en résolvant classe_id si possible
+    const rows = db.prepare('SELECT * FROM students').all();
+    const insert = db.prepare(`
+      INSERT INTO students_new (id, matricule, nom, prenom, age, classe_id, user_id)
+      VALUES (@id, @matricule, @nom, @prenom, @age, @classe_id, @user_id)
+    `);
+
+    for (const row of rows) {
+      let classeId = row.classe_id != null ? row.classe_id : null;
+      // Si classe_id manquant, tenter de matcher via l'ancien champ texte "classe"
+      if (classeId == null && row.classe) {
+        const match = db.prepare(
+          `SELECT id FROM classes WHERE lower(trim(nom)) = lower(trim(?)) OR lower(trim(niveau)) = lower(trim(?))`
+        ).get(row.classe, row.classe);
+        if (match) classeId = match.id;
+      }
+      insert.run({
+        id: row.id,
+        matricule: row.matricule,
+        nom: row.nom,
+        prenom: row.prenom,
+        age: row.age,
+        classe_id: classeId,
+        user_id: row.user_id ?? null
+      });
+    }
+
+    db.exec(`DROP TABLE students`);
+    db.exec(`ALTER TABLE students_new RENAME TO students`);
+    db.exec(`CREATE INDEX IF NOT EXISTS idx_students_matricule ON students(matricule)`);
+
+    db.exec('COMMIT');
+    db.pragma('foreign_keys = ON');
+    console.log('[Migration] Table students migrée avec succès (colonne "classe" supprimée).');
+  } catch (err) {
+    try { db.exec('ROLLBACK'); } catch (_) {}
+    db.pragma('foreign_keys = ON');
+    console.error('[Migration] Échec migration students:', err.message);
+  }
+})();
 
 // 4. Table TEACHERS (modifiée)
 db.exec(`

@@ -2,6 +2,7 @@ import User from '../models/modelUsers.js';
 import Student from '../models/modelStudent.js';
 import Teacher from '../models/modelTeacher.js';
 import Classe from '../models/modelClass.js';
+import { resolveClasseId } from './classeService.js';
 import logger from '../utils/logger.js';
 
 export {
@@ -13,11 +14,6 @@ export {
   updateUser
 };
 
-/**
- * Découpe un nom complet en (prenom, nom).
- * "Jean Dupont" -> prenom=Jean, nom=Dupont
- * "Dupont"     -> prenom="", nom=Dupont
- */
 function splitFullName(fullName) {
   const parts = String(fullName || '').trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return { prenom: '', nom: '' };
@@ -25,7 +21,7 @@ function splitFullName(fullName) {
   return { prenom: parts[0], nom: parts.slice(1).join(' ') };
 }
 
-function addUser(name, role, email, mot_passe, extra = {}) {
+async function addUser(name, role, email, mot_passe, extra = {}) {
   const emailToSave = (email || '').toLowerCase().trim();
   const passwordToSave = mot_passe;
 
@@ -43,7 +39,7 @@ function addUser(name, role, email, mot_passe, extra = {}) {
     throw new Error(`Rôle invalide. Valeurs autorisées : ${allowedRoles.join(', ')}`);
   }
 
-  const existingUser = User.getByEmail(emailToSave);
+  const existingUser = await User.getByEmail(emailToSave);
   if (existingUser) {
     logger.error(`Email déjà utilisé : ${emailToSave}`);
     throw new Error('Cet email est déjà utilisé.');
@@ -60,16 +56,19 @@ function addUser(name, role, email, mot_passe, extra = {}) {
     if (!extra.matricule || !String(extra.matricule).trim()) {
       throw new Error('Le matricule est obligatoire pour un étudiant.');
     }
-    if (!extra.classe_id) {
-      throw new Error('La classe est obligatoire pour un étudiant.');
-    }
-    const classe = Classe.getById(extra.classe_id);
-    if (!classe) {
-      throw new Error('La classe sélectionnée n\'existe pas.');
+    // classe_id OU nom libre (extra.classe / extra.nom_classe)
+    const resolvedId = await resolveClasseId({
+      classe_id: extra.classe_id,
+      classe: extra.classe || extra.nom_classe
+    });
+    extra.classe_id = resolvedId;
+    const existingMat = await Student.getByMatricule(String(extra.matricule).trim());
+    if (existingMat) {
+      throw new Error(`Le matricule '${String(extra.matricule).trim()}' appartient déjà à un étudiant.`);
     }
   }
 
-  const result = User.create(name, role, emailToSave, passwordToSave);
+  const result = await User.create(name, role, emailToSave, passwordToSave);
   const userId = result.id;
 
   logger.info(`Utilisateur ajouté: ID=${userId}, Nom=${name}, Rôle=${role}`);
@@ -78,57 +77,81 @@ function addUser(name, role, email, mot_passe, extra = {}) {
   try {
     if (role === 'teacher') {
       const matiere = String(extra.matiere).trim();
-      Teacher.create(name, matiere, userId);
-      logger.info(`Fiche professeur créée pour user_id=${userId}, matière=${matiere}`);
+      const classe_id = extra.classe_id || null;
+      await Teacher.create(name, matiere, classe_id, userId);
+      logger.info(`Fiche professeur créée pour user_id=${userId}, matière=${matiere}, classe_id=${classe_id}`);
     } else if (role === 'student') {
-      const { prenom, nom } = extra.prenom && extra.nom
-        ? { prenom: extra.prenom, nom: extra.nom }
-        : splitFullName(name);
+      const split = splitFullName(name);
+      const prenom = (extra.prenom && String(extra.prenom).trim()) || split.prenom;
+      const nom = (extra.nom && String(extra.nom).trim()) || split.nom || name;
       const matricule = String(extra.matricule).trim();
       const age = extra.age != null && extra.age !== '' ? Number(extra.age) : 18;
-      Student.create(matricule, nom || name, prenom, age, extra.classe_id, userId);
+      await Student.create(matricule, nom, prenom, age, extra.classe_id, userId);
       logger.info(`Fiche étudiant créée pour user_id=${userId}, matricule=${matricule}`);
     }
   } catch (err) {
     // Rollback du user si la fiche liée échoue
     logger.error(`Échec création fiche liée pour user ${userId}: ${err.message}`);
-    try { User.delete(userId); } catch (_) {}
+    try { await User.delete(userId); } catch (_) {}
     throw err;
   }
 
   return { id: userId };
 }
 
-function getUserById(id) {
-  return User.getById(id);
+async function getUserById(id) {
+  return await User.getById(id);
 }
 
-function authenticate(email, mot_passe) {
+async function authenticate(email, mot_passe) {
   const emailToVerify = (email || '').toLowerCase().trim();
   if (!emailToVerify || !mot_passe) return null;
 
-  const user = User.getByEmail(emailToVerify);
+  const user = await User.getByEmail(emailToVerify);
   if (!user || !user.mot_passe) return null;
 
   return mot_passe === user.mot_passe ? user : null;
 }
 
-function removeUser(id) {
+async function removeUser(id) {
+  // Gérer les IDs orphelins (student-123, teacher-456)
+  if (typeof id === 'string' && id.includes('-')) {
+    const [type, realId] = id.split('-');
+    const numericId = Number(realId);
+    
+    if (type === 'student') {
+      const result = await Student.delete(numericId);
+      if (result.changes > 0) {
+        logger.info(`Étudiant orphelin supprimé: ID=${numericId}`);
+        return true;
+      }
+      return false;
+    } else if (type === 'teacher') {
+      const result = await Teacher.delete(numericId);
+      if (result.changes > 0) {
+        logger.info(`Professeur orphelin supprimé: ID=${numericId}`);
+        return true;
+      }
+      return false;
+    }
+  }
+
+  // Suppression normale pour les utilisateurs avec user_id valide
   // Supprimer d'abord les fiches liées
   try {
-    const teacher = Teacher.getByUserId(id);
-    if (teacher) Teacher.delete(teacher.id);
+    const teacher = await Teacher.getByUserId(id);
+    if (teacher) await Teacher.delete(teacher.id);
   } catch (e) {
     logger.warn(`Suppression teacher liée user ${id}: ${e.message}`);
   }
   try {
-    const student = Student.getByUserId(id);
-    if (student) Student.delete(student.id);
+    const student = await Student.getByUserId(id);
+    if (student) await Student.delete(student.id);
   } catch (e) {
     logger.warn(`Suppression student liée user ${id}: ${e.message}`);
   }
 
-  const result = User.delete(id);
+  const result = await User.delete(id);
   if (result.changes > 0) {
     logger.info(`Utilisateur supprimé: ID=${id}`);
     return true;
@@ -136,40 +159,44 @@ function removeUser(id) {
   return false;
 }
 
-function listUsers() {
-  const users = User.getAll();
+async function listUsers() {
+  const users = await User.getAll();
+  const allStudents = await Student.getAll();
+  const allTeachers = await Teacher.getAll();
 
   // Joindre les infos students / teachers liés par user_id
-  const usersWithDetails = users.map(user => {
-    let details = {};
+  const usersWithDetails = await Promise.all(
+    users.map(async (user) => {
+      let details = {};
 
-    if (user.role === 'student') {
-      const student = Student.getByUserId(user.id);
-      if (student) {
-        details = {
-          matricule: student.matricule,
-          nom: student.nom,
-          prenom: student.prenom,
-          age: student.age,
-          classe_id: student.classe_id
-        };
+      if (user.role === 'student') {
+        const student = await Student.getByUserId(user.id);
+        if (student) {
+          details = {
+            matricule: student.matricule,
+            nom: student.nom,
+            prenom: student.prenom,
+            age: student.age,
+            classe_id: student.classe_id
+          };
+        }
+      } else if (user.role === 'teacher') {
+        const teacher = await Teacher.getByUserId(user.id);
+        if (teacher) {
+          details = {
+            nom: teacher.nom,
+            matiere: teacher.matiere,
+            classe_id: teacher.classe_id
+          };
+        }
       }
-    } else if (user.role === 'teacher') {
-      const teacher = Teacher.getByUserId(user.id);
-      if (teacher) {
-        details = {
-          nom: teacher.nom,
-          matiere: teacher.matiere,
-          classe_id: teacher.classe_id
-        };
-      }
-    }
 
-    return {
-      ...user,
-      ...details
-    };
-  });
+      return {
+        ...user,
+        ...details
+      };
+    })
+  );
 
   // Inclure aussi les étudiants/profs orphelins (sans user_id valide)
   const linkedStudentUserIds = new Set(
@@ -179,7 +206,7 @@ function listUsers() {
     users.filter(u => u.role === 'teacher').map(u => u.id)
   );
 
-  const orphanStudents = Student.getAll()
+  const orphanStudents = allStudents
     .filter(s => !s.user_id || !linkedStudentUserIds.has(s.user_id))
     .map(s => ({
       id: `student-${s.id}`,
@@ -194,7 +221,7 @@ function listUsers() {
       _orphan: true
     }));
 
-  const orphanTeachers = Teacher.getAll()
+  const orphanTeachers = allTeachers
     .filter(t => !t.user_id || !linkedTeacherUserIds.has(t.user_id))
     .map(t => ({
       id: `teacher-${t.id}`,
@@ -212,13 +239,13 @@ function listUsers() {
   return all;
 }
 
-function updateUser(id, name, role, email, mot_passe, extra = {}) {
-  const currentUser = User.getById(id);
+async function updateUser(id, name, role, email, mot_passe, extra = {}) {
+  const currentUser = await User.getById(id);
   if (!currentUser) return false;
 
   let passwordToSave = mot_passe;
   if (!passwordToSave) {
-    const fullUser = User.getByEmail(currentUser.email);
+    const fullUser = await User.getByEmail(currentUser.email);
     passwordToSave = fullUser?.mot_passe;
   }
 
@@ -226,44 +253,57 @@ function updateUser(id, name, role, email, mot_passe, extra = {}) {
   const nameToSave = name || currentUser.name;
   const roleToSave = role || currentUser.role;
 
-  const result = User.update(id, nameToSave, roleToSave, emailToSave, passwordToSave);
+  const result = await User.update(id, nameToSave, roleToSave, emailToSave, passwordToSave);
 
   // Mettre à jour / créer la fiche liée selon le rôle
   try {
     if (roleToSave === 'teacher') {
-      let teacher = Teacher.getByUserId(id);
+      let teacher = await Teacher.getByUserId(id);
       const matiere = (extra.matiere != null && String(extra.matiere).trim())
         ? String(extra.matiere).trim()
         : (teacher ? teacher.matiere : 'Non spécifiée');
+      const classe_id = extra.classe_id != null ? extra.classe_id : (teacher ? teacher.classe_id : null);
 
       if (teacher) {
-        Teacher.update(teacher.id, nameToSave, matiere, id);
+        await Teacher.update(teacher.id, nameToSave, matiere, classe_id, id);
       } else {
-        Teacher.create(nameToSave, matiere, id);
+        await Teacher.create(nameToSave, matiere, classe_id, id);
       }
     } else if (roleToSave === 'student') {
-      let student = Student.getByUserId(id);
+      let student = await Student.getByUserId(id);
       const { prenom, nom } = splitFullName(nameToSave);
 
       if (student) {
         const matricule = (extra.matricule && String(extra.matricule).trim())
           ? String(extra.matricule).trim()
           : student.matricule;
-        const classe_id = (extra.classe_id != null && extra.classe_id !== '')
-          ? extra.classe_id
-          : student.classe_id;
+        let classe_id = student.classe_id;
+        if ((extra.classe && String(extra.classe).trim()) || (extra.classe_id != null && extra.classe_id !== '')) {
+          classe_id = await resolveClasseId({
+            classe_id: extra.classe_id,
+            classe: extra.classe || extra.nom_classe
+          });
+        }
         const age = (extra.age != null && extra.age !== '')
           ? Number(extra.age)
           : student.age;
 
-        Student.update(student.id, matricule, nom || nameToSave, prenom, age, classe_id, id);
+        await Student.update(student.id, matricule, nom || nameToSave, prenom, age, classe_id, id);
       } else {
         // Création d'une fiche manquante
-        if (!extra.matricule || !extra.classe_id) {
-          logger.warn(`Impossible de créer la fiche étudiant pour user ${id}: matricule/classe manquants`);
+        if (!extra.matricule) {
+          logger.warn(`Impossible de créer la fiche étudiant pour user ${id}: matricule manquant`);
         } else {
-          const age = extra.age != null && extra.age !== '' ? Number(extra.age) : 18;
-          Student.create(String(extra.matricule).trim(), nom || nameToSave, prenom, age, extra.classe_id, id);
+          try {
+            const resolvedId = await resolveClasseId({
+              classe_id: extra.classe_id,
+              classe: extra.classe || extra.nom_classe
+            });
+            const age = extra.age != null && extra.age !== '' ? Number(extra.age) : 18;
+            await Student.create(String(extra.matricule).trim(), nom || nameToSave, prenom, age, resolvedId, id);
+          } catch (e) {
+            logger.warn(`Impossible de créer la fiche étudiant pour user ${id}: ${e.message}`);
+          }
         }
       }
     }

@@ -96,8 +96,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     tableBody.innerHTML = allSubjects.map(s => {
-      const className = s.classe || (allClasses.find(c => String(c.id) === String(s.classe_id))?.nom) || '-';
-      const teacherName = s.professeur || (allTeachers.find(t => String(t.id) === String(s.teacher_id))?.nom) || 'Non attribué';
+      const className = allClasses.find(c => String(c.id) === String(s.classe_id))?.nom || '-';
+      const teacherName = allTeachers.find(t => String(t.id) === String(s.teacher_id))?.nom || 'Non attribué';
 
       return `
         <tr>

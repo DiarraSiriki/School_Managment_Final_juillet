@@ -418,44 +418,193 @@ td strong {
 
 
 /* ==========================================
-   FORMULAIRE EN ARRIÈRE-PLAN (MASQUÉ PAR DÉFAUT)
+   STYLE D'ENSEMBLE DU MODAL DE SAISIE DE NOTE
    ========================================== */
+
+/* Structure d'arrière-plan du modal (overlay) */
 .modal {
-  display: none;                /* Reste invisible et en arrière-plan tant qu'il n'y a pas la classe .show */
+  display: none; /* Masqué par défaut */
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(15, 23, 42, 0.6); /* Fond sombre semi-transparent */
-  backdrop-filter: blur(4px);   /* Floute le contenu derrière la modale */
-  z-index: 9999;               /* S'affiche au-dessus du tableau et de la sidebar lors de l'activation */
-  justify-content: center;
+  background-color: rgba(15, 23, 42, 0.6); /* Sombre transparent */
+  backdrop-filter: blur(8px); /* Effet de flou moderne */
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
   align-items: center;
+  justify-content: center;
   opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.25s ease-in-out;
 }
 
-/* ==========================================
-   AFFICHAGE AU CLIC (DÉCLENCHÉ PAR JS)
-   ========================================== */
+/* Affichage lorsque le JS ajoute la classe .show */
 .modal.show {
-  display: flex;                /* Rend le formulaire visible au-dessus de la page */
+  display: flex;
   opacity: 1;
 }
 
-/* Conteneur blanc du formulaire */
+/* Boîte de dialogue centrale (Carte du Modal) */
 .modal-content {
-  background-color: #ffffff;
-  padding: 28px;
-  border-radius: 12px;
+  background: #ffffff;
   width: 100%;
   max-width: 480px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
-  transform: translateY(-10px);
-  transition: transform 0.2s ease-in-out;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+              0 8px 10px -6px rgba(0, 0, 0, 0.05),
+              0 0 0 1px rgba(226, 232, 240, 0.8);
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .modal.show .modal-content {
+  transform: translateY(0) scale(1);
+}
+
+/* En-tête du Modal */
+.modal-content h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+}
+
+.modal-content #modalSubtitle {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0 0 24px 0;
+  line-height: 1.4;
+}
+
+/* Message d'erreur dynamique */
+#formError {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+
+/* ==========================================
+   FORMULAIRE ET CHAMPS DE SAISIE
+   ========================================== */
+
+#gradeForm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Style uniforme pour Selects et Inputs */
+.form-group select,
+.form-group input {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  color: #0f172a;
+  background-color: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* État Hover et Focus des champs */
+.form-group select:hover,
+.form-group input:hover {
+  border-color: #cbd5e1;
+  background-color: #ffffff;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+  border-color: #4f46e5; /* Couleur d'accentuation principale */
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+}
+
+/* Style de la flèche personnalisée pour les selects */
+.form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2064748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+  padding-right: 38px;
+  cursor: pointer;
+}
+
+/* ==========================================
+   BOUTONS D'ACTION
+   ========================================== */
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* Bouton Annuler */
+.btn-secondary {
+  background-color: #f1f5f9;
+  color: #475569;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+
+/* Bouton Enregistrer (Submit) */
+.btn-primary {
+  background-color: #4f46e5;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #4338ca;
+  box-shadow: 0 4px 8px rgba(79, 70, 229, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
   transform: translateY(0);
 }

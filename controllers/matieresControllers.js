@@ -7,10 +7,10 @@ import {
     listSubjects
 } from '../services/matiereService.js';
 
-
-// Récupère la liste de toutes les matières
-
- const getMatieres = (req, res) => {
+// ─────────────────────────────────────────────
+// GET /api/matieres — liste des matières
+// ─────────────────────────────────────────────
+const getMatieres = (req, res) => {
     try {
         const subjects = listSubjects();
         return res.json(subjects);
@@ -20,9 +20,11 @@ import {
     }
 };
 
-// Récupère une matière spécifique par son ID
+// ─────────────────────────────────────────────
+// GET /api/matieres/:id — une matière par ID
+// ─────────────────────────────────────────────
 const getMatiereParId = (req, res) => {
-    const  id  = req.params.id;
+    const id = req.params.id;
 
     try {
         const subject = getSubjectById(id);
@@ -36,18 +38,18 @@ const getMatiereParId = (req, res) => {
     }
 };
 
-
- // Recherche des matières par mot-clé (nom ou classe)
- 
+// ─────────────────────────────────────────────
+// GET /api/matieres/search?q=... — recherche
+// ─────────────────────────────────────────────
 const chercherMatiere = (req, res) => {
     const { q } = req.query;
 
-    if (!q) {
+    if (!q || !q.trim()) {
         return res.status(400).json({ error: "Le paramètre de recherche 'q' est requis." });
     }
 
     try {
-        const resultats = searchSubject(q);
+        const resultats = searchSubject(q.trim());
         return res.json(resultats);
     } catch (error) {
         console.error("[ERREUR RECHERCHE MATIERE]", error);
@@ -55,18 +57,27 @@ const chercherMatiere = (req, res) => {
     }
 };
 
-
- // Ajoute une nouvelle matière
-
+// ─────────────────────────────────────────────
+// POST /api/matieres — ajout d'une matière
+// ─────────────────────────────────────────────
 const ajouterMatiere = (req, res) => {
-    const { nom, classe, teacher_id } = req.body;
+    // Tolérant : accepte classe_id OU classe (ancien nom)
+    const nom        = typeof req.body.nom === 'string' ? req.body.nom.trim() : '';
+    const classe_id  = req.body.classe_id ?? req.body.classe;
+    const teacher_id = req.body.teacher_id ?? null;
 
-    if (!nom || !classe) {
+    if (!nom || !classe_id) {
         return res.status(400).json({ error: "Le nom de la matière et la classe sont requis." });
     }
 
+    // Validation : classe_id doit être un entier positif
+    const classeIdNum = Number(classe_id);
+    if (!Number.isInteger(classeIdNum) || classeIdNum <= 0) {
+        return res.status(400).json({ error: "'classe_id' doit être un identifiant de classe valide (nombre)." });
+    }
+
     try {
-        const subjectId = addSubject(nom, classe, teacher_id || null);
+        const subjectId = addSubject(nom, classeIdNum, teacher_id);
         return res.status(201).json({
             success: true,
             message: "Matière ajoutée avec succès !",
@@ -74,23 +85,38 @@ const ajouterMatiere = (req, res) => {
         });
     } catch (error) {
         console.error("[ERREUR AJOUT MATIERE]", error);
+
+        // Gestion spécifique : clé étrangère inexistante (classe ou prof introuvable)
+        if (error.code === 'SQLITE_CONSTRAINT_FOREIGNKEY') {
+            return res.status(400).json({ 
+                error: "La classe (ou le professeur) spécifié(e) n'existe pas." 
+            });
+        }
+
         return res.status(500).json({ error: "Erreur lors de l'ajout de la matière." });
     }
 };
 
-
- // Mettre à jour une matière existante
- 
+// ─────────────────────────────────────────────
+// PUT /api/matieres/:id — modification
+// ─────────────────────────────────────────────
 const modifierMatiere = (req, res) => {
     const { id } = req.params;
-    const { nom, classe, teacher_id } = req.body;
+    const nom        = typeof req.body.nom === 'string' ? req.body.nom.trim() : '';
+    const classe_id  = req.body.classe_id ?? req.body.classe;
+    const teacher_id = req.body.teacher_id ?? null;
 
-    if (!nom || !classe) {
+    if (!nom || !classe_id) {
         return res.status(400).json({ error: "Le nom et la classe sont requis pour la mise à jour." });
     }
 
+    const classeIdNum = Number(classe_id);
+    if (!Number.isInteger(classeIdNum) || classeIdNum <= 0) {
+        return res.status(400).json({ error: "'classe_id' doit être un identifiant de classe valide (nombre)." });
+    }
+
     try {
-        const estModifie = updateSubject(id, nom, classe, teacher_id || null);
+        const estModifie = updateSubject(id, nom, classeIdNum, teacher_id);
 
         if (!estModifie) {
             return res.status(404).json({ error: "Matière introuvable ou aucune modification effectuée." });
@@ -99,13 +125,20 @@ const modifierMatiere = (req, res) => {
         return res.json({ success: true, message: "Matière mise à jour avec succès." });
     } catch (error) {
         console.error("[ERREUR MODIFICATION MATIERE]", error);
+
+        if (error.code === 'SQLITE_CONSTRAINT_FOREIGNKEY') {
+            return res.status(400).json({ 
+                error: "La classe (ou le professeur) spécifié(e) n'existe pas." 
+            });
+        }
+
         return res.status(500).json({ error: "Erreur lors de la modification de la matière." });
     }
 };
 
-
- // Supprime une matière par son ID
-  
+// ─────────────────────────────────────────────
+// DELETE /api/matieres/:id — suppression
+// ─────────────────────────────────────────────
 const supprimerMatiere = (req, res) => {
     const id = req.params.id;
 
@@ -122,7 +155,6 @@ const supprimerMatiere = (req, res) => {
         return res.status(500).json({ error: "Erreur lors de la suppression de la matière." });
     }
 };
-
 
 export {
     getMatieres,

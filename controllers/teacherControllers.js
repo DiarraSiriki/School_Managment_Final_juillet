@@ -65,14 +65,14 @@ const chercherProfesseur = (req, res) => {
 };
 
 const ajouterProfesseur = (req, res) => {
-  const { nom, matiere, email, password } = req.body;
+  const { nom, matiere, classe_id, email, password } = req.body;
 
   if (!nom || !matiere || !email || !password) {
     return res.status(400).json({ error: "Tous les champs (nom, matiere, email, password) sont requis." });
   }
 
   try {
-    const teacherId = addTeacher(nom, matiere, email, password);
+    const teacherId = addTeacher(nom, matiere, classe_id, email, password);
     return res.status(201).json({
       success: true,
       message: "Professeur créé avec succès !",
@@ -86,14 +86,14 @@ const ajouterProfesseur = (req, res) => {
 
 const modifierProfesseur = (req, res) => {
   const id = req.params.id;
-  const { nom, matiere, email, password } = req.body;
+  const { nom, matiere, classe_id, email, password } = req.body;
 
-  if (!nom && !matiere && !email && !password) {
+  if (!nom && !matiere && !classe_id && !email && !password) {
     return res.status(400).json({ error: "Au moins un champ doit être fourni pour la mise à jour." });
   }
 
   try {
-    const succes = updateTeacher(id, nom, matiere, email, password);
+    const succes = updateTeacher(id, nom, matiere, classe_id, email, password);
 
     if (!succes) {
       return res.status(404).json({ error: "Professeur introuvable ou échec de la mise à jour." });

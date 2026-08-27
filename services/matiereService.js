@@ -10,20 +10,29 @@ export {
   listSubjects
 };
 
-function addSubject(nom, classe, teacher_id = null) {
-  const result = Subjects.create(nom, classe, teacher_id);
-  logger.info(`Matière ajoutée: ID=${result.lastInsertRowid}, Nom=${nom}, Classe=${classe}, Professeur ID=${teacher_id}`);
+// ─────────────────────────────────────────────
+// Ajoute une nouvelle matière
+// ─────────────────────────────────────────────
+function addSubject(nom, classe_id, teacher_id = null) {
+  const result = Subjects.create(nom, classe_id, teacher_id);
+  logger.info(`Matière ajoutée: ID=${result.lastInsertRowid}, Nom=${nom}, Classe ID=${classe_id}, Professeur ID=${teacher_id}`);
   return result.lastInsertRowid;
 }
 
-function updateSubject(id, nom, classe, teacher_id = null) {
-  const result = Subjects.update(id, nom, classe, teacher_id);
+// ─────────────────────────────────────────────
+// Met à jour une matière existante
+// ─────────────────────────────────────────────
+function updateSubject(id, nom, classe_id, teacher_id = null) {
+  const result = Subjects.update(id, nom, classe_id, teacher_id);
   if (result.changes > 0) {
-    logger.info(`Matière modifiée: ID=${id}, Nom=${nom}, Classe=${classe}, Professeur ID=${teacher_id}`);
+    logger.info(`Matière modifiée: ID=${id}, Nom=${nom}, Classe ID=${classe_id}, Professeur ID=${teacher_id}`);
   }
   return result.changes > 0;
 }
 
+// ─────────────────────────────────────────────
+// Supprime une matière par son ID
+// ─────────────────────────────────────────────
 function removeSubject(id) {
   const result = Subjects.delete(id);
   if (result.changes > 0) {
@@ -32,12 +41,18 @@ function removeSubject(id) {
   return result.changes > 0;
 }
 
+// ─────────────────────────────────────────────
+// Recherche des matières par mot-clé
+// ─────────────────────────────────────────────
 function searchSubject(keyword) {
   const results = Subjects.search(keyword);
   logger.info(`Recherche de matière: Mot-clé='${keyword}' (${results.length} résultats)`);
   return results;
 }
 
+// ─────────────────────────────────────────────
+// Récupère une matière par son ID
+// ─────────────────────────────────────────────
 function getSubjectById(id) {
   const subject = Subjects.getById(id);
   if (subject) {
@@ -46,6 +61,9 @@ function getSubjectById(id) {
   return subject;
 }
 
+// ─────────────────────────────────────────────
+// Liste toutes les matières
+// ─────────────────────────────────────────────
 function listSubjects() {
   const subjects = Subjects.getAll();
   logger.info(`Liste des matières consultée (${subjects.length} matières)`);

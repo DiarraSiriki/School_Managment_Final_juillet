@@ -14,7 +14,7 @@ export {
   getTeacherByUserId
 };
 
-function addTeacher(nom, matiere, email, password) {
+function addTeacher(nom, matiere, classe_id = null, email, password) {
   const userResult = addUser(nom, 'teacher', email, password, { matiere });
   const userId = userResult?.id ?? userResult;
 
@@ -27,11 +27,16 @@ function addTeacher(nom, matiere, email, password) {
     throw new Error('Erreur lors de la création de la fiche professeur');
   }
 
-  logger.info(`Professeur ajouté: ID=${teacherId}, Nom=${nom}, UserID=${userId}`);
+  // Mettre à jour avec classe_id si fourni
+  if (classe_id) {
+    Teacher.update(teacherId, nom, matiere, classe_id, userId);
+  }
+
+  logger.info(`Professeur ajouté: ID=${teacherId}, Nom=${nom}, UserID=${userId}, ClasseID=${classe_id}`);
   return teacherId;
 }
 
-function updateTeacher(id, nom, matiere, email = null, password = null) {
+function updateTeacher(id, nom, matiere, classe_id = null, email = null, password = null) {
   const teacher = Teacher.getById(id);
   if (!teacher) {
     logger.error(`Professeur introuvable: ID=${id}`);
@@ -41,7 +46,7 @@ function updateTeacher(id, nom, matiere, email = null, password = null) {
   let tableTeachersModifiee = false;
   let tableUsersModifiee = false;
 
-  const resultTeacher = Teacher.update(id, nom, matiere, teacher.user_id);
+  const resultTeacher = Teacher.update(id, nom, matiere, classe_id, teacher.user_id);
   if (resultTeacher && resultTeacher.changes > 0) {
     tableTeachersModifiee = true;
   }

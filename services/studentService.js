@@ -1,10 +1,15 @@
 ﻿import Student from '../models/modelStudent.js';
 import logger from '../utils/logger.js';
 import { addUser } from './userService.js';
-import { isClassFull } from './classeService.js';
+import { isClassFull, resolveClasseId } from './classeService.js';
 import Classe from '../models/modelClass.js';
 
-function addStudent(matricule, nom, prenom, age, classe_id, email, mot_passe) {
+/**
+ * Ajoute un étudiant.
+ * classe_id OU classe (nom libre) est accepté.
+ * Si le nom n'existe pas en base, la classe est créée automatiquement.
+ */
+function addStudent(matricule, nom, prenom, age, classe_id, email, mot_passe, classe = null) {
   if (!matricule || !String(matricule).trim()) {
     throw new Error('Le matricule est obligatoire.');
   }
@@ -17,50 +22,43 @@ function addStudent(matricule, nom, prenom, age, classe_id, email, mot_passe) {
     throw new Error(`Le matricule '${cleanMatricule}' appartient déjà à un étudiant.`);
   }
 
-  if (!classe_id) {
-    throw new Error('La classe est obligatoire.');
-  }
+  const resolvedClasseId = resolveClasseId({ classe_id, classe });
 
-  const classe = Classe.getById(classe_id);
-  if (!classe) {
-    logger.warn(`Échec de l'ajout : La classe ID=${classe_id} n'existe pas.`);
-    throw new Error(`La classe sélectionnée n'existe pas.`);
-  }
-
-  if (isClassFull(classe_id)) {
-    logger.warn(`Échec de l'ajout : La classe "${classe.nom}" est pleine (${classe.capacite}).`);
-    throw new Error(`Impossible d'ajouter l'étudiant : la classe "${classe.nom}" est pleine.`);
+  if (isClassFull(resolvedClasseId)) {
+    const classeInfo = Classe.getById(resolvedClasseId);
+    logger.warn(`Échec de l'ajout : La classe "${classeInfo?.nom}" est pleine (${classeInfo?.capacite}).`);
+    throw new Error(`Impossible d'ajouter l'étudiant : la classe "${classeInfo?.nom}" est pleine.`);
   }
 
   if (!email || !mot_passe) {
     throw new Error('Email et mot de passe sont obligatoires pour créer un étudiant.');
   }
 
-  // Création du compte utilisateur associé
-  const userResult = addUser(`${prenom} ${nom}`.trim(), 'student', email, mot_passe, {
-    matricule: cleanMatricule,
-    nom,
-    prenom,
-    age,
-    classe_id
-  });
+  // Création user + fiche étudiant via addUser (évite le double insert)
+  const userResult = addUser(
+    `${prenom} ${nom}`.trim(),
+    'student',
+    email,
+    mot_passe,
+    {
+      matricule: cleanMatricule,
+      classe_id: resolvedClasseId,
+      age,
+      prenom,
+      nom
+    }
+  );
   const userId = userResult?.id ?? userResult;
 
-  // La fiche étudiant est déjà créée par addUser, on récupère juste l'ID
-  const student = Student.getByUserId(userId);
-  const studentId = student ? student.id : null;
+  const student = Student.getByUserId(userId) || Student.getByMatricule(cleanMatricule);
+  const studentId = student?.id;
 
-  if (!studentId) {
-    logger.error(`Erreur: Fiche étudiant non trouvée après création pour user_id=${userId}`);
-    throw new Error('Erreur lors de la création de la fiche étudiant');
-  }
+  logger.info(`Étudiant ajouté : ID=${studentId}, Matricule=${cleanMatricule}, ClasseID=${resolvedClasseId}, UserID=${userId}`);
 
-  logger.info(`Étudiant ajouté : ID=${studentId}, Matricule=${cleanMatricule}, ClasseID=${classe_id}, UserID=${userId}`);
-
-  return { id: studentId, matricule: cleanMatricule };
+  return { id: studentId, matricule: cleanMatricule, classe_id: resolvedClasseId };
 }
 
-function updateStudent(id, matricule, nom, prenom, age, classe_id, user_id = null) {
+function updateStudent(id, matricule, nom, prenom, age, classe_id, user_id = null, classe = null) {
   const existingStudent = Student.getById(id);
   if (!existingStudent) {
     throw new Error(`Étudiant avec l'ID ${id} introuvable.`);
@@ -77,17 +75,15 @@ function updateStudent(id, matricule, nom, prenom, age, classe_id, user_id = nul
     }
   }
 
-  const targetClasseId = (classe_id !== undefined && classe_id !== null && classe_id !== '')
-    ? classe_id
-    : existingStudent.classe_id;
+  let targetClasseId = existingStudent.classe_id;
+  if ((classe && String(classe).trim()) || (classe_id !== undefined && classe_id !== null && classe_id !== '')) {
+    targetClasseId = resolveClasseId({ classe_id, classe });
+  }
 
   if (targetClasseId && String(targetClasseId) !== String(existingStudent.classe_id)) {
-    const classe = Classe.getById(targetClasseId);
-    if (!classe) {
-      throw new Error(`La classe sélectionnée n'existe pas.`);
-    }
     if (isClassFull(targetClasseId)) {
-      throw new Error(`Impossible de transférer l'étudiant : la classe "${classe.nom}" est pleine.`);
+      const classeInfo = Classe.getById(targetClasseId);
+      throw new Error(`Impossible de transférer l'étudiant : la classe "${classeInfo?.nom}" est pleine.`);
     }
   }
 
@@ -98,7 +94,7 @@ function updateStudent(id, matricule, nom, prenom, age, classe_id, user_id = nul
   const result = Student.update(id, targetMatricule, nom, prenom, age, targetClasseId, targetUserId);
 
   if (result.changes > 0) {
-    logger.info(`Étudiant modifié: ID=${id}`);
+    logger.info(`Étudiant modifié: ID=${id}, ClasseID=${targetClasseId}`);
   }
 
   return result.changes > 0;

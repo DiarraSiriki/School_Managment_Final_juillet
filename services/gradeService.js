@@ -7,8 +7,8 @@ function addGrade(student_id, subject_id, note) {
   return result.lastInsertRowid;
 }
 
-function updateGrade(id, note) {
-  const result = Grade.update(id, note);
+function updateGrade(id, student_id, subject_id, note) {
+  const result = Grade.update(id, student_id, subject_id, note);
   return result.changes > 0;
 }
 

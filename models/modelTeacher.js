@@ -1,12 +1,12 @@
 import database from '../db/database.js';
 
 class Teacher {
-  static create(nom, matiere, user_id = null) {
+  static create(nom, matiere, classe_id = null, user_id = null) {
     const query = database.prepare(`
-      INSERT INTO teachers (nom, matiere, user_id) 
-      VALUES (?, ?, ?)
+      INSERT INTO teachers (nom, matiere, classe_id, user_id) 
+      VALUES (?, ?, ?, ?)
     `);
-    return query.run(nom, matiere, user_id);
+    return query.run(nom, matiere, classe_id, user_id);
   }
 
   static getAll() {
@@ -33,13 +33,13 @@ class Teacher {
     return query.all(k, k);
   }
 
-  static update(id, nom, matiere, user_id = null) {
+  static update(id, nom, matiere, classe_id = null, user_id = null) {
     const query = database.prepare(`
       UPDATE teachers 
-      SET nom = ?, matiere = ?, user_id = ?
+      SET nom = ?, matiere = ?, classe_id = ?, user_id = ?
       WHERE id = ?
     `);
-    return query.run(nom, matiere, user_id, id);
+    return query.run(nom, matiere, classe_id, user_id, id);
   }
 
   static delete(id) {

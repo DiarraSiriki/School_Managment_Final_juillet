@@ -32,6 +32,7 @@ function renderTodayDate() {
 let allTeachers = [];
 let allSubjects = [];
 let allUsers = [];
+let allClasses = [];
 let searchTerm = '';
 
 async function loadSubjects() {
@@ -54,11 +55,22 @@ async function loadUsers() {
   }
 }
 
+async function loadClasses() {
+  try {
+    const result = await API.classes.getAll();
+    allClasses = Array.isArray(result?.data) ? result.data : (Array.isArray(result) ? result : []);
+  } catch (error) {
+    console.error('[loadClasses]', error);
+    allClasses = [];
+  }
+}
+
 async function loadTeachers() {
   try {
     const result = await API.teachers.getAll();
     allTeachers = Array.isArray(result?.data) ? result.data : (Array.isArray(result) ? result : []);
 
+    await loadClasses();
     renderSubtitle();
     renderTable();
   } catch (error) {
@@ -72,13 +84,24 @@ async function loadTeachers() {
 
 function getClassesForTeacher(teacherId) {
   const teacher = allTeachers.find(t => String(t.id) === String(teacherId));
-  if (teacher && teacher.classe) {
-    return [teacher.classe];
+  const classes = [];
+
+  // Classe principale du professeur
+  if (teacher && teacher.classe_id) {
+    const classe = allClasses.find(c => String(c.id) === String(teacher.classe_id));
+    if (classe) classes.push(classe.nom);
   }
 
-  const classes = allSubjects
-    .filter(s => String(s.teacher_id) === String(teacherId) && s.classe)
-    .map(s => s.classe);
+  // Classes via les matières enseignées
+  const subjectClasses = allSubjects
+    .filter(s => String(s.teacher_id) === String(teacherId) && s.classe_id)
+    .map(s => {
+      const classe = allClasses.find(c => String(c.id) === String(s.classe_id));
+      return classe ? classe.nom : null;
+    })
+    .filter(Boolean);
+
+  classes.push(...subjectClasses);
 
   return [...new Set(classes)];
 }
@@ -166,7 +189,11 @@ function openCreateModal() {
   document.getElementById('modalSubtitle').textContent = 'Créer un professeur et son compte de connexion.';
   document.getElementById('teacherForm').reset();
   document.getElementById('teacherId').value = '';
-  document.getElementById('teacherClasse').value = '';
+
+  // Remplir le select des classes
+  const classeSelect = document.getElementById('teacherClasse');
+  classeSelect.innerHTML = '<option value="">Aucune classe assignée</option>' +
+    allClasses.map(c => `<option value="${c.id}">${escapeHtml(c.nom)}</option>`).join('');
 
   document.getElementById('teacherAccountGroup').style.display = 'block';
   document.getElementById('teacherEmail').required = true;
@@ -185,8 +212,11 @@ function openEditModal(teacher) {
   document.getElementById('teacherNom').value = teacher.nom || '';
   document.getElementById('teacherMatiere').value = teacher.matiere || '';
 
-  const currentClasses = getClassesForTeacher(teacher.id);
-  document.getElementById('teacherClasse').value = teacher.classe || currentClasses.join(', ') || '';
+  // Remplir le select des classes
+  const classeSelect = document.getElementById('teacherClasse');
+  classeSelect.innerHTML = '<option value="">Aucune classe assignée</option>' +
+    allClasses.map(c => `<option value="${c.id}">${escapeHtml(c.nom)}</option>`).join('');
+  classeSelect.value = teacher.classe_id || '';
 
   document.getElementById('teacherEmail').value = getEmailForTeacher(teacher.user_id);
   document.getElementById('teacherPassword').value = '';
@@ -240,7 +270,7 @@ function setupModal() {
       const id = document.getElementById('teacherId').value;
       const nom = document.getElementById('teacherNom').value.trim();
       const matiere = document.getElementById('teacherMatiere').value.trim();
-      const classe = document.getElementById('teacherClasse').value.trim();
+      const classe_id = document.getElementById('teacherClasse').value ? Number(document.getElementById('teacherClasse').value) : null;
       const email = document.getElementById('teacherEmail').value.trim();
       const password = document.getElementById('teacherPassword').value;
 
@@ -259,7 +289,7 @@ function setupModal() {
 
       try {
         if (id) {
-          const payload = { nom, matiere, classe };
+          const payload = { nom, matiere, classe_id };
           if (email) payload.email = email;
           if (password) payload.password = password;
 
@@ -272,7 +302,7 @@ function setupModal() {
             submitBtn.textContent = 'Enregistrer';
             return;
           }
-          await API.teachers.create({ nom, matiere, email, password });
+          await API.teachers.create({ nom, matiere, classe_id, email, password });
           ShowAlert('Professeur créé avec succès.');
         }
         closeModal();

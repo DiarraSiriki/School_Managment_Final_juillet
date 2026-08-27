@@ -48,8 +48,9 @@ async function loadClasses() {
         .join('');
     }
 
+    // Les classes peuvent aussi être créées automatiquement en saisissant un nouveau nom
     if (allClasses.length === 0) {
-      ShowAlert("Aucune classe en base. Créez d'abord des classes.", 'error');
+      console.info('[loadClasses] Aucune classe en base — vous pouvez en saisir une nouvelle à la main.');
     }
   } catch (error) {
     console.error('[loadClasses]', error);
@@ -276,11 +277,10 @@ function setupModal() {
         return;
       }
 
-      const classe_id = findClasseIdByName(classeName);
-      if (!classe_id) {
-        showFormError(`Classe "${classeName}" introuvable. Vérifiez le nom exact.`);
-        return;
-      }
+      // Nom libre : le backend trouve ou crée la classe si besoin
+      const existingId = findClasseIdByName(classeName);
+      const classePayload = { classe: classeName };
+      if (existingId) classePayload.classe_id = existingId;
 
       const submitBtn = document.getElementById('btnSubmitModal');
       submitBtn.disabled = true;
@@ -288,7 +288,7 @@ function setupModal() {
 
       try {
         if (id) {
-          await API.students.update(id, { matricule, nom, prenom, age, classe_id });
+          await API.students.update(id, { matricule, nom, prenom, age, ...classePayload });
           ShowAlert('Étudiant modifié avec succès.');
         } else {
           const email = document.getElementById('studentEmail').value.trim();
@@ -299,7 +299,7 @@ function setupModal() {
             submitBtn.textContent = 'Enregistrer';
             return;
           }
-          await API.students.create({ matricule, nom, prenom, age, classe_id, email, mot_passe });
+          await API.students.create({ matricule, nom, prenom, age, email, mot_passe, ...classePayload });
           ShowAlert('Étudiant créé avec succès.');
         }
         closeModal();

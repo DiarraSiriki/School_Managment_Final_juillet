@@ -68,6 +68,7 @@ function updateRoleFields(role) {
   const studentAgeInput = document.getElementById('studentAgeInput');
   const studentClasseInput = document.getElementById('studentClasseInput');
   const teacherMatiereInput = document.getElementById('teacherMatiereInput');
+  const teacherClasseInput = document.getElementById('teacherClasseInput');
 
   if (studentGroup) studentGroup.style.display = 'none';
   if (teacherGroup) teacherGroup.style.display = 'none';
@@ -78,6 +79,7 @@ function updateRoleFields(role) {
   if (studentAgeInput) studentAgeInput.required = false;
   if (studentClasseInput) studentClasseInput.required = false;
   if (teacherMatiereInput) teacherMatiereInput.required = false;
+  if (teacherClasseInput) teacherClasseInput.required = false;
   if (userNameInput) userNameInput.required = false;
 
   if (role === 'student') {
@@ -103,6 +105,12 @@ async function loadClasses() {
   try {
     const result = await API.classes.getAll();
     allClasses = Array.isArray(result?.data) ? result.data : (Array.isArray(result) ? result : []);
+    const datalist = document.getElementById('adminClasseList');
+    if (datalist) {
+      datalist.innerHTML = allClasses
+        .map(c => `<option value="${(c.nom || '').replace(/"/g, '&quot;')}">`)
+        .join('');
+    }
   } catch (error) {
     console.error('[loadClasses]', error);
   }
@@ -117,8 +125,9 @@ function findClasseIdByName(classeName) {
 
 async function loadUsers() {
   try {
-    const users = await API.admin.getUsers();
-    allUsers = Array.isArray(users) ? users : [];
+    const result = await API.admin.getUsers();
+    allUsers = Array.isArray(result?.data) ? result.data : (Array.isArray(result) ? result : []);
+    console.log('Utilisateurs chargés:', allUsers.length, allUsers);
     renderStats();
     renderTable();
   } catch (error) {
@@ -237,6 +246,13 @@ function openCreateModal() {
   document.getElementById('userPassword').required = true;
   document.getElementById('passwordHint').textContent = 'Requis à la création.';
 
+  // Remplir le select des classes pour les professeurs
+  const teacherClasseInput = document.getElementById('teacherClasseInput');
+  if (teacherClasseInput) {
+    teacherClasseInput.innerHTML = '<option value="">Aucune classe assignée</option>' +
+      allClasses.map(c => `<option value="${c.id}">${escapeHtml(c.nom)}</option>`).join('');
+  }
+
   const selectedRoleRadio = document.querySelector('input[name="userRole"]:checked') ||
                              document.querySelector('input[name="userRole"][value="student"]');
 
@@ -282,7 +298,16 @@ function openEditModal(user) {
     }
   } else if (roleToSet === 'teacher') {
     const matieresInput = document.getElementById('teacherMatiereInput');
+    const classeInput = document.getElementById('teacherClasseInput');
+    
     if (matieresInput) matieresInput.value = user.matiere || '';
+    
+    // Remplir le select des classes
+    if (classeInput) {
+      classeInput.innerHTML = '<option value="">Aucune classe assignée</option>' +
+        allClasses.map(c => `<option value="${c.id}">${escapeHtml(c.nom)}</option>`).join('');
+      classeInput.value = user.classe_id || '';
+    }
   }
 
   document.getElementById('userPassword').value = '';
@@ -370,30 +395,26 @@ function setupModal() {
           return;
         }
 
-        const classe_id = findClasseIdByName(classeName);
-        if (!classe_id) {
-          showFormError(`Classe "${classeName}" introuvable. Vérifiez le nom exact.`);
-          return;
-        }
-
+        // Nom libre : le backend trouve ou crée la classe automatiquement
         name = `${prenom} ${nom}`.trim();
         payload.name = name;
         payload.prenom = prenom;
         payload.nom = nom;
         payload.age = Number(age);
         payload.matricule = matricule;
-        payload.classe_id = classe_id;
+        payload.classe = classeName;
+        // Si la classe existe déjà, on envoie aussi l'id (optionnel)
+        const existingId = findClasseIdByName(classeName);
+        if (existingId) payload.classe_id = existingId;
       } else if (role === 'teacher') {
         if (!name) {
           showFormError('Le nom complet est obligatoire.');
           return;
         }
         payload.name = name;
-        payload.matiere = document.getElementById('teacherMatiereInput')?.value.trim() || '';
-        if (!payload.matiere) {
-          showFormError('La matière est obligatoire pour un professeur.');
-          return;
-        }
+        payload.matiere = document.getElementById('teacherMatiereInput')?.value.trim() || null;
+        const classeId = document.getElementById('teacherClasseInput')?.value;
+        if (classeId) payload.classe_id = Number(classeId);
       } else {
         if (!name) {
           showFormError('Le nom complet est obligatoire.');

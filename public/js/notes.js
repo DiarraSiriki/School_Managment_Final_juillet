@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   // --- 1. ÉLÉMENTS DU DOM ---
   const topDateText = document.getElementById('topDateText');
   const gradeSubtitle = document.getElementById('gradeSubtitle');
-  const tableBody = document.getElementById('gradesTableBody');
+  const tableBody = document.getElementById('gradesTableBody'); // Garder le bon identifiant
   const btnNewGrade = document.getElementById('btnNewGrade');
   
   const modal = document.getElementById('gradeModal');
@@ -79,19 +79,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (selectStudent) {
       selectStudent.innerHTML = '<option value="">Sélectionner un étudiant</option>' +
         allStudents.map(s => {
-          const name = s.nom ? `${s.nom} ${s.prenom || ''}` : (s.name || `Étudiant #${s.id}`);
+          const name = (s.nom || s.name) ? `${s.nom || s.name} ${s.prenom || ''}`.trim() : `Élève #${s.id}`;
           return `<option value="${s.id}">${escapeHtml(name)}</option>`;
         }).join('');
     }
 
     if (selectSubject) {
       selectSubject.innerHTML = '<option value="">Sélectionner une matière</option>' +
-        allSubjects.map(s => `<option value="${s.id}">${escapeHtml(s.nom)}</option>`).join('');
+        allSubjects.map(s => `<option value="${s.id}">${escapeHtml(s.nom || s.name || 'Matière sans nom')}</option>`).join('');
     }
   }
 
   // --- 4. AFFICHAGE DU TABLEAU ---
   function renderTable() {
+    if (!tableBody) return;
+
     if (gradeSubtitle) {
       gradeSubtitle.textContent = `${allGrades.length} note${allGrades.length > 1 ? 's' : ''} enregistrée${allGrades.length > 1 ? 's' : ''}`;
     }
@@ -102,15 +104,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     tableBody.innerHTML = allGrades.map(g => {
-      const student = allStudents.find(s => String(s.id) === String(g.student_id));
-      const studentName = student ? `${student.nom} ${student.prenom || ''}` : (g.student_nom || 'Étudiant inconnu');
+      // Recherche de l'élève associatif
+      const student = allStudents.find(s => String(s.id) === String(g.student_id || g.studentId));
+      const studentName = student 
+        ? `${student.nom || student.name || ''} ${student.prenom || ''}`.trim() 
+        : (g.student_nom || g.studentName || 'Étudiant inconnu');
       
-      const subject = allSubjects.find(s => String(s.id) === String(g.subject_id));
-      const subjectName = subject ? subject.nom : (g.subject_nom || '-');
+      // Recherche de la matière
+      const subject = allSubjects.find(s => String(s.id) === String(g.subject_id || g.subjectId));
+      const subjectName = subject 
+        ? (subject.nom || subject.name) 
+        : (g.subject_nom || g.subjectName || '-');
 
-      const classeObj = allClasses.find(c => String(c.id) === String(student?.classe_id || subject?.classe_id));
-      const className = classeObj ? classeObj.nom : (g.classe || '-');
+      // Recherche de la classe liée à l'élève ou à la matière
+      const classId = student?.classe_id || student?.class_id || subject?.classe_id || g.classe_id;
+      const classeObj = allClasses.find(c => String(c.id) === String(classId));
+      const className = classeObj ? (classeObj.nom || classeObj.name) : (g.classe || '-');
 
+      // Calcul du style de la note
       const val = Number(g.valeur ?? g.note ?? 0);
       let gradeClass = 'grade-medium';
       if (val >= 14) gradeClass = 'grade-high';
@@ -135,92 +146,105 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // --- 5. GESTION DE LA MODALE ---
   function openModal(grade = null) {
+    if (!gradeForm || !modal) return;
     gradeForm.reset();
-    formError.style.display = 'none';
+    if (formError) formError.style.display = 'none';
 
     if (grade) {
-      modalTitle.textContent = 'Modifier la note';
-      modalSubtitle.textContent = 'Ajustement de la note de l\'élève';
-      inputId.value = grade.id;
-      selectStudent.value = grade.student_id || '';
-      selectSubject.value = grade.subject_id || '';
-      inputValeur.value = grade.valeur ?? grade.note ?? '';
+      if (modalTitle) modalTitle.textContent = 'Modifier la note';
+      if (modalSubtitle) modalSubtitle.textContent = 'Ajustement de la note de l\'élève';
+      if (inputId) inputId.value = grade.id;
+      if (selectStudent) selectStudent.value = grade.student_id || grade.studentId || '';
+      if (selectSubject) selectSubject.value = grade.subject_id || grade.subjectId || '';
+      if (inputValeur) inputValeur.value = grade.valeur ?? grade.note ?? '';
     } else {
-      modalTitle.textContent = 'Saisir une note';
-      modalSubtitle.textContent = 'Renseignez les détails de la note de l\'élève.';
-      inputId.value = '';
+      if (modalTitle) modalTitle.textContent = 'Saisir une note';
+      if (modalSubtitle) modalSubtitle.textContent = 'Renseignez les détails de la note de l\'élève.';
+      if (inputId) inputId.value = '';
     }
 
     modal.classList.add('show');
   }
 
   function closeModal() {
-    modal.classList.remove('show');
+    if (modal) modal.classList.remove('show');
   }
 
   // --- 6. ÉVÉNEMENTS & SOUMISSION ---
   if (btnNewGrade) btnNewGrade.addEventListener('click', () => openModal());
   if (btnCancelModal) btnCancelModal.addEventListener('click', closeModal);
 
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) closeModal();
-  });
+  if (modal) {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+  }
 
-  tableBody.addEventListener('click', async (e) => {
-    const btn = e.target.closest('button[data-action]');
-    if (!btn) return;
+  if (tableBody) {
+    tableBody.addEventListener('click', async (e) => {
+      const btn = e.target.closest('button[data-action]');
+      if (!btn) return;
 
-    const id = btn.dataset.id;
-    const grade = allGrades.find(g => String(g.id) === String(id));
+      const id = btn.dataset.id;
+      const grade = allGrades.find(g => String(g.id) === String(id));
 
-    if (btn.dataset.action === 'edit' && grade) {
-      openModal(grade);
-    } else if (btn.dataset.action === 'delete' && grade) {
-      if (confirm('Voulez-vous vraiment supprimer cette note ?')) {
-        try {
-          await API.grades.delete(id);
-          showAlert('Note supprimée avec succès.');
-          await loadData();
-        } catch (err) {
-          showAlert(err.message || 'Erreur lors de la suppression.', 'error');
+      if (btn.dataset.action === 'edit' && grade) {
+        openModal(grade);
+      } else if (btn.dataset.action === 'delete' && grade) {
+        if (confirm('Voulez-vous vraiment supprimer cette note ?')) {
+          try {
+            await API.grades.delete(id);
+            showAlert('Note supprimée avec succès.');
+            await loadData();
+          } catch (err) {
+            showAlert(err.message || 'Erreur lors de la suppression.', 'error');
+          }
         }
       }
-    }
-  });
+    });
+  }
 
-  gradeForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    formError.style.display = 'none';
+  if (gradeForm) {
+    gradeForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (formError) formError.style.display = 'none';
 
-    const id = inputId.value;
-    const payload = {
-      student_id: Number(selectStudent.value),
-      subject_id: Number(selectSubject.value),
-      valeur: Number(inputValeur.value)
-    };
+      const id = inputId.value;
+      const payload = {
+        student_id: Number(selectStudent.value),
+        subject_id: Number(selectSubject.value),
+        valeur: Number(inputValeur.value)
+      };
 
-    btnSubmitModal.disabled = true;
-    btnSubmitModal.textContent = 'Enregistrement...';
-
-    try {
-      if (id) {
-        await API.grades.update(id, payload);
-        showAlert('Note modifiée avec succès.');
-      } else {
-        await API.grades.create(payload);
-        showAlert('Note ajoutée avec succès.');
+      if (btnSubmitModal) {
+        btnSubmitModal.disabled = true;
+        btnSubmitModal.textContent = 'Enregistrement...';
       }
 
-      closeModal();
-      await loadData();
-    } catch (err) {
-      formError.textContent = err.message || 'Une erreur est survenue.';
-      formError.style.display = 'block';
-    } finally {
-      btnSubmitModal.disabled = false;
-      btnSubmitModal.textContent = 'Enregistrer';
-    }
-  });
+      try {
+        if (id) {
+          await API.grades.update(id, payload);
+          showAlert('Note modifiée avec succès.');
+        } else {
+          await API.grades.create(payload);
+          showAlert('Note ajoutée avec succès.');
+        }
+
+        closeModal();
+        await loadData();
+      } catch (err) {
+        if (formError) {
+          formError.textContent = err.message || 'Une erreur est survenue.';
+          formError.style.display = 'block';
+        }
+      } finally {
+        if (btnSubmitModal) {
+          btnSubmitModal.disabled = false;
+          btnSubmitModal.textContent = 'Enregistrer';
+        }
+      }
+    });
+  }
 
   // --- 7. INITIALISATION ---
   renderDate();

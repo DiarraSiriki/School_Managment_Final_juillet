@@ -3,13 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EcoleAdmin - Absences</title>
+  <title>Absences - MySchoolManager</title>
  
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  
-
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-  
   <link rel="stylesheet" href="css/absences.css">
 </head>
 <body data-roles="admin,teacher,student">
@@ -50,33 +47,30 @@
   <!-- CONTENU PRINCIPAL -->
   <main class="main-content">
     
-    <!-- EN-TÊTE HAUT -->
     <header class="top-header">
       <div class="top-title">
         <i class="fa-solid fa-calendar-days"></i> Absences
       </div>
       <div class="top-date">
-        Lun 03 Août 2026 <span class="status-dot"></span>
+        Chargement... <span class="status-dot"></span>
       </div>
     </header>
 
-    <!-- EN-TÊTE PAGE + BOUTON -->
     <div class="page-header">
       <div>
         <h1>Absences</h1>
-        <p class="subtitle">8 absences enregistrées · 5 non justifiées</p>
+        <p class="subtitle">Chargement des données...</p>
       </div>
       <button class="btn-primary"><i class="fa-solid fa-plus"></i> Signaler une absence</button>
     </div>
 
-    <!-- CARTES DE RÉSUMÉ -->
     <div class="summary-cards">
       <div class="card">
         <div class="card-icon warning">
           <i class="fa-solid fa-triangle-exclamation"></i>
         </div>
         <div class="card-content">
-          <span class="card-value">5</span>
+          <span class="card-value">0</span>
           <span class="card-label">Non justifiées</span>
         </div>
       </div>
@@ -86,7 +80,7 @@
           <i class="fa-solid fa-square-check"></i>
         </div>
         <div class="card-content">
-          <span class="card-value">3</span>
+          <span class="card-value">0</span>
           <span class="card-label">Justifiées</span>
         </div>
       </div>
@@ -96,13 +90,12 @@
           <i class="fa-solid fa-stopwatch"></i>
         </div>
         <div class="card-content">
-          <span class="card-value">19</span>
-          <span class="card-label">nombre d'absences</span>
+          <span class="card-value">0</span>
+          <span class="card-label">Nombre d'absences</span>
         </div>
       </div>
     </div>
 
-    <!-- TABLEAU DES ABSENCES -->
     <div class="table-container">
       <table>
         <thead>
@@ -111,40 +104,69 @@
             <th>CLASSE</th>
             <th>MATIÈRE</th>
             <th>DATE</th>
+            <th>STATUT</th>
             <th>ACTIONS</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td><strong>Rahmani Sonia</strong></td>
-            <td>3ème B</td>
-            <td>Mathématiques</td>
-            <td>28/10/2025</td>
-            <td>
-              <div class="action-buttons">
-                <button class="btn-edit"><i class="fa-solid fa-pen"></i></button>
-                <button class="btn-delete"><i class="fa-solid fa-trash"></i></button>
-              </div>
-            </td>
-          </tr>
-
-          <tr>
-            <td><strong>Larbi Sofiane</strong></td>
-            <td>1ère A</td>
-            <td>Français</td>
-            <td>03/11/2025</td>
-            <td>
-              <div class="action-buttons">
-                <button class="btn-edit"><i class="fa-solid fa-pen"></i></button>
-                <button class="btn-delete"><i class="fa-solid fa-trash"></i></button>
-              </div>
-            </td>
+            <td colspan="6" style="text-align: center;">Chargement des absences...</td>
           </tr>
         </tbody>
       </table>
     </div>
 
   </main>
+
+  <!-- MODALE D'ABSENCE -->
+  <div id="absenceModal" class="modal">
+    <div class="modal-content">
+      <h2 id="modalTitle">Signaler une absence</h2>
+      
+      <form id="absenceForm">
+        <input type="hidden" id="absenceId">
+
+        <div class="form-group">
+          <label for="absenceStudent">Étudiant</label>
+          <select id="absenceStudent" required>
+            <option value="">Sélectionner un étudiant</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="absenceClass">Classe</label>
+          <select id="absenceClass" required>
+            <option value="">Sélectionner une classe</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="absenceSubject">Matière</label>
+          <select id="absenceSubject" required>
+            <option value="">Sélectionner une matière</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="absenceDate">Date</label>
+          <input type="date" id="absenceDate" required>
+        </div>
+
+        <div class="form-group">
+          <label for="absenceStatus">Statut</label>
+          <select id="absenceStatus" required>
+            <option value="non justifiée">Non justifiée</option>
+            <option value="justifiée">Justifiée</option>
+          </select>
+        </div>
+
+        <div class="modal-actions">
+          <button type="button" id="btnCancelModal" class="btn-cancel">Annuler</button>
+          <button type="submit" class="btn-submit">Enregistrer</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <script src="/js/authGuard.js"></script>
   <script src="/js/api.js"></script>

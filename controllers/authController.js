@@ -2,9 +2,7 @@ import { authenticate, getUserById } from '../services/userService.js';
 import jwt from 'jsonwebtoken';
 import { logToFile } from '../utils/logger.js';
 
-
 const JWT_SECRET = process.env.JWT_SECRET || 'votre_cle_secrete_super_securisee';
-
 
 const login = async (req, res) => {
   const { email, mot_passe } = req.body;
@@ -64,47 +62,42 @@ const login = async (req, res) => {
   }
 };
 
-
 // Récupère le profil de l'utilisateur actuellement connecté (tous rôles confondus)
-const getMonProfil = (req, res) => {
+const getMonProfil = async (req, res) => {
+  const userId = req.user.id;
 
-    const userId = req.user.id;
+  try {
+    const user = await getUserById(userId);
 
-    try {
-        const user = getUserById(userId);
-
-        if (!user) {
-            return res.status(404).json({
-                success: false,
-                message: "Profil introuvable."
-            });
-        }
-
-        return res.json({
-            success: true,
-            data: user
-        });
-    } catch (error) {
-        console.error("[ERREUR GET MON PROFIL]", error);
-        return res.status(500).json({
-            success: false,
-            message: "Erreur lors de la récupération du profil."
-        });
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Profil introuvable."
+      });
     }
-};
 
-const logout = (req, res) => {
-    
-    const user = req.user;
-    
-    logToFile('INFO', `Déconnexion: ${user?.email} (role: ${user?.role})`);
-    
-    
     return res.json({
-        success: true,
-        message: "Déconnexion réussie !"
+      success: true,
+      data: user
     });
+  } catch (error) {
+    console.error("[ERREUR GET MON PROFIL]", error);
+    return res.status(500).json({
+      success: false,
+      message: "Erreur lors de la récupération du profil."
+    });
+  }
 };
 
+const logout = async (req, res) => {
+  const user = req.user;
+  
+  logToFile('INFO', `Déconnexion: ${user?.email} (role: ${user?.role})`);
+  
+  return res.json({
+    success: true,
+    message: "Déconnexion réussie !"
+  });
+};
 
 export { login, logout, getMonProfil };
