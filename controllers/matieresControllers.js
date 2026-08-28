@@ -10,9 +10,9 @@ import {
 
 // Récupère la liste de toutes les matières
 
- const getMatieres = (req, res) => {
+ const getMatieres = async (req, res) => {
     try {
-        const subjects = listSubjects();
+        const subjects = await listSubjects();
         return res.json(subjects);
     } catch (error) {
         console.error("[ERREUR GET MATIERES]", error);
@@ -21,11 +21,11 @@ import {
 };
 
 // Récupère une matière spécifique par son ID
-const getMatiereParId = (req, res) => {
+const getMatiereParId = async (req, res) => {
     const  id  = req.params.id;
 
     try {
-        const subject = getSubjectById(id);
+        const subject = await getSubjectById(id);
         if (!subject) {
             return res.status(404).json({ error: "Matière introuvable." });
         }
@@ -39,7 +39,7 @@ const getMatiereParId = (req, res) => {
 
  // Recherche des matières par mot-clé (nom ou classe)
  
-const chercherMatiere = (req, res) => {
+const chercherMatiere = async (req, res) => {
     const { q } = req.query;
 
     if (!q) {
@@ -47,7 +47,7 @@ const chercherMatiere = (req, res) => {
     }
 
     try {
-        const resultats = searchSubject(q);
+        const resultats = await searchSubject(q);
         return res.json(resultats);
     } catch (error) {
         console.error("[ERREUR RECHERCHE MATIERE]", error);
@@ -58,7 +58,7 @@ const chercherMatiere = (req, res) => {
 
  // Ajoute une nouvelle matière
 
-const ajouterMatiere = (req, res) => {
+const ajouterMatiere = async (req, res) => {
     const { nom, classe, teacher_id } = req.body;
 
     if (!nom || !classe) {
@@ -66,7 +66,7 @@ const ajouterMatiere = (req, res) => {
     }
 
     try {
-        const subjectId = addSubject(nom, classe, teacher_id || null);
+        const subjectId = await addSubject(nom, classe, teacher_id || null);
         return res.status(201).json({
             success: true,
             message: "Matière ajoutée avec succès !",
@@ -81,7 +81,7 @@ const ajouterMatiere = (req, res) => {
 
  // Mettre à jour une matière existante
  
-const modifierMatiere = (req, res) => {
+const modifierMatiere = async (req, res) => {
     const { id } = req.params;
     const { nom, classe, teacher_id } = req.body;
 
@@ -90,7 +90,7 @@ const modifierMatiere = (req, res) => {
     }
 
     try {
-        const estModifie = updateSubject(id, nom, classe, teacher_id || null);
+        const estModifie = await updateSubject(id, nom, classe, teacher_id || null);
 
         if (!estModifie) {
             return res.status(404).json({ error: "Matière introuvable ou aucune modification effectuée." });
@@ -106,11 +106,11 @@ const modifierMatiere = (req, res) => {
 
  // Supprime une matière par son ID
   
-const supprimerMatiere = (req, res) => {
+const supprimerMatiere = async (req, res) => {
     const id = req.params.id;
 
     try {
-        const estSupprime = removeSubject(id);
+        const estSupprime = await removeSubject(id);
 
         if (!estSupprime) {
             return res.status(404).json({ error: "Matière introuvable ou déjà supprimée." });

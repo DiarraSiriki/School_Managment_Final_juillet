@@ -7,9 +7,9 @@ import { getStudentByUserId } from '../services/studentService.js';
 
 // Récupère la moyenne générale de l'établissement
 
-const getMoyenneGenerale = (req, res) => {
+const getMoyenneGenerale = async (req, res) => {
     try {
-        const moyenne = getGeneralAverage();
+        const moyenne = await getGeneralAverage();
         return res.json({
             success: true,
             moyenne_generale: moyenne
@@ -23,9 +23,9 @@ const getMoyenneGenerale = (req, res) => {
 
 // Récupère le classement général des étudiants par moyenne
 
-const getClassement = (req, res) => {
+const getClassement = async (req, res) => {
     try {
-        const rankings = getRankings();
+        const rankings = await getRankings();
         return res.json(rankings);
     } catch (error) {
         console.error("[ERREUR GET CLASSEMENT]", error);
@@ -36,9 +36,9 @@ const getClassement = (req, res) => {
 
 // Récupère le meilleur étudiant de l'établissement
 
-const getMeilleurEtudiant = (req, res) => {
+const getMeilleurEtudiant = async (req, res) => {
     try {
-        const bestStudent = getBestStudent();
+        const bestStudent = await getBestStudent();
         if (!bestStudent) {
             return res.status(404).json({ error: "Aucun étudiant ou aucune note enregistrée." });
         }
@@ -52,9 +52,9 @@ const getMeilleurEtudiant = (req, res) => {
 
 // Récupère le total des absences globales (justifiées vs non justifiées)
 
-const getStatsAbsencesGlobales = (req, res) => {
+const getStatsAbsencesGlobales = async (req, res) => {
     try {
-        const stats = countAllAbsences();
+        const stats = await countAllAbsences();
         return res.json({
             success: true,
             absences: stats
@@ -68,19 +68,19 @@ const getStatsAbsencesGlobales = (req, res) => {
 
 // Récupère le bilan des absences pour un étudiant spécifique
 
-const getStatsAbsencesParEtudiant = (req, res) => {
+const getStatsAbsencesParEtudiant = async (req, res) => {
     const student_id = req.params.student_id;
 
    
     if (req.user.role === 'student') {
-        const me = getStudentByUserId(req.user.id);
+        const me = await getStudentByUserId(req.user.id);
         if (!me || String(me.id) !== String(student_id)) {
             return res.status(403).json({ error: "Vous ne pouvez voir que vos propres statistiques d'absences." });
         }
     }
 
     try {
-        const stats = countAbsencesByStudent(student_id);
+        const stats = await countAbsencesByStudent(student_id);
         return res.json({
             success: true,
             student_id: Number(student_id),
@@ -95,9 +95,9 @@ const getStatsAbsencesParEtudiant = (req, res) => {
 
 // Récupère toutes les statistiques globales (étudiants, professeurs, matières, etc.)
 
-const getStats = (req, res) => {
+const getStats = async (req, res) => {
     try {
-        const stats = getAllStats();
+        const stats = await getAllStats();
         return res.json({
             success: true,
             stats: stats

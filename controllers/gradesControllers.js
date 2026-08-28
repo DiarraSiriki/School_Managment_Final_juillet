@@ -9,9 +9,9 @@ import { getStudentByUserId } from '../services/studentService.js';
 
  // Récupère la liste de toutes les notes
  
-const getNotes = (req, res) => {
+const getNotes = async (req, res) => {
     try {
-        const grades = listGrades();
+        const grades = await listGrades();
         return res.json(grades);
     } catch (error) {
         console.error("[ERREUR GET NOTES]", error);
@@ -22,18 +22,18 @@ const getNotes = (req, res) => {
 
  // Récupère une note spécifique par son ID
   
- const getNoteParId = (req, res) => {
+ const getNoteParId = async (req, res) => {
     const { id } = req.params;
 
     try {
        
-        const grade = getGradeById(id);
+        const grade = await getGradeById(id);
         if (!grade) {
             return res.status(404).json({ error: "Note introuvable." });
         }
 
         if (req.user.role === 'student') {
-            const me = getStudentByUserId(req.user.id);
+            const me = await getStudentByUserId(req.user.id);
 
             if (!me || String(me.id) !== String(grade.student_id)) {
                 return res.status(403).json({ error: "Vous ne pouvez voir que vos propres notes." });
@@ -50,18 +50,18 @@ const getNotes = (req, res) => {
 
  // Récupère toutes les notes d'un étudiant spécifique
  
- const getNotesParEtudiant = (req, res) => {
+ const getNotesParEtudiant = async (req, res) => {
     const { student_id } = req.params;
 
     if (req.user.role === 'student') {
-        const me = getStudentByUserId(req.user.id);
+        const me = await getStudentByUserId(req.user.id);
         if (!me || String(me.id) !== String(student_id)) {
             return res.status(403).json({ error: 'Vous ne pouvez voir que vos propres notes.' });
         }
     }
 
     try {
-        const grades = getStudentGrades(student_id);
+        const grades = await getStudentGrades(student_id);
         return res.json(grades);
     } catch (error) {
         // ...
@@ -70,12 +70,12 @@ const getNotes = (req, res) => {
 
 // Calcule la moyenne des notes d'un étudiant spécifique
 
- const getMoyenneEtudiant = (req, res) => {
+ const getMoyenneEtudiant = async (req, res) => {
     const { student_id } = req.params;
 
    
     if (req.user.role === 'student') {
-        const me = getStudentByUserId(req.user.id);
+        const me = await getStudentByUserId(req.user.id);
         if (!me || String(me.id) !== String(student_id)) {
             return res.status(403).json({ error: 'Vous ne pouvez voir que votre propre moyenne.' });
         }
@@ -83,7 +83,7 @@ const getNotes = (req, res) => {
 
     
     try {
-        const average = calculateAverage(student_id);
+        const average = await calculateAverage(student_id);
         return res.json({
             success: true,
             student_id: Number(student_id),
@@ -96,14 +96,12 @@ const getNotes = (req, res) => {
 };
 
  // Ajoute une nouvelle note à un étudiant
-const ajouterNote = (req, res) => {
+const ajouterNote = async (req, res) => {
     const { student_id, subject_id, note } = req.body;
 
-
-    uis
     if (student_id === undefined || subject_id === undefined || note === undefined) {
-        return res.status(400).json({ 
-            error: "Tous les champs (student_id, subject_id, note) sont requis." 
+        return res.status(400).json({
+            error: "Tous les champs (student_id, subject_id, note) sont requis."
         });
     }
 
@@ -114,8 +112,8 @@ const ajouterNote = (req, res) => {
 
     
     if (req.user.role === 'teacher') {
-        const monProfil = getTeacherByUserId(req.user.id);
-        const matiere = getSubjectById(subject_id);
+        const monProfil = await getTeacherByUserId(req.user.id);
+        const matiere = await getSubjectById(subject_id);
 
         
         if (!monProfil || !matiere || String(matiere.teacher_id) !== String(monProfil.id)) {
@@ -125,7 +123,7 @@ const ajouterNote = (req, res) => {
 
    
     try {
-        const gradeId = addGrade(student_id, subject_id, note);
+        const gradeId = await addGrade(student_id, subject_id, note);
         return res.status(201).json({
             success: true,
             message: "Note ajoutée avec succès !",
@@ -140,7 +138,7 @@ const ajouterNote = (req, res) => {
 
 // Mettre à jour une note existante
 
-const modifierNote = (req, res) => {
+const modifierNote = async (req, res) => {
     const  id  = req.params.id;
     const { note } = req.body;
 
@@ -149,12 +147,12 @@ const modifierNote = (req, res) => {
     }
 
      if (req.user.role === 'teacher') {
-         const noteExistante = getGradeById(id);
+         const noteExistante = await getGradeById(id);
         if (!noteExistante) {
                  return res.status(404).json({ error: "Note introuvable." });
         }
-        const monProfil = getTeacherByUserId(req.user.id);
-        const matiere = getSubjectById(noteExistante.subject_id);
+        const monProfil = await getTeacherByUserId(req.user.id);
+        const matiere = await getSubjectById(noteExistante.subject_id);
         if (!monProfil || !matiere || matiere.teacher_id !== monProfil.id) {
            return res.status(403).json({ error: "Vous ne pouvez modifier que les notes de vos propres matières." });
         }
@@ -165,7 +163,7 @@ const modifierNote = (req, res) => {
     }
 
     try {
-        const estModifie = updateGrade(id, note);
+        const estModifie = await updateGrade(id, note);
 
         if (!estModifie) {
             return res.status(404).json({ error: "Note introuvable ou aucune modification effectuée." });
@@ -180,11 +178,11 @@ const modifierNote = (req, res) => {
 
 // Supprime une note par son ID
  
-const supprimerNote = (req, res) => {
+const supprimerNote = async (req, res) => {
     const id = req.params.id;
 
     try {
-        const estSupprime = removeGrade(id);
+        const estSupprime = await removeGrade(id);
 
         if (!estSupprime) {
             return res.status(404).json({ error: "Note introuvable ou déjà supprimée." });

@@ -11,9 +11,9 @@ import {
 
 import logger from '../utils/logger.js';
 
-const getEtudiants = (req, res) => {
+const getEtudiants = async (req, res) => {
   try {
-    const students = listStudents();
+    const students = await listStudents();
     res.status(200).json({ success: true, data: students });
   } catch (error) {
     logger.error(`[Student Controller] Erreur lecture: ${error.message}`);
@@ -21,10 +21,10 @@ const getEtudiants = (req, res) => {
   }
 };
 
-const getEtudiantParId = (req, res) => {
+const getEtudiantParId = async (req, res) => {
   try {
     const id = req.params.id;
-    const student = getStudentById(id);
+    const student = await getStudentById(id);
     if (!student) {
       return res.status(404).json({ success: false, message: `Étudiant ID ${id} introuvable.` });
     }
@@ -34,10 +34,10 @@ const getEtudiantParId = (req, res) => {
   }
 };
 
-const getEtudiantParMatricule = (req, res) => {
+const getEtudiantParMatricule = async (req, res) => {
   try {
     const matricule = req.params.matricule;
-    const student = findStudentByMatricule(matricule);
+    const student = await findStudentByMatricule(matricule);
     if (!student) {
       return res.status(404).json({ success: false, message: `Matricule ${matricule} introuvable.` });
     }
@@ -47,10 +47,10 @@ const getEtudiantParMatricule = (req, res) => {
   }
 };
 
-const getMonProfilEtudiant = (req, res) => {
+const getMonProfilEtudiant = async (req, res) => {
   try {
     const userId = req.user.id;
-    const student = getStudentByUserId(userId);
+    const student = await getStudentByUserId(userId);
     if (!student) {
       return res.status(404).json({ success: false, message: 'Profil introuvable.' });
     }
@@ -60,29 +60,29 @@ const getMonProfilEtudiant = (req, res) => {
   }
 };
 
-const chercherEtudiant = (req, res) => {
+const chercherEtudiant = async (req, res) => {
   try {
     const keyword = req.query.q || '';
-    const results = searchStudent(keyword);
+    const results = await searchStudent(keyword);
     res.status(200).json({ success: true, data: results });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
-const ajouterEtudiant = (req, res) => {
+const ajouterEtudiant = async (req, res) => {
   try {
     const { matricule, nom, prenom, age, classe_id, email, mot_passe } = req.body;
 
     // Le matricule doit être fourni manuellement
-    const studentData = addStudent(matricule, nom, prenom, age, classe_id, email, mot_passe);
-    
+    const studentData = await addStudent(matricule, nom, prenom, age, classe_id, email, mot_passe);
+
     res.status(201).json({
       success: true,
       message: 'Étudiant créé avec succès',
-      data: { 
+      data: {
         id: studentData.id,
-        matricule: studentData.matricule 
+        matricule: studentData.matricule
       }
     });
   } catch (error) {
@@ -91,12 +91,12 @@ const ajouterEtudiant = (req, res) => {
   }
 };
 
-const modifierEtudiant = (req, res) => {
+const modifierEtudiant = async (req, res) => {
   try {
     const id = req.params.id;
     const { matricule, nom, prenom, age, classe_id, user_id } = req.body;
-    
-    const updated = updateStudent(id, matricule, nom, prenom, age, classe_id, user_id);
+
+    const updated = await updateStudent(id, matricule, nom, prenom, age, classe_id, user_id);
     if (!updated) {
       return res.status(404).json({ success: false, message: `Étudiant ID ${id} introuvable.` });
     }
@@ -107,10 +107,10 @@ const modifierEtudiant = (req, res) => {
   }
 };
 
-const supprimerEtudiant = (req, res) => {
+const supprimerEtudiant = async (req, res) => {
   try {
     const id = req.params.id;
-    const removed = removeStudent(id);
+    const removed = await removeStudent(id);
     if (!removed) {
       return res.status(404).json({ success: false, message: `Étudiant ID ${id} introuvable.` });
     }

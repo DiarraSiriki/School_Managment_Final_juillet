@@ -1,37 +1,43 @@
-import database from '../db/database.js';
+import { execute } from '../db/database.js';
 
 class Absence {
-  static create(student_id, date, status) {
-    const query = database.prepare(`
+  static async create(student_id, date, status) {
+    const query = `
       INSERT INTO absences (student_id, date, status)
       VALUES (?, ?, ?)
-    `);
-    return query.run(student_id, date, status);
+    `;
+    const result = await execute(query, [student_id, date, status]);
+    return { lastInsertRowid: result.lastInsertRowid };
   }
 
-  static getAll() {
-    const query = database.prepare('SELECT * FROM absences');
-    return query.all();
+  static async getAll() {
+    const query = 'SELECT * FROM absences';
+    const result = await execute(query);
+    return result.rows;
   }
 
-  static getById(id) {
-    const query = database.prepare('SELECT * FROM absences WHERE id = ?');
-    return query.get(id);
+  static async getById(id) {
+    const query = 'SELECT * FROM absences WHERE id = ?';
+    const result = await execute(query, [id]);
+    return result.rows[0];
   }
 
-  static getByStudent(student_id) {
-    const query = database.prepare('SELECT * FROM absences WHERE student_id = ?');
-    return query.all(student_id);
+  static async getByStudent(student_id) {
+    const query = 'SELECT * FROM absences WHERE student_id = ?';
+    const result = await execute(query, [student_id]);
+    return result.rows;
   }
 
-  static updateStatus(id, status) {
-    const query = database.prepare('UPDATE absences SET status = ? WHERE id = ?');
-    return query.run(status, id);
+  static async updateStatus(id, status) {
+    const query = 'UPDATE absences SET status = ? WHERE id = ?';
+    const result = await execute(query, [status, id]);
+    return { changes: result.rowsAffected };
   }
 
-  static delete(id) {
-    const query = database.prepare('DELETE FROM absences WHERE id = ?');
-    return query.run(id);
+  static async delete(id) {
+    const query = 'DELETE FROM absences WHERE id = ?';
+    const result = await execute(query, [id]);
+    return { changes: result.rowsAffected };
   }
 }
 

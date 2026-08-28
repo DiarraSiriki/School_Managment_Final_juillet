@@ -6,9 +6,9 @@ import {
   getUserById
 } from '../services/userService.js';
 
-const getUtilisateurs = (req, res) => {
+const getUtilisateurs = async (req, res) => {
   try {
-    const users = listUsers();
+    const users = await listUsers();
     return res.json(users);
   } catch (error) {
     console.error('[ERREUR GET UTILISATEURS]', error);
@@ -16,9 +16,9 @@ const getUtilisateurs = (req, res) => {
   }
 };
 
-const getUtilisateurParId = (req, res) => {
+const getUtilisateurParId = async (req, res) => {
   try {
-    const user = getUserById(req.params.id);
+    const user = await getUserById(req.params.id);
     if (!user) {
       return res.status(404).json({ error: 'Utilisateur introuvable.' });
     }
@@ -29,7 +29,7 @@ const getUtilisateurParId = (req, res) => {
   }
 };
 
-const ajouterUtilisateur = (req, res) => {
+const ajouterUtilisateur = async (req, res) => {
   const { name, role, email, mot_passe, matricule, classe_id, matiere, age, prenom, nom } = req.body;
 
   if (!name || !role || !email || !mot_passe) {
@@ -40,7 +40,7 @@ const ajouterUtilisateur = (req, res) => {
 
   try {
     const extra = { matricule, classe_id, matiere, age, prenom, nom };
-    const newUser = addUser(name, role, email, mot_passe, extra);
+    const newUser = await addUser(name, role, email, mot_passe, extra);
     return res.status(201).json({
       success: true,
       message: 'Utilisateur créé avec succès !',
@@ -52,7 +52,7 @@ const ajouterUtilisateur = (req, res) => {
   }
 };
 
-const modifierUtilisateur = (req, res) => {
+const modifierUtilisateur = async (req, res) => {
   const id = req.params.id;
   const { name, role, email, mot_passe, matricule, classe_id, matiere, age, prenom, nom } = req.body;
 
@@ -64,7 +64,7 @@ const modifierUtilisateur = (req, res) => {
 
   try {
     const extra = { matricule, classe_id, matiere, age, prenom, nom };
-    const ok = updateUser(id, name, role, email, mot_passe, extra);
+    const ok = await updateUser(id, name, role, email, mot_passe, extra);
     if (!ok) {
       return res.status(404).json({ error: 'Utilisateur introuvable.' });
     }
@@ -75,11 +75,11 @@ const modifierUtilisateur = (req, res) => {
   }
 };
 
-const supprimerUtilisateur = (req, res) => {
+const supprimerUtilisateur = async (req, res) => {
   const id = req.params.id;
 
   try {
-    const ok = removeUser(id);
+    const ok = await removeUser(id);
     if (!ok) {
       return res.status(404).json({ error: 'Utilisateur introuvable ou déjà supprimé.' });
     }

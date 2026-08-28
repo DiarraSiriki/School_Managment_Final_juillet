@@ -8,11 +8,11 @@ import {
   getTeacherByUserId
 } from '../services/teacherService.js';
 
-const getMonProfilProfesseur = (req, res) => {
+const getMonProfilProfesseur = async (req, res) => {
   const user_id = req.user.id;
 
   try {
-    const teacher = getTeacherByUserId(user_id);
+    const teacher = await getTeacherByUserId(user_id);
     if (!teacher) {
       return res.status(404).json({ error: "Aucune fiche professeur associée à ce compte." });
     }
@@ -23,9 +23,9 @@ const getMonProfilProfesseur = (req, res) => {
   }
 };
 
-const getProfesseurs = (req, res) => {
+const getProfesseurs = async (req, res) => {
   try {
-    const teachers = listTeachers();
+    const teachers = await listTeachers();
     return res.json(teachers);
   } catch (error) {
     console.error("[ERREUR GET PROFESSEURS]", error);
@@ -33,11 +33,11 @@ const getProfesseurs = (req, res) => {
   }
 };
 
-const getProfesseurParId = (req, res) => {
+const getProfesseurParId = async (req, res) => {
   const id = req.params.id;
 
   try {
-    const teacher = getTeacherById(id);
+    const teacher = await getTeacherById(id);
     if (!teacher) {
       return res.status(404).json({ error: "Professeur introuvable." });
     }
@@ -48,7 +48,7 @@ const getProfesseurParId = (req, res) => {
   }
 };
 
-const chercherProfesseur = (req, res) => {
+const chercherProfesseur = async (req, res) => {
   const { q } = req.query;
 
   if (!q) {
@@ -56,7 +56,7 @@ const chercherProfesseur = (req, res) => {
   }
 
   try {
-    const resultat = searchTeacher(q);
+    const resultat = await searchTeacher(q);
     return res.json(resultat);
   } catch (error) {
     console.error("[ERREUR RECHERCHE PROFESSEUR]", error);
@@ -64,15 +64,15 @@ const chercherProfesseur = (req, res) => {
   }
 };
 
-const ajouterProfesseur = (req, res) => {
-  const { nom, matiere, email, password } = req.body;
+const ajouterProfesseur = async (req, res) => {
+  const { nom, matiere, classe_id, email, password } = req.body;
 
   if (!nom || !matiere || !email || !password) {
     return res.status(400).json({ error: "Tous les champs (nom, matiere, email, password) sont requis." });
   }
 
   try {
-    const teacherId = addTeacher(nom, matiere, email, password);
+    const teacherId = await addTeacher(nom, matiere, classe_id, email, password);
     return res.status(201).json({
       success: true,
       message: "Professeur créé avec succès !",
@@ -84,16 +84,16 @@ const ajouterProfesseur = (req, res) => {
   }
 };
 
-const modifierProfesseur = (req, res) => {
+const modifierProfesseur = async (req, res) => {
   const id = req.params.id;
-  const { nom, matiere, email, password } = req.body;
+  const { nom, matiere, classe_id, email, password } = req.body;
 
   if (!nom && !matiere && !email && !password) {
     return res.status(400).json({ error: "Au moins un champ doit être fourni pour la mise à jour." });
   }
 
   try {
-    const succes = updateTeacher(id, nom, matiere, email, password);
+    const succes = await updateTeacher(id, nom, matiere, classe_id, email, password);
 
     if (!succes) {
       return res.status(404).json({ error: "Professeur introuvable ou échec de la mise à jour." });
@@ -106,11 +106,11 @@ const modifierProfesseur = (req, res) => {
   }
 };
 
-const supprimerProfesseur = (req, res) => {
+const supprimerProfesseur = async (req, res) => {
   const id = req.params.id;
 
   try {
-    const estSupprime = removeTeacher(id);
+    const estSupprime = await removeTeacher(id);
 
     if (!estSupprime) {
       return res.status(404).json({ error: "Professeur introuvable ou déjà supprimé." });

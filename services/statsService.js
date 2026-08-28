@@ -14,16 +14,16 @@ export {
   getAllStats
 };
 
-function calcAverage(student_id) {
-  const grades = Grade.getByStudent(student_id);
+async function calcAverage(student_id) {
+  const grades = await Grade.getByStudent(student_id);
   if (grades.length === 0)
     return null; // Retourner null au lieu de 0 pour distinguer "pas de notes"
   const sum = grades.reduce((acc, g) => acc + g.note, 0);
   return (sum / grades.length).toFixed(2);
 }
 
-function getGeneralAverage() {
-  const grades = Grade.getAll();
+async function getGeneralAverage() {
+  const grades = await Grade.getAll();
   if (grades.length === 0) {
     logger.info('Moyennes générales consultées (aucune note disponible)');
     return "0.00";
@@ -34,24 +34,25 @@ function getGeneralAverage() {
   return average;
 }
 
-function getRankings() {
-  const students = Student.getAll();
-  const rankings = students
-    .map((student) => {
-      const avg = calcAverage(student.id);
+async function getRankings() {
+  const students = await Student.getAll();
+  const rankings = await Promise.all(
+    students.map(async (student) => {
+      const avg = await calcAverage(student.id);
       return {
         ...student,
         moyenne: avg !== null ? avg : '0.00'
       };
     })
-    .sort((a, b) => parseFloat(b.moyenne) - parseFloat(a.moyenne));
+  );
+  rankings.sort((a, b) => parseFloat(b.moyenne) - parseFloat(a.moyenne));
 
   logger.info(`Classement consulté (${rankings.length} étudiants)`);
   return rankings;
 }
 
-function getBestStudent() {
-  const rankings = getRankings();
+async function getBestStudent() {
+  const rankings = await getRankings();
   if (rankings.length === 0) {
     logger.info('Meilleur étudiant consulté (aucun étudiant en base)');
     return null;
@@ -63,8 +64,8 @@ function getBestStudent() {
   return best;
 }
 
-function countAbsencesByStudent(student_id) {
-  const absences = Absence.getByStudent(student_id);
+async function countAbsencesByStudent(student_id) {
+  const absences = await Absence.getByStudent(student_id);
   const result = {
     total: absences.length,
     justifiees: absences.filter(a => a.status === 'justifiée' || a.status === 'justifiee').length,
@@ -74,8 +75,8 @@ function countAbsencesByStudent(student_id) {
   return result;
 }
 
-function countAllAbsences() {
-  const absences = Absence.getAll();
+async function countAllAbsences() {
+  const absences = await Absence.getAll();
   const result = {
     total: absences.length,
     justifiees: absences.filter(a => a.status === 'justifiée' || a.status === 'justifiee').length,
@@ -85,20 +86,22 @@ function countAllAbsences() {
   return result;
 }
 
-function getAllStats() {
+async function getAllStats() {
   try {
-    const students = Student.getAll();
-    const teachers = Teacher.getAll();
-    const subjects = Subjects.getAll();
-    const rankings = getRankings();
-    const bestStudent = getBestStudent();
-    const absences = countAllAbsences();
+    const students = await Student.getAll();
+    const teachers = await Teacher.getAll();
+    const subjects = await Subjects.getAll();
+    const rankings = await getRankings();
+    const bestStudent = await getBestStudent();
+    const absences = await countAllAbsences();
 
     // Calculer les absences par étudiant
     const absencesByStudent = {};
-    students.forEach(student => {
-      absencesByStudent[student.id] = countAbsencesByStudent(student.id);
-    });
+    await Promise.all(
+      students.map(async (student) => {
+        absencesByStudent[student.id] = await countAbsencesByStudent(student.id);
+      })
+    );
 
     const stats = {
       students: students.length,

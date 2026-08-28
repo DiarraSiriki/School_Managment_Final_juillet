@@ -9,9 +9,9 @@ import {
 import logger from '../utils/logger.js';
 
 
- const handleCreateClasse = (req, res) => {
+const handleCreateClasse = async (req, res) => {
   try {
-    const newClasse = createClasse(req.body);
+    const newClasse = await createClasse(req.body);
     res.status(201).json({
       success: true,
       message: 'Classe créée avec succès',
@@ -27,9 +27,9 @@ import logger from '../utils/logger.js';
 };
 
 
-const handleGetAllClasses = (req, res) => {
+const handleGetAllClasses = async (req, res) => {
   try {
-    const classes = getAllClasses();
+    const classes = await getAllClasses();
     res.status(200).json({
       success: true,
       data: classes
@@ -44,10 +44,10 @@ const handleGetAllClasses = (req, res) => {
 };
 
 
-const handleGetClasseById = (req, res) => {
+const handleGetClasseById = async (req, res) => {
   try {
     const id = req.params.id;
-    const classe = getClasseById(id);
+    const classe = await getClasseById(id);
     res.status(200).json({
       success: true,
       data: classe
@@ -61,10 +61,10 @@ const handleGetClasseById = (req, res) => {
 };
 
 
-const handleGetClasseDetails = (req, res) => {
+const handleGetClasseDetails = async (req, res) => {
   try {
     const id = req.params.id;
-    const details = getClasseDetails(id);
+    const details = await getClasseDetails(id);
     res.status(200).json({
       success: true,
       data: details
@@ -78,10 +78,10 @@ const handleGetClasseDetails = (req, res) => {
 };
 
 
-const handleUpdateClasse = (req, res) => {
+const handleUpdateClasse = async (req, res) => {
   try {
     const id = req.params.id;
-    updateClasse(id, req.body);
+    await updateClasse(id, req.body);
     res.status(200).json({
       success: true,
       message: 'Classe mise à jour avec succès'
@@ -96,10 +96,10 @@ const handleUpdateClasse = (req, res) => {
 };
 
 
-const handleDeleteClasse = (req, res) => {
+const handleDeleteClasse = async (req, res) => {
   try {
     const id = req.params.id;
-    deleteClasse(id);
+    await deleteClasse(id);
     res.status(200).json({
       success: true,
       message: 'Classe supprimée avec succès'
@@ -116,8 +116,8 @@ const handleDeleteClasse = (req, res) => {
 export {
   handleCreateClasse,
   handleGetAllClasses,
-    handleGetClasseById,
-    handleGetClasseDetails,
-    handleUpdateClasse,
-    handleDeleteClasse
+  handleGetClasseById,
+  handleGetClasseDetails,
+  handleUpdateClasse,
+  handleDeleteClasse
 };

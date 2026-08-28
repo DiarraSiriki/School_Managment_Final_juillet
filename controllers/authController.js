@@ -66,12 +66,12 @@ const login = async (req, res) => {
 
 
 // Récupère le profil de l'utilisateur actuellement connecté (tous rôles confondus)
-const getMonProfil = (req, res) => {
+const getMonProfil = async (req, res) => {
 
     const userId = req.user.id;
 
     try {
-        const user = getUserById(userId);
+        const user = await getUserById(userId);
 
         if (!user) {
             return res.status(404).json({
@@ -93,7 +93,7 @@ const getMonProfil = (req, res) => {
     }
 };
 
-const logout = (req, res) => {
+const logout = async (req, res) => {
     
     const user = req.user;
     

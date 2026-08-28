@@ -1,4 +1,3 @@
-
 import {
     recordAbsence,
     updateAbsenceStatus,
@@ -10,9 +9,9 @@ import {
 } from '../services/absenceService.js';
 
 import { getStudentByUserId } from '../services/studentService.js';
-  // Enregistre une nouvelle absence
 
- const ajouterAbsence = (req, res) => {
+// Enregistre une nouvelle absence
+const ajouterAbsence = async (req, res) => {
     const { student_id, date, status } = req.body;
 
     if (!student_id || !date) {
@@ -20,7 +19,7 @@ import { getStudentByUserId } from '../services/studentService.js';
     }
 
     try {
-        const absenceId = recordAbsence(student_id, date, status);
+        const absenceId = await recordAbsence(student_id, date, status);
         return res.status(201).json({
             success: true,
             message: "Absence enregistrée avec succès !",
@@ -32,11 +31,10 @@ import { getStudentByUserId } from '../services/studentService.js';
     }
 };
 
- //Récupère l'historique complet de toutes les absences
- 
- const getHistoriqueAbsences = (req, res) => {
+// Récupère l'historique complet de toutes les absences
+const getHistoriqueAbsences = async (req, res) => {
     try {
-        const absences = getHistory();
+        const absences = await getHistory();
         return res.json(absences);
     } catch (error) {
         console.error("[ERREUR GET HISTORIQUE ABSENCES]", error);
@@ -44,18 +42,19 @@ import { getStudentByUserId } from '../services/studentService.js';
     }
 };
 
- //Récupère l'historique des absences d'un étudiant spécifique
- 
-const getHistoriqueEtudiant = (req, res) => {
+// Récupère l'historique des absences d'un étudiant spécifique
+const getHistoriqueEtudiant = async (req, res) => {
     const { student_id } = req.params;
-          if (req.user.role === 'student') {
-        const me = getStudentByUserId(req.user.id);
+
+    if (req.user.role === 'student') {
+        const me = await getStudentByUserId(req.user.id);
         if (!me || String(me.id) !== String(student_id)) {
             return res.status(403).json({ error: 'Vous ne pouvez voir que vos propres absences.' });
         }
     }
+
     try {
-        const absences = getStudentHistory(student_id);
+        const absences = await getStudentHistory(student_id);
         return res.json(absences);
     } catch (error) {
         console.error("[ERREUR GET HISTORIQUE ETUDIANT]", error);
@@ -63,10 +62,9 @@ const getHistoriqueEtudiant = (req, res) => {
     }
 };
 
- //Met à jour le statut d'une absence (justifiée ou non)
- 
-const modifierStatutAbsence = (req, res) => {
-    const  id  = req.params.id;
+// Met à jour le statut d'une absence (justifiée ou non)
+const modifierStatutAbsence = async (req, res) => {
+    const id = req.params.id;
     const { status } = req.body;
 
     if (!status) {
@@ -74,7 +72,7 @@ const modifierStatutAbsence = (req, res) => {
     }
 
     try {
-        const estModifie = updateAbsenceStatus(id, status);
+        const estModifie = await updateAbsenceStatus(id, status);
 
         if (!estModifie) {
             return res.status(404).json({ error: "Absence introuvable ou aucun changement effectué." });
@@ -88,12 +86,11 @@ const modifierStatutAbsence = (req, res) => {
 };
 
 // Marque une absence comme justifiée
- 
-const justifierAbsence = (req, res) => {
-    const  id  = req.params.id;
+const justifierAbsence = async (req, res) => {
+    const id = req.params.id;
 
     try {
-        const estModifie = markAsJustified(id);
+        const estModifie = await markAsJustified(id);
 
         if (!estModifie) {
             return res.status(404).json({ error: "Absence introuvable." });
@@ -107,12 +104,11 @@ const justifierAbsence = (req, res) => {
 };
 
 // Marque une absence comme non justifiée
- 
- const injustifierAbsence = (req, res) => {
-    const  id  = req.params.id;
+const injustifierAbsence = async (req, res) => {
+    const id = req.params.id;
 
     try {
-        const estModifie = markAsUnjustified(id);
+        const estModifie = await markAsUnjustified(id);
 
         if (!estModifie) {
             return res.status(404).json({ error: "Absence introuvable." });
@@ -125,14 +121,12 @@ const justifierAbsence = (req, res) => {
     }
 };
 
-
-  // Supprime une absence par son ID
-
-const supprimerAbsence = (req, res) => {
+// Supprime une absence par son ID
+const supprimerAbsence = async (req, res) => {
     const id = req.params.id;
 
     try {
-        const estSupprime = removeAbsence(id);
+        const estSupprime = await removeAbsence(id);
 
         if (!estSupprime) {
             return res.status(404).json({ error: "Absence introuvable ou déjà supprimée." });
@@ -145,8 +139,7 @@ const supprimerAbsence = (req, res) => {
     }
 };
 
-
-export  {
+export {
     ajouterAbsence,
     getHistoriqueAbsences,
     getHistoriqueEtudiant,

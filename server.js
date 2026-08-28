@@ -15,6 +15,7 @@ import absenceRoutes from './routes/absencesRoutes.js';
 import statsRoutes from './routes/statsRoutes.js';
 import usersRoutes from './routes/usersRoutes.js';
 import authRoutes from './routes/authRoutes.js';
+import { initializeDatabase } from './db/database.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -97,9 +98,22 @@ app.use((err, req, res, next) => {
 });
 
 // Démarrage du serveur
-app.listen(PORT, () => {
-    console.log(`=================================`);
-    console.log(`Serveur School Management lancé !`);
-    console.log(`URL : http://localhost:${PORT}`);
-    console.log(`=================================`);
-});
+async function startServer() {
+  try {
+    // Initialiser la base de données
+    await initializeDatabase();
+    
+    app.listen(PORT, () => {
+      console.log(`=================================`);
+      console.log(`Serveur School Management lancé !`);
+      console.log(`URL : http://localhost:${PORT}`);
+      console.log(`Base de données : ${process.env.TURSO_DATABASE_URL ? 'Turso (en ligne)' : 'Locale'}`);
+      console.log(`=================================`);
+    });
+  } catch (error) {
+    console.error('Erreur lors du démarrage du serveur:', error);
+    process.exit(1);
+  }
+}
+
+startServer();
