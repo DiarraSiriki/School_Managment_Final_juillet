@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 * {
   box-sizing: border-box;
   margin: 0;
@@ -458,4 +459,615 @@ td strong {
 
 .modal.show .modal-content {
   transform: translateY(0);
+=======
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  display: flex;
+  background-color: #f3f5f9;
+  color: #1a1d2e;
+  min-height: 100vh;
+}
+
+
+.sidebar {
+  width: 240px;
+  background-color: #0c1427;
+  color: #ffffff;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  padding: 20px 15px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.logo {
+  background-color: #2563eb;
+  color: #ffffff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.brand-title {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.brand-sub {
+  font-size: 11px;
+  color: #64748b;
+}
+
+.menu-title {
+  font-size: 11px;
+  color: #475569;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.menu-item {
+  color: #94a3b8;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.2s ease;
+}
+
+.menu-item i {
+  width: 22px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.menu-item.active, 
+.menu-item:hover {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 15px;
+  border-top: 1px solid #1e293b;
+}
+
+.avatar {
+  background-color: #2563eb;
+  width: 35px;
+  height: 35px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.user-info {
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.user-name {
+  font-size: 13px;
+  font-weight: bold;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.user-role {
+  font-size: 11px;
+  color: #64748b;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.logout-icon {
+  color: #64748b;
+  cursor: pointer;
+  font-size: 18px;
+  transition: color 0.2s ease;
+}
+
+.logout-icon:hover {
+  color: #ffffff;
+}
+
+/* ==========================================
+   CONTENU PRINCIPAL & EN-TÊTES
+   ========================================== */
+.main-content {
+  flex-grow: 1;
+  padding: 20px 40px;
+  overflow-y: auto;
+}
+
+.top-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 25px;
+}
+
+.top-title {
+  font-weight: 700;
+  color: #0f172a;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.top-title i {
+  color: #2563eb;
+  font-size: 18px;
+}
+
+.top-date {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #22c55e;
+  border-radius: 50%;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px;
+}
+
+.page-header h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: #ffffff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+/* ==========================================
+   CARTES DE RÉSUMÉ (PAGE ABSENCES)
+   ========================================== */
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.card-icon.warning {
+  background-color: #fef3c7;
+  color: #f59e0b;
+}
+
+.card-icon.success {
+  background-color: #dcfce7;
+  color: #22c55e;
+}
+
+.card-icon.neutral {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.card-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.card-label {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 2px;
+}
+
+/* ==========================================
+   TABLEAUX DE DONNÉES
+   ========================================== */
+.table-container {
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+th {
+  color: #64748b;
+  font-size: 11px;
+  padding: 16px 24px;
+  border-bottom: 1px solid #f1f5f9;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+td {
+  padding: 20px 24px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+td strong {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+/* BOUTONS D'ACTION (MODIFIER / SUPPRIMER) */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit {
+  background-color: #eff6ff;
+  color: #2563eb;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.2s ease;
+}
+
+.btn-edit:hover {
+  background-color: #dbeafe;
+}
+
+.btn-delete {
+  background-color: #fef2f2;
+  color: #ef4444;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: background 0.2s ease;
+}
+
+.btn-delete:hover {
+  background-color: #fee2e2;
+}
+
+
+.grade {
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.grade-high {
+  color: #10b981; /* Vert */
+}
+
+.grade-medium {
+  color: #f59e0b; /* Orange */
+}
+
+.grade-low {
+  color: #ef4444; /* Rouge */
+}
+
+/* Badges de notes */
+.grade {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-weight: 700;
+  font-size: 0.813rem;
+}
+
+.grade-high {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.grade-medium {
+  background-color: #fef9c3;
+  color: #854d0e;
+}
+
+.grade-low {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+
+/* ==========================================
+   STYLE D'ENSEMBLE DU MODAL DE SAISIE DE NOTE
+   ========================================== */
+
+/* Structure d'arrière-plan du modal (overlay) */
+.modal {
+  display: none; /* Masqué par défaut */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.6); /* Sombre transparent */
+  backdrop-filter: blur(8px); /* Effet de flou moderne */
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.25s ease-in-out;
+}
+
+/* Affichage lorsque le JS ajoute la classe .show */
+.modal.show {
+  display: flex;
+  opacity: 1;
+}
+
+/* Boîte de dialogue centrale (Carte du Modal) */
+.modal-content {
+  background: #ffffff;
+  width: 100%;
+  max-width: 480px;
+  padding: 32px;
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 
+              0 8px 10px -6px rgba(0, 0, 0, 0.05),
+              0 0 0 1px rgba(226, 232, 240, 0.8);
+  transform: translateY(12px) scale(0.98);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal.show .modal-content {
+  transform: translateY(0) scale(1);
+}
+
+/* En-tête du Modal */
+.modal-content h3 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+}
+
+.modal-content #modalSubtitle {
+  font-size: 0.875rem;
+  color: #64748b;
+  margin: 0 0 24px 0;
+  line-height: 1.4;
+}
+
+/* Message d'erreur dynamique */
+#formError {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 18px;
+}
+
+/* ==========================================
+   FORMULAIRE ET CHAMPS DE SAISIE
+   ========================================== */
+
+#gradeForm {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* Style uniforme pour Selects et Inputs */
+.form-group select,
+.form-group input {
+  width: 100%;
+  padding: 11px 14px;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  color: #0f172a;
+  background-color: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  outline: none;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+/* État Hover et Focus des champs */
+.form-group select:hover,
+.form-group input:hover {
+  border-color: #cbd5e1;
+  background-color: #ffffff;
+}
+
+.form-group select:focus,
+.form-group input:focus {
+  border-color: #4f46e5; /* Couleur d'accentuation principale */
+  background-color: #ffffff;
+  box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.12);
+}
+
+/* Style de la flèche personnalisée pour les selects */
+.form-group select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2064748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+  background-size: 16px;
+  padding-right: 38px;
+  cursor: pointer;
+}
+
+/* ==========================================
+   BOUTONS D'ACTION
+   ========================================== */
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+/* Bouton Annuler */
+.btn-secondary {
+  background-color: #f1f5f9;
+  color: #475569;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+
+/* Bouton Enregistrer (Submit) */
+.btn-primary {
+  background-color: #4f46e5;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: #4338ca;
+  box-shadow: 0 4px 8px rgba(79, 70, 229, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+>>>>>>> Stashed changes
 }
